@@ -15,10 +15,13 @@ namespace Library_WebApp.Controllers
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult Registration()
         {
-            ViewData["Message"] = "Your application description page.";
+            return View();
+        }
 
+        public IActionResult Login()
+        {
             return View();
         }
 
