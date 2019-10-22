@@ -14,12 +14,25 @@ namespace Library_WebApp.Controllers
         {
             return View();
         }
-
+        [HttpGet]
         public IActionResult Registration()
         {
+            User user = new User();
+            user.name = "Ja";
+            ViewData["User"] = user;
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Registration(string firstName)
+        {
+            System.Console.WriteLine("firstName = " + firstName);
+            if (firstName != null)
+            {
+                Response.Redirect("/");
+            }
+            return View();
+        }
         public IActionResult Login()
         {
             return View();
@@ -28,7 +41,7 @@ namespace Library_WebApp.Controllers
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
-
+            
             return View();
         }
 
