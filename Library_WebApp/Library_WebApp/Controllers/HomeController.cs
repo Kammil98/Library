@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Library_WebApp.Models;
+using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 
 namespace Library_WebApp.Controllers
 {
@@ -14,6 +15,7 @@ namespace Library_WebApp.Controllers
         {
             return View();
         }
+
         [HttpGet]
         public IActionResult Registration()
         {
@@ -24,17 +26,29 @@ namespace Library_WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Registration(string firstName)
+        public IActionResult Registration(User model, string firstName)
         {
-            System.Console.WriteLine("firstName = " + firstName);
-            if (firstName != null)
+            if (ModelState.IsValid)
             {
                 Response.Redirect("/");
             }
             return View();
         }
+
+        [HttpGet]
         public IActionResult Login()
         {
+            return View(new User());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Login(User model)//,  [Bind("name,lastName")] User user)Działa!!!!!
+        {
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
             return View();
         }
 
