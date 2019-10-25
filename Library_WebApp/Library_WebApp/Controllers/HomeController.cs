@@ -40,17 +40,18 @@ namespace Library_WebApp.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            return View(new User());
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(User model)//,  [Bind("name,lastName")] User user)Działa!!!!!
+        public IActionResult Login(User model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction("Index");
+                return View();
             }
+            Response.Redirect("/");
             return View();
         }
 
