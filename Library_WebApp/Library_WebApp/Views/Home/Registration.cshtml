@@ -1,14 +1,11 @@
 ﻿@model Library_WebApp.Models.User
+
 @{
     ViewData["Title"] = "Registration";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var data = (User)ViewData["User"];
 }
-<!--using (Html.BeginForm("Registration", "", FormMethod.Post))
-{
-    Html.TextAreaFor(model => model.name)
-    <input type="submit" value="wyślij" />
-}-->
+
 <legend>Rejestracja</legend>
 <div>
     @using (Html.BeginForm("Registration", ""))
@@ -41,7 +38,9 @@
                 <li>@Html.PasswordFor(model => model.passwordRepeat)</li>
                 <li>@Html.ValidationMessageFor(model => model.passwordRepeat, "", new { @class = "text-danger" })</li>
             </ol>
-            <input type="submit" value="wyślij" />
+            <div class="form-row">
+                <button type="submit" class="btn btn-primary">Zarejestruj się</button>
+            </div>
         </fieldset>
     }
 </div>

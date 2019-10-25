@@ -6,36 +6,19 @@
     @using (Html.BeginForm("Login", ""))
     {
         @Html.AntiForgeryToken()
-        <legend>Logowanie</legend>
         <fieldset>
+            <legend>Logowanie</legend>
             <ol class="nostyle">
                 <li>@Html.Label("Login")</li>
                 <li>@Html.TextBoxFor(model => model.login)</li>
-                <li>@Html.ValidationMessageFor(model => model.login)</li>
+                <li>@Html.ValidationMessageFor(model => model.login, "", new { @class = "text-danger" })</li>
                 <li>@Html.Label("Hasło")</li>
                 <li>@Html.TextBoxFor(model => model.password)</li>
-                <li>@Html.ValidationMessageFor(model => model.password)</li>
+                <li>@Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })</li>
             </ol>
-            <input type="submit" value="wyślij" />
+            <div class="form-row">
+                <button type="submit" class="btn btn-primary">Zaloguj</button>
+            </div>
         </fieldset>
     }
 </div>
-
-
-    <!-- <form action="" method="post">
-            <div class="form-group">
-                <div class="form-row">
-                    <div class="col">
-                        <label for="name">Imie</label>
-                        <input type="text" name="name" id="name" class="form-control" placeholder="Proszę podać imię" required>
-                    </div>
-                    <div class="col">
-                        <label for="lastName">Nazwisko</label>
-                        <input type="text" name="lastName" id="lastName" class="form-control" placeholder="Proszę podać nazwisko" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <button type="submit" class="btn btn-primary">Zarejestruj się</button>
-                </div>
-            </div>
-        </form>-->
