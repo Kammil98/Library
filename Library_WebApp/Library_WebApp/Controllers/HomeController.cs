@@ -47,12 +47,10 @@ namespace Library_WebApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Login(User model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
-            Response.Redirect("/");
-            return View();
+            //Response.Redirect("/");
+            //LoginController viewModel = new LoginController();
+            
+            return RedirectToAction("Index", "LoginController"); //View();
         }
 
         public IActionResult Contact()

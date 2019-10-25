@@ -13,7 +13,7 @@
                 <li>@Html.TextBoxFor(model => model.login)</li>
                 <li>@Html.ValidationMessageFor(model => model.login, "", new { @class = "text-danger" })</li>
                 <li>@Html.Label("Hasło")</li>
-                <li>@Html.TextBoxFor(model => model.password)</li>
+                <li>@Html.PasswordFor(model => model.password)</li>
                 <li>@Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })</li>
             </ol>
             <div class="form-row">
