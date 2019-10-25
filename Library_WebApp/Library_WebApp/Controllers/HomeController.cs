@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Library_WebApp.Models;
-using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 
 namespace Library_WebApp.Controllers
 {
@@ -47,10 +42,7 @@ namespace Library_WebApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Login(User model)
         {
-            //Response.Redirect("/");
-            //LoginController viewModel = new LoginController();
-            
-            return RedirectToAction("Index", "LoginController"); //View();
+            return RedirectToAction("Index", "Login"); //View();
         }
 
         public IActionResult Contact()
