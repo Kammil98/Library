@@ -45,12 +45,13 @@ namespace Library_WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(User model)//,  [Bind("name,lastName")] User user)Działa!!!!!
+        public IActionResult Login(User model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction("Index");
+                return View();
             }
+            Response.Redirect("/");
             return View();
         }
 
