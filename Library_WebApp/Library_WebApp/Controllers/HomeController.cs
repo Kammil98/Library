@@ -26,12 +26,14 @@ namespace Library_WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Registration(User model, string firstName)
+        public IActionResult Registration(User model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                Response.Redirect("/");
+                return View();
             }
+
+            Response.Redirect("/");
             return View();
         }
 

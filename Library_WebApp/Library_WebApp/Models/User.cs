@@ -15,7 +15,7 @@ namespace Library_WebApp.Models
         public string lastName { set; get; }
 
         [Required(ErrorMessage = "Pole data jest obowiązkowe.")]
-        [RegularExpression("[^[1-9]$]", ErrorMessage = "Pole data musi mieć strukturę dd-mm-rrrr.")]//-(1-9)(0-9)?-(1-2)(0-9)(0-9)(0-9)?
+        [RegularExpression(@"^(3[0-1]|[1-2][0-9]|[1-9])-(1[0-2]|[1-9])-[1-2][0-9][0-9][0-9]$", ErrorMessage = "Pole data musi mieć strukturę dd-mm-rrrr")]
         public string data { set; get; }
 
         [Required(ErrorMessage = "Pole login jest obowiązkowe.")]

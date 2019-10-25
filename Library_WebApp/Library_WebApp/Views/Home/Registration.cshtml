@@ -19,75 +19,29 @@
             <ol class="nostyle">
                 <li>@Html.Label("Imię")</li>
                 <li>@Html.TextBoxFor(model => model.name)</li>
-                <li>@Html.ValidationMessageFor(model => model.name)</li>
+                <li>@Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })</li>
 
                 <li>@Html.Label("Nazwisko")</li>
                 <li>@Html.TextBoxFor(model => model.lastName)</li>
-                <li>@Html.ValidationMessageFor(model => model.lastName)</li>
+                <li>@Html.ValidationMessageFor(model => model.lastName, "", new { @class = "text-danger" })</li>
 
-                <li>@Html.Label("Data")</li>
+                <li>@Html.Label("Data (Pole data musi mieć strukturę dd-mm-rrrr(bez zbędnych zer na poczatku liczb, np 19-3-1999)")</li>
                 <li>@Html.TextBoxFor(model => model.data)</li>
-                <li>@Html.ValidationMessageFor(model => model.data)</li>
+                <li>@Html.ValidationMessageFor(model => model.data, "", new { @class = "text-danger" })</li>
 
                 <li>@Html.Label("login")</li>
                 <li>@Html.TextBoxFor(model => model.login)</li>
-                <li>@Html.ValidationMessageFor(model => model.login)</li>
+                <li>@Html.ValidationMessageFor(model => model.login, "", new { @class = "text-danger" })</li>
 
                 <li>@Html.Label("hasło")</li>
                 <li>@Html.PasswordFor(model => model.password)</li>
-                <li>@Html.ValidationMessageFor(model => model.password)</li>
+                <li>@Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })</li>
 
                 <li>@Html.Label("Powtórz hasło")</li>
                 <li>@Html.PasswordFor(model => model.passwordRepeat)</li>
-                <li>@Html.ValidationMessageFor(model => model.passwordRepeat)</li>
+                <li>@Html.ValidationMessageFor(model => model.passwordRepeat, "", new { @class = "text-danger" })</li>
             </ol>
             <input type="submit" value="wyślij" />
         </fieldset>
     }
 </div>
-<!--using (Html.BeginForm())
-{
-    <form action="" method="post">
-        <div class="form-group">
-            <h3>Rejestracja</h3>
-            <div class="form-row">
-                <div class="col">
-                    <label for="firstName">Imię</label>
-                    <input type="text" name="firstName" id="firstName" class="form-control" placeholder="Proszę podać imię" required>
-                </div>
-                <div class="col">
-                    <label for="lastName">Nazwisko</label>
-                    <input type="text" name="lastName" id="lastName" class="form-control" placeholder="Proszę podać nazwisko" required>
-                </div>
-            </div>
-            <div class="form-row">
-                <label for="birthDate">Data urodzenia</label>
-                <div class="input-group date" data-provide="datepicker">
-                    <input type="text" name="birthDate" id="birthDate" class="form-control" required>
-                    <div class="input-group-addon">
-                        <span class="glyphicon glyphicon-th"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="col">
-                    <label for="inputPassword">Hasło</label>
-                    <input type="password" name="inputPassword" id="inputPassword" class="form-control" aria-describedby="passwordHelpBlock" placeholder="Proszę podać hasło" required>
-                    <small id="passwordHelpBlock" class="form-text text-muted">
-                        Hasło musi mieć od 3 do 20 znaków.
-                    </small>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col">
-                    <label for="confirmPassword">Hasło</label>
-                    <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder="proszę powtórzyć hasło" required>
-                </div>
-            </div>
-            <div class="form-row">
-                <button type="submit" class="btn btn-primary">Zarejestruj się</button>
-            </div>
-        </div>
-    </form>
-}-->
