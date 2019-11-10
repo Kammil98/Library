@@ -14,8 +14,8 @@ namespace Library_WebApp.Controllers
         [HttpGet]
         public IActionResult Registration()
         {
+            //small test to frontend. Can be deleted
             User user = new User();
-            user.name = "Ja";
             ViewData["User"] = user;
             return View();
         }
@@ -23,6 +23,7 @@ namespace Library_WebApp.Controllers
         [HttpPost]
         public IActionResult Registration(User model)
         {
+            //small test to frontend. Can be deleted
             if (!ModelState.IsValid)
             {
                 return View();
@@ -56,11 +57,6 @@ namespace Library_WebApp.Controllers
         {
             return View();
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        
     }
 }
