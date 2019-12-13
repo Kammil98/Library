@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Library_WebApp.Models.Edition>
+
+@{
+    ViewData["Title"] = "editionList";
+    Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
+}
+
+<h2>Wydania</h2>
+
+<p>
+    <a asp-action="addEdition">Dodaj nowe wydanie</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.releaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.publishingHouse)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.releaseDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.publishingHouse)
+            </td>
+            <td>
+                @Html.ActionLink("Edytuj", "editEdition", item, null) |
+                @Html.ActionLink("Szczegóły", "showEdition", item, null) |
+                @Html.ActionLink("Usuń", "deleteEdition", item, null)
+        </tr>
+}
+    </tbody>
+</table>

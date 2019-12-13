@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Library_WebApp.Models.Volume>
+
+@{
+    ViewData["Title"] = "volumeList";
+    Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
+}
+
+<h2>Egzemplarze</h2>
+
+<p>
+    <a asp-action="addVolume">Dodaj nowy egzemplarz</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.editionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.libraryBranchId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.condition)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.editionId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.libraryBranchId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.condition)
+            </td>
+            <td>
+                @Html.ActionLink("Edytuj", "editVolume", item, null) |
+                @Html.ActionLink("Szczegóły", "showVolume", item, null) |
+                @Html.ActionLink("Usuń", "deleteVolume", item, null)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

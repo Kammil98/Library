@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Library_WebApp.Models.PublishingHouse>
+
+@{
+    ViewData["Title"] = "publishingHouseList";
+    Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
+}
+
+<h2>Wydawnictwa</h2>
+
+<p>
+    <a asp-action="addPublishingHouse">Dodaj nowe wydawnictwo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.address.street)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.address.buildingNr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.address.Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.address.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.address.zipCode)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <th>
+                @Html.DisplayFor(modelItem => item.address.street)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.address.buildingNr)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.address.Country)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.address.City)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.address.zipCode)
+            </th>
+            <td>
+                @Html.ActionLink("Edytuj", "editPublishingHouse", new {id = item.address.id, name = item.name, street = item.address.street, Country = item.address.Country, 
+                    City = item.address.City, buildingNr = item.address.buildingNr, zipCode = item.address.zipCode}) | 
+                @Html.ActionLink("Szczegóły", "showPublishingHouse", new {id = item.address.id, name = item.name, street = item.address.street, Country = item.address.Country, 
+                    City = item.address.City, buildingNr = item.address.buildingNr, zipCode = item.address.zipCode}) |
+                @Html.ActionLink("Usuń", "deletePublishingHouse", new {id = item.address.id, name = item.name, street = item.address.street, Country = item.address.Country, 
+                    City = item.address.City, buildingNr = item.address.buildingNr, zipCode = item.address.zipCode}))
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

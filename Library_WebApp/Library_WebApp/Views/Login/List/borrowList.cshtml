@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Library_WebApp.Models.Borrow>
+
+@{
+    ViewData["Title"] = "borrowList";
+    Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
+}
+
+<h2>Wypożyczenia</h2>
+
+<p>
+    <a asp-action="addBorrow">Dodaj nowe wypożyczenie</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.borrowDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.returnDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.volumeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.userLogin)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.borrowDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.returnDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.volumeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.userLogin)
+            </td>
+            <td>
+                @Html.ActionLink("Edytuj", "editBorrow", item, null) |
+                @Html.ActionLink("Szczegóły", "showBorrow", item, null) |
+                @Html.ActionLink("Usuń", "deleteBorrow", item, null)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

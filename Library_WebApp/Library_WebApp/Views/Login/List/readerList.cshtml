@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Library_WebApp.Models.Reader>
+
+@{
+    ViewData["Title"] = "readerList";
+    Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
+}
+
+<h2>Czytelnicy</h2>
+
+<p>
+    <a asp-action="addReader">Dodaj nowego czytelnika</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.dateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.lastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.login)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.passwordRepeat)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.dateOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.lastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.login)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.password)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.passwordRepeat)
+            </td>
+            <td>
+                @Html.ActionLink("Edytuj", "editReader", item, null) |
+                @Html.ActionLink("Szczegóły", "showReader", item, null) |
+                @Html.ActionLink("Usuń", "deleteReader", item, null)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

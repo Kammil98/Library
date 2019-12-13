@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Library_WebApp.Models.Reservation>
+
+@{
+    ViewData["Title"] = "reservationList";
+    Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
+}
+
+<h2>Rezerwacje</h2>
+
+<p>
+    <a asp-action="addReservation">Dodaj nową rezerwację</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.reservationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.volumeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.userLogin)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.reservationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.volumeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.userLogin)
+            </td>
+            <td>
+                @Html.ActionLink("Edytuj", "editReservation", item, null) |
+                @Html.ActionLink("Szczegóły", "showReservation", item, null) |
+                @Html.ActionLink("Usuń", "deleteReservation", item, null)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

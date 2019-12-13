@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Library_WebApp.Models.Author>
+
+@{
+    ViewData["Title"] = "View1";
+    Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
+}
+
+<h2>Autorzy</h2>
+
+<p>
+    <a asp-action="addAuthor">Dodaj nowego autora</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.firstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.lastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.country)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.firstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.lastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.country)
+                </td>
+                <td>
+                    @Html.ActionLink("Edytuj", "editAuthor", item, null) |
+                    @Html.ActionLink("Szczegóły", "showAuthor", item, null) |<!--in any case, this also works: ActionLink("Szczegóły", "showAuthor",  new { firstName = item.firstName, lastName = item.lastName, country = item.country})-->
+                    @Html.ActionLink("Usuń", "deleteAuthor", item, null)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
