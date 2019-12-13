@@ -1,17 +1,17 @@
-﻿@model Library_WebApp.Models.Genre
+﻿@model Library_WebApp.Models.Book
 
 @{
-    ViewData["Title"] = "addGenre";
+    ViewData["Title"] = "View";
     Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
 }
 
-<h2>Dodaj Gatunek</h2>
+<h2>Dane Książki</h2>
 
-<h4>Gatunek</h4>
+<h4>Książka</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="addGenre">
+        <form asp-action="View">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="name" class="control-label">nazwa</label>
@@ -19,7 +19,12 @@
                 <span asp-validation-for="name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Dodaj" class="btn btn-default" />
+                <label asp-for="genre" class="control-label">gatunek</label>
+                <input asp-for="genre" class="form-control" />
+                <span asp-validation-for="genre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Zatwierdź" class="btn btn-default" />
             </div>
         </form>
     </div>

@@ -1,19 +1,24 @@
-﻿@model Library_WebApp.Models.PublishingHouse
+﻿@model Library_WebApp.Models.LibraryBranch
 @{
-    ViewData["Title"] = "addPublishingHouse";
+    ViewData["Title"] = "addLibraryBranch";
     Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
 }
 
-<h2>Dodaj Wydawnictwo</h2>
+<h2>Dane Filii</h2>
 
-<h4>Wydawnictwo</h4>
+<h4>Filia</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="addProperty">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="name" class="control-label">nazwa wydawnictwa</label>
+                <label asp-for="number" class="control-label">numer filii</label>
+                <input asp-for="number" class="form-control" />
+                <span asp-validation-for="number" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="name" class="control-label">nazwa filii</label>
                 <input asp-for="name" class="form-control" />
                 <span asp-validation-for="name" class="text-danger"></span>
             </div>
@@ -43,7 +48,7 @@
                 <span asp-validation-for="address.zipCode" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Dodaj" class="btn btn-default" />
+                <input type="submit" value="Zatwierdź" class="btn btn-default" />
             </div>
         </form>
     </div>
