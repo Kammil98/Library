@@ -1,0 +1,43 @@
+﻿@model Library_WebApp.Models.Volume
+
+@{
+    ViewData["Title"] = "showVolume";
+    Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
+}
+
+<h2>Szczegółowe dane egzemplarza</h2>
+
+<div>
+    <h4>Egzemplarz</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.editionId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.editionId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.libraryBranchId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.libraryBranchId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.condition)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.condition)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edytuj", "editVolume", Model, null) |
+    <a asp-action="volumeList">Wróć do listy</a>
+</div>

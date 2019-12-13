@@ -1,0 +1,75 @@
+﻿@model Library_WebApp.Models.LibraryBranch
+
+@{
+    ViewData["Title"] = "showLibraryBranch";
+    Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
+}
+
+<h2>Szczegółowe dane filii</h2>
+
+<div>
+    <h4>Filia</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.number)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.number)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.address.street)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.address.street)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address.buildingNr)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.address.buildingNr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address.Country)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.address.Country)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address.City)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.address.City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address.zipCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.address.zipCode)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edytuj", "editLibrarianBranch", new
+    {
+        id = Model.address.id,
+        number = Model.number,
+        name = Model.name,
+        street = Model.address.street,
+        Country = Model.address.Country,
+                    City = Model.address.City,
+        buildingNr = Model.address.buildingNr,
+        zipCode = Model.address.zipCode
+    }) |
+    <a asp-action="librarianBranchList">Wróć do listy</a>
+</div>
