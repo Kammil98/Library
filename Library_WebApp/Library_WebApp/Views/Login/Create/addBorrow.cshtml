@@ -1,0 +1,49 @@
+﻿@model Library_WebApp.Models.Borrow
+
+@{
+    ViewData["Title"] = "addBorrow";
+    Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
+}
+
+<h2>Dodaj Wypożyczenie</h2>
+
+<h4>Wypożyczenie</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="addBorrow">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="borrowDate" class="control-label">data wypożyczenia</label>
+                <input asp-for="borrowDate" class="form-control" />
+                <span asp-validation-for="borrowDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="returnDate" class="control-label">data zwrotu</label>
+                <input asp-for="returnDate" class="form-control" />
+                <span asp-validation-for="returnDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="volumeId" class="control-label">id woluminu</label>
+                <input asp-for="volumeId" class="form-control" />
+                <span asp-validation-for="volumeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="userLogin" class="control-label">login użytkownika</label>
+                <input asp-for="userLogin" class="form-control" />
+                <span asp-validation-for="userLogin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Dodaj" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Wróć na stronę główną</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

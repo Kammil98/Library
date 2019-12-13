@@ -1,0 +1,44 @@
+﻿@model Library_WebApp.Models.Volume
+
+@{
+    ViewData["Title"] = "addVolume";
+    Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
+}
+
+<h2>Dodaj Egzemplarz</h2>
+
+<h4>Egzemplarz</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="addVolume">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="editionId" class="control-label">id wydania</label>
+                <input asp-for="editionId" class="form-control" />
+                <span asp-validation-for="editionId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="libraryBranchId" class="control-label">numer filii</label>
+                <input asp-for="libraryBranchId" class="form-control" />
+                <span asp-validation-for="libraryBranchId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="condition" class="control-label">stan egzemplarza</label>
+                <input asp-for="condition" class="form-control" />
+                <span asp-validation-for="condition" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Dodaj" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Wróć na stronę główną</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
