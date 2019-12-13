@@ -7,6 +7,9 @@ namespace Library_WebApp.Models
 {
     public class Borrow
     {
-        public string borrowDate { set; get; }
+        public DateTime borrowDate { set; get; }
+        public DateTime returnDate { set; get; }
+        public int volumeId { set; get; }
+        public String userLogin { set; get; }
     }
 }
