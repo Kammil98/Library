@@ -40,15 +40,16 @@
                                 Dodaj encję
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Egzemplarz</a><br />
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Książka</a><br />
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Gatunek</a><br />
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Autor</a><br />
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Czytelnik</a><br />
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Bibliotekarz</a><br />
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Filia</a><br />
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Adres</a><br />
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Wydawnictwo</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addGenre">Gatunek</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addBook">Książka</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addEdition">Wydanie</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addVolume">Egzemplarz</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addPublishingHouse">Wydawnictwo</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addAuthor">Autor</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addProperty">Własność</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addReader">Czytelnik</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addLibrarian">Bibliotekarz</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addLibraryBranch">Filia</a><br />
                                 <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addBorrow">Wypożyczenie</a><br />
                                 <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addReservation">Rezerwacja</a>
                             </div>
@@ -58,17 +59,18 @@
                                 Edytuj encję
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Egzemplarz</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Książka</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Gatunek</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Autor</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Czytelnik</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Bibliotekarz</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Filia</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Adres</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Wydawnictwo</a><br />
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Wypożyczenie</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Rezerwacja</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="lista">Gatunek</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="Details">Książka</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addEdition">Wydanie</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addVolume">Egzemplarz</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addPublishingHouse">Wydawnictwo</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addAuthor">Autor</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addProperty">Własność</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addReader">Czytelnik</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addLibrarian">Bibliotekarz</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addLibraryBranch">Filia</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addBorrow">Wypożyczenie</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addReservation">Rezerwacja</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -76,17 +78,37 @@
                                 Usuń encję
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Egzemplarz</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Książka</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Gatunek</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Autor</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Czytelnik</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Bibliotekarz</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Filia</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Adres</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Wydawnictwo</a><br />
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Wypożyczenie</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addCopyofBook">Rezerwacja</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addGenre">Gatunek</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addBook">Książka</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addEdition">Wydanie</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addVolume">Egzemplarz</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addPublishingHouse">Wydawnictwo</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addAuthor">Autor</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addProperty">Własność</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addReader">Czytelnik</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addLibrarian">Bibliotekarz</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addLibraryBranch">Filia</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addBorrow">Wypożyczenie</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addReservation">Rezerwacja</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Wyświetl encje
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addGenre">Gatunek</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addBook">Książka</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addEdition">Wydanie</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addVolume">Egzemplarz</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addPublishingHouse">Wydawnictwo</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addAuthor">Autor</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addProperty">Własność</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addReader">Czytelnik</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addLibrarian">Bibliotekarz</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addLibraryBranch">Filia</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addBorrow">Wypożyczenie</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addReservation">Rezerwacja</a>
                             </div>
                         </li>
                     </ul>
@@ -99,9 +121,10 @@
         <div class="container body-content">
             @RenderBody()
             <hr />
-            <footer>
-                <p>&copy; 2019 - Library_WebApp</p>
-            </footer>
+            <!--<footer>
+                    p>&copy; 2019 - Library_WebApp</p>
+                </footer>
+            -->
         </div>
 
         <environment include="Development">

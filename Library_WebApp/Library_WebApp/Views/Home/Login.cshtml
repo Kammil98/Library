@@ -1,13 +1,13 @@
 ﻿@model Library_WebApp.Models.User
 
 
-<h2>Login</h2>
+<h2>Logowanie</h2>
 <div>
     @using (Html.BeginForm("Login", ""))
     {
         @Html.AntiForgeryToken()
         <fieldset>
-            <legend>Logowanie</legend>
+            <legend>Proszę podać dane</legend>
             <ol class="nostyle">
                 <li>@Html.Label("Login")</li>
                 <li>@Html.TextBoxFor(model => model.login)</li>

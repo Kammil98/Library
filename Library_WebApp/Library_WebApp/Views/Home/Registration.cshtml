@@ -22,10 +22,6 @@
                 <li>@Html.TextBoxFor(model => model.lastName)</li>
                 <li>@Html.ValidationMessageFor(model => model.lastName, "", new { @class = "text-danger" })</li>
 
-                <li>@Html.Label("Data (Pole data musi mieć strukturę dd-mm-rrrr(bez zbędnych zer na poczatku liczb, np 19-3-1999)")</li>
-                <li>@Html.TextBoxFor(model => model.data)</li>
-                <li>@Html.ValidationMessageFor(model => model.data, "", new { @class = "text-danger" })</li>
-
                 <li>@Html.Label("login")</li>
                 <li>@Html.TextBoxFor(model => model.login)</li>
                 <li>@Html.ValidationMessageFor(model => model.login, "", new { @class = "text-danger" })</li>
