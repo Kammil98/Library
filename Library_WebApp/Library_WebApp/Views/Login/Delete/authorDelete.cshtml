@@ -1,0 +1,39 @@
+﻿@model Library_WebApp.Models.Author
+
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
+}
+
+<h2>Podgląd</h2>
+
+<h3>Czy jesteś pewien, że chcesz usunąć tą encję?</h3>
+<div>
+    <h4>Autor</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.firstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.firstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.lastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.lastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.country)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.country)
+        </dd>
+    </dl>
+
+    <form asp-action="authorDelete">
+        <input type="submit" value="Usuń" class="btn btn-default" /> |
+        <a asp-action="authorList">Wróć do listy</a>
+    </form>
+</div>

@@ -1,0 +1,39 @@
+﻿@model Library_WebApp.Models.Reservation
+
+@{
+    ViewData["Title"] = "reservationDelete";
+    Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
+}
+
+<h2>Podgląd</h2>
+
+<h3>Czy jesteś pewien, że chcesz usunąć tą encję?</h3>
+<div>
+    <h4>Rezerwacja</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.reservationDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.reservationDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.volumeId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.volumeId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.userLogin)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.userLogin)
+        </dd>
+    </dl>
+
+    <form asp-action="reservationDelete">
+        <input type="submit" value="Usuń" class="btn btn-default" /> |
+        <a asp-action="reservationList">Wróć do listy</a>
+    </form>
+</div>

@@ -1,0 +1,27 @@
+﻿@model Library_WebApp.Models.PublishingHouse
+
+@{
+    ViewData["Title"] = "publishingHouseDelete";
+    Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
+}
+
+<h2>Podgląd</h2>
+
+<h3>Czy jesteś pewien, że chcesz usunąć tą encję?</h3>
+<div>
+    <h4>Wydawnictwo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+    </dl>
+
+    <form asp-action="publishingHouseDelete">
+        <input type="submit" value="Usuń" class="btn btn-default" /> |
+        <a asp-action="publishingHouseList">Wróć do listy</a>
+    </form>
+</div>

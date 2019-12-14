@@ -1,0 +1,33 @@
+﻿@model Library_WebApp.Models.LibraryBranch
+
+@{
+    ViewData["Title"] = "librarianBranch";
+    Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
+}
+
+<h2>Podgląd</h2>
+
+<h3>Czy jesteś pewien, że chcesz usunąć tą encję?</h3>
+<div>
+    <h4>Filia</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.number)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.number)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+    </dl>
+
+    <form asp-action="libraryBranch">
+        <input type="submit" value="Usuń" class="btn btn-default" /> |
+        <a asp-action="libraryBranchList">Wróć do listy</a>
+    </form>
+</div>

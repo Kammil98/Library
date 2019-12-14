@@ -1,0 +1,39 @@
+﻿@model Library_WebApp.Models.Property
+
+@{
+    ViewData["Title"] = "propertyDelete";
+    Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
+}
+
+<h2>Podgląd</h2>
+
+<h3>Czy jesteś pewien, że chcesz usunąć tą encję?</h3>
+<div>
+    <h4>Własność</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.authorFirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.authorFirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.authorLastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.authorLastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.title)
+        </dd>
+    </dl>
+
+    <form asp-action="propertyDelete">
+        <input type="submit" value="Usuń" class="btn btn-default" /> |
+        <a asp-action="propertyList">Wróć do listy</a>
+    </form>
+</div>
