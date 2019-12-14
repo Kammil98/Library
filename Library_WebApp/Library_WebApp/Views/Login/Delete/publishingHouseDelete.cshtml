@@ -18,6 +18,41 @@
         <dd>
             @Html.DisplayFor(model => model.name)
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address.street)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.address.street)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address.buildingNr)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.address.buildingNr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address.Country)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.address.Country)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address.City)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.address.City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address.zipCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.address.zipCode)
+        </dd>
     </dl>
 
     <form asp-action="publishingHouseDelete">
