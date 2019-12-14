@@ -1,5 +1,6 @@
 ﻿using Library_WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 namespace Library_WebApp.Controllers
     //At the top are lines of code with Author class, to show how to comunicate and send data to View
@@ -16,30 +17,6 @@ namespace Library_WebApp.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult authorList()
-        {
-            List<Author> authors = new List<Author>();
-            Author author = new Author();
-            author.firstName = "Kamil";
-            author.lastName = "Luwański";
-            author.country = "Polska";
-            authors.Add(author);
-
-            author = new Author();
-            author.firstName = "Mateusz";
-            author.lastName = "Bąk";
-            author.country = "Inna Polska";
-            authors.Add(author);
-            return View("~/Views/Login/List/authorList.cshtml", authors);
-        }
-
-        [HttpGet]
-        public IActionResult editAuthor(Author model)
-        {
-            return View("~/Views/Login/Create/authorData.cshtml");
-        }
-        
         [HttpGet]
         public IActionResult publishingHouseList()
         {
@@ -66,11 +43,43 @@ namespace Library_WebApp.Controllers
             return View("~/Views/Login/List/publishingHouseList.cshtml", publishingHouses);
         }
 
-        [HttpGet] 
-        public IActionResult editPublishingHouse(string s, string id, string name, string Country, string City, string buildingNr, string zipCode)
+        [HttpGet]
+        public IActionResult editPublishingHouse(string id, string name, string Country, string City, string buildingNr, string zipCode)
         {
             return View("~/Views/Login/Create/PublishingHouseData.cshtml");
         }
+
+        [HttpGet]
+        public IActionResult authorList()
+        {
+            List<Author> authors = new List<Author>();
+            Author author = new Author();
+            author.firstName = "Kamil";
+            author.lastName = "Luwański";
+            author.country = "Polska";
+            authors.Add(author);
+
+            author = new Author();
+            author.firstName = "Mateusz";
+            author.lastName = "Bąk";
+            author.country = "Inna Polska";
+            authors.Add(author);
+            return View("~/Views/Login/List/authorList.cshtml", authors);
+        }
+
+        [HttpGet]
+        public IActionResult editAuthor(Author model)
+        {
+            return View("~/Views/Login/Create/authorData.cshtml", model);
+        }
+
+        [HttpGet]
+        public IActionResult deleteAuthor(Author model)
+        {
+            return View("~/Views/Login/Delete/authorDelete.cshtml", model);
+        }
+
+        
         [HttpGet]
         public IActionResult showAuthor(Author model)
         {
@@ -153,6 +162,21 @@ namespace Library_WebApp.Controllers
         [HttpGet]
         public IActionResult addVolume()
         {
+            List<SelectListItem> items = new List<SelectListItem>();
+
+            items.Add(new SelectListItem { Text = "Kamil Luwański", Value = "0" });
+
+            items.Add(new SelectListItem { Text = "Mateusz Bąk", Value = "1" });
+
+            items.Add(new SelectListItem { Text = "Ktoś Ktosiowaty", Value = "2", Selected = true });
+
+            ViewBag.LibraryBranchId = items;
+            return View("~/Views/Login/Create/volumeData.cshtml");
+        }
+        [HttpPost]
+        public IActionResult addVolume(Volume model, string MovieType)
+        {
+
             return View("~/Views/Login/Create/volumeData.cshtml");
         }
     }

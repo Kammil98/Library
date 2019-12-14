@@ -19,14 +19,17 @@
                 <span asp-validation-for="editionId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="libraryBranchId" class="control-label">numer filii</label>
-                <input asp-for="libraryBranchId" class="form-control" />
+                <label asp-for="libraryBranchId" class="control-label">numer filii</label><br />
+                @Html.DropDownList("LibraryBranchId")
                 <span asp-validation-for="libraryBranchId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="condition" class="control-label">stan egzemplarza</label>
                 <input asp-for="condition" class="form-control" />
                 <span asp-validation-for="condition" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
             </div>
             <div class="form-group">
                 <input type="submit" value="Zatwierdź" class="btn btn-default" />
