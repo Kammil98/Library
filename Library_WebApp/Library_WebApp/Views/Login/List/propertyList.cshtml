@@ -10,6 +10,13 @@
 <p>
     <a asp-action="addProperty">Dodaj nową własność</a>
 </p>
+
+@using (Html.BeginForm("propertyList"))
+{
+    <input type="text" name="phrase" />
+    <input type="submit" value="Wyszukaj" class="btn btn-default" />
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -26,23 +33,24 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.authorFirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.authorLastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.title)
-            </td>
-            <td>
-                @Html.ActionLink("Edytuj", "editProperty", item, null) |
-                @Html.ActionLink("Szczegóły", "showProperty", item, null) |
-                @Html.ActionLink("Usuń", "deleteProperty", item, null)
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.authorFirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.authorLastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.title)
+                </td>
+                <td>
+                    @Html.ActionLink("Edytuj", "editProperty", item, null) |
+                    @Html.ActionLink("Szczegóły", "showProperty", item, null) |
+                    @Html.ActionLink("Usuń", "deleteProperty", item, null)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

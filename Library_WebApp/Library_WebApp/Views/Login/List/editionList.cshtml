@@ -10,6 +10,13 @@
 <p>
     <a asp-action="addEdition">Dodaj nowe wydanie</a>
 </p>
+
+@using (Html.BeginForm("editionList"))
+{
+    <input type="text" name="phrase" />
+    <input type="submit" value="Wyszukaj" class="btn btn-default" />
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -26,22 +33,23 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.releaseDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.publishingHouse)
-            </td>
-            <td>
-                @Html.ActionLink("Edytuj", "editEdition", item, null) |
-                @Html.ActionLink("Szczegóły", "showEdition", item, null) |
-                @Html.ActionLink("Usuń", "deleteEdition", item, null)
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.releaseDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.publishingHouse)
+                </td>
+                <td>
+                    @Html.ActionLink("Edytuj", "editEdition", item, null) |
+                    @Html.ActionLink("Szczegóły", "showEdition", item, null) |
+                    @Html.ActionLink("Usuń", "deleteEdition", item, null)
+            </tr>
+        }
     </tbody>
 </table>

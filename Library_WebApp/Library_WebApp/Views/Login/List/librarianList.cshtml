@@ -10,6 +10,13 @@
 <p>
     <a asp-action="addLibrarian">Dodaj nowego bibliotekarza</a>
 </p>
+
+@using (Html.BeginForm("labrarianList"))
+{
+    <input type="text" name="phrase" />
+    <input type="submit" value="Wyszukaj" class="btn btn-default" />
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -35,32 +42,33 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.dateOfHire)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.libraryBranchNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.lastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.login)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.password)
-            </td>
-            <td>
-                @Html.ActionLink("Edytuj", "editLibrarian", item, null) |
-                @Html.ActionLink("Szczegóły", "showLibrarian", item, null) |
-                @Html.ActionLink("Usuń", "deleteLibrarian", item, null)
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.dateOfHire)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.libraryBranchNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.lastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.login)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.password)
+                </td>
+                <td>
+                    @Html.ActionLink("Edytuj", "editLibrarian", item, null) |
+                    @Html.ActionLink("Szczegóły", "showLibrarian", item, null) |
+                    @Html.ActionLink("Usuń", "deleteLibrarian", item, null)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

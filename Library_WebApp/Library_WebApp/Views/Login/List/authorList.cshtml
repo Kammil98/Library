@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Library_WebApp.Models.Author>
-
 @{
+    ViewData["searchString"] = "";
     ViewData["Title"] = "View1";
     Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
 }
@@ -10,6 +10,13 @@
 <p>
     <a asp-action="addAuthor">Dodaj nowego autora</a>
 </p>
+
+@using (Html.BeginForm("authorList"))
+{
+    <input type="text" name="phrase" />
+    <input type="submit" value="Wyszukaj" class="btn btn-default" />
+}
+
 <table class="table">
     <thead>
         <tr>

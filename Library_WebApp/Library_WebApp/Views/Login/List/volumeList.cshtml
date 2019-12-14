@@ -10,6 +10,13 @@
 <p>
     <a asp-action="addVolume">Dodaj nowy egzemplarz</a>
 </p>
+
+@using (Html.BeginForm("volumeList"))
+{
+    <input type="text" name="phrase" />
+    <input type="submit" value="Wyszukaj" class="btn btn-default" />
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -29,26 +36,27 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.editionId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.libraryBranchId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.condition)
-            </td>
-            <td>
-                @Html.ActionLink("Edytuj", "editVolume", item, null) |
-                @Html.ActionLink("Szczegóły", "showVolume", item, null) |
-                @Html.ActionLink("Usuń", "deleteVolume", item, null)
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.editionId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.libraryBranchId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.condition)
+                </td>
+                <td>
+                    @Html.ActionLink("Edytuj", "editVolume", item, null) |
+                    @Html.ActionLink("Szczegóły", "showVolume", item, null) |
+                    @Html.ActionLink("Usuń", "deleteVolume", item, null)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

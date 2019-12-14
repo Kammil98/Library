@@ -10,6 +10,13 @@
 <p>
     <a asp-action="addPublishingHouse">Dodaj nowe wydawnictwo</a>
 </p>
+
+@using (Html.BeginForm("publishingHouseList"))
+{
+    <input type="text" name="phrase" />
+    <input type="submit" value="Wyszukaj" class="btn btn-default" />
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -37,34 +44,58 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-            <th>
-                @Html.DisplayFor(modelItem => item.address.street)
-            </th>
-            <th>
-                @Html.DisplayFor(modelItem => item.address.buildingNr)
-            </th>
-            <th>
-                @Html.DisplayFor(modelItem => item.address.Country)
-            </th>
-            <th>
-                @Html.DisplayFor(modelItem => item.address.City)
-            </th>
-            <th>
-                @Html.DisplayFor(modelItem => item.address.zipCode)
-            </th>
-            <td>
-                @Html.ActionLink("Edytuj", "editPublishingHouse", new {id = item.address.id, name = item.name, street = item.address.street, Country = item.address.Country, 
-                    City = item.address.City, buildingNr = item.address.buildingNr, zipCode = item.address.zipCode}) | 
-                @Html.ActionLink("Szczegóły", "showPublishingHouse", new {id = item.address.id, name = item.name, street = item.address.street, Country = item.address.Country, 
-                    City = item.address.City, buildingNr = item.address.buildingNr, zipCode = item.address.zipCode}) |
-                @Html.ActionLink("Usuń", "deletePublishingHouse", new {id = item.address.id, name = item.name, street = item.address.street, Country = item.address.Country, 
-                    City = item.address.City, buildingNr = item.address.buildingNr, zipCode = item.address.zipCode})
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <th>
+                    @Html.DisplayFor(modelItem => item.address.street)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.address.buildingNr)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.address.Country)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.address.City)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.address.zipCode)
+                </th>
+                <td>
+                    @Html.ActionLink("Edytuj", "editPublishingHouse", new
+                    {
+                        id = item.address.id,
+                        name = item.name,
+                        street = item.address.street,
+                        Country = item.address.Country,
+                        City = item.address.City,
+                        buildingNr = item.address.buildingNr,
+                        zipCode = item.address.zipCode
+                    }) |
+                    @Html.ActionLink("Szczegóły", "showPublishingHouse", new
+                    {
+                        id = item.address.id,
+                        name = item.name,
+                        street = item.address.street,
+                        Country = item.address.Country,
+                        City = item.address.City,
+                        buildingNr = item.address.buildingNr,
+                        zipCode = item.address.zipCode
+                    }) |
+                    @Html.ActionLink("Usuń", "deletePublishingHouse", new
+                    {
+                        id = item.address.id,
+                        name = item.name,
+                        street = item.address.street,
+                        Country = item.address.Country,
+                        City = item.address.City,
+                        buildingNr = item.address.buildingNr,
+                        zipCode = item.address.zipCode
+                    })
+                </td>
+            </tr>
         }
     </tbody>
 </table>

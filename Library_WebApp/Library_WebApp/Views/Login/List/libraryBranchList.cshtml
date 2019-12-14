@@ -1,15 +1,22 @@
 ﻿@model IEnumerable<Library_WebApp.Models.LibraryBranch>
 
 @{
-    ViewData["Title"] = "librarianBranchList";
+    ViewData["Title"] = "libraryBranchList";
     Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
 }
 
 <h2>Filie</h2>
 
 <p>
-    <a asp-action="addLibrarianBranch">Dodaj nową filię</a>
+    <a asp-action="addLibraryBranch">Dodaj nową filię</a>
 </p>
+
+@using (Html.BeginForm("libraryBranchList"))
+{
+    <input type="text" name="phrase" />
+    <input type="submit" value="Wyszukaj" class="btn btn-default" />
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -63,12 +70,39 @@
                     @Html.DisplayFor(modelItem => item.address.zipCode)
                 </th>
                 <td>
-                    @Html.ActionLink("Edytuj", "editLibrarianBranch", new {id = item.address.id, number = item.number, name = item.name, street = item.address.street, Country = item.address.Country, 
-                    City = item.address.City, buildingNr = item.address.buildingNr, zipCode = item.address.zipCode}) |
-                    @Html.ActionLink("Szczegóły", "showLibrarianBranch", new {id = item.address.id, number = item.number, name = item.name, street = item.address.street, Country = item.address.Country, 
-                    City = item.address.City, buildingNr = item.address.buildingNr, zipCode = item.address.zipCode}) |
-                    @Html.ActionLink("Usuń", "deleteLibrarianBranch", new {id = item.address.id, number = item.number, name = item.name, street = item.address.street, Country = item.address.Country, 
-                    City = item.address.City, buildingNr = item.address.buildingNr, zipCode = item.address.zipCode})
+                    @Html.ActionLink("Edytuj", "editLibraryBranch", new
+                    {
+                        id = item.address.id,
+                        number = item.number,
+                        name = item.name,
+                        street = item.address.street,
+                        Country = item.address.Country,
+                    City = item.address.City,
+                        buildingNr = item.address.buildingNr,
+                        zipCode = item.address.zipCode
+                    }) |
+                    @Html.ActionLink("Szczegóły", "showLibraryBranch", new
+                    {
+                        id = item.address.id,
+                        number = item.number,
+                        name = item.name,
+                        street = item.address.street,
+                        Country = item.address.Country,
+                    City = item.address.City,
+                        buildingNr = item.address.buildingNr,
+                        zipCode = item.address.zipCode
+                    }) |
+                    @Html.ActionLink("Usuń", "deleteLibraryBranch", new
+                    {
+                        id = item.address.id,
+                        number = item.number,
+                        name = item.name,
+                        street = item.address.street,
+                        Country = item.address.Country,
+                    City = item.address.City,
+                        buildingNr = item.address.buildingNr,
+                        zipCode = item.address.zipCode
+                    })
                 </td>
             </tr>
         }

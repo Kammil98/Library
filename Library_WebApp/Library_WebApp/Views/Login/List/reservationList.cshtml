@@ -10,6 +10,13 @@
 <p>
     <a asp-action="addReservation">Dodaj nową rezerwację</a>
 </p>
+
+@using (Html.BeginForm("reservationList"))
+{
+    <input type="text" name="phrase" />
+    <input type="submit" value="Wyszukaj" class="btn btn-default" />
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -26,23 +33,24 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.reservationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.volumeId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.userLogin)
-            </td>
-            <td>
-                @Html.ActionLink("Edytuj", "editReservation", item, null) |
-                @Html.ActionLink("Szczegóły", "showReservation", item, null) |
-                @Html.ActionLink("Usuń", "deleteReservation", item, null)
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.reservationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.volumeId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.userLogin)
+                </td>
+                <td>
+                    @Html.ActionLink("Edytuj", "editReservation", item, null) |
+                    @Html.ActionLink("Szczegóły", "showReservation", item, null) |
+                    @Html.ActionLink("Usuń", "deleteReservation", item, null)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
