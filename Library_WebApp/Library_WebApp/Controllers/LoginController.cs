@@ -67,7 +67,15 @@ namespace Library_WebApp.Controllers
             return View("~/Views/Login/List/authorList.cshtml", authors);
         }
 
-        [HttpGet]
+        [HttpPost]
+        public IActionResult authorList(string phrase)
+        {
+            List<Author> authors = new List<Author>();
+            return View("~/Views/Login/List/authorList.cshtml", authors);
+        }
+        
+
+       [HttpGet]
         public IActionResult editAuthor(Author model)
         {
             return View("~/Views/Login/Create/authorData.cshtml", model);

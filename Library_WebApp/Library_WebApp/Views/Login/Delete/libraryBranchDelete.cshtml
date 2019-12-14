@@ -1,7 +1,7 @@
 ﻿@model Library_WebApp.Models.LibraryBranch
 
 @{
-    ViewData["Title"] = "librarianBranch";
+    ViewData["Title"] = "libraryBranch";
     Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
 }
 
@@ -26,7 +26,7 @@
         </dd>
     </dl>
 
-    <form asp-action="libraryBranch">
+    <form asp-action="libraryBranchDelete">
         <input type="submit" value="Usuń" class="btn btn-default" /> |
         <a asp-action="libraryBranchList">Wróć do listy</a>
     </form>
