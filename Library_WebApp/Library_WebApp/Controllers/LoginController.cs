@@ -68,7 +68,7 @@ namespace Library_WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult authorList(string phrase)
+        public IActionResult authorList(string Bookphrase, string Volumephrase)
         {
             List<Author> authors = new List<Author>();
             return View("~/Views/Login/List/authorList.cshtml", authors);
@@ -91,6 +91,27 @@ namespace Library_WebApp.Controllers
         [HttpGet]
         public IActionResult showAuthor(Author model)
         {
+            List<Book> books = new List<Book>();
+            Book book = new Book();
+            book.name = "Władca Pierścieni";
+            book.genre = "fantasy";
+            books.Add(book);
+
+            book = new Book();
+            book.name = "Algorytm Frodo";
+            book.genre = "dramat";
+            books.Add(book);
+
+            List<Volume> volumes = new List<Volume>();
+            Volume volume = new Volume();
+            volume.id = 1;
+            volume.libraryBranchId = 2;
+            volume.editionId = 3;
+            volume.condition = "uzywana";
+
+            volumes.Add(volume);
+            ViewData["Books"] = books;
+            ViewData["Volumes"] = volumes;
             return View("~/Views/Login/Details/showAuthor.cshtml", model);
         }
 
