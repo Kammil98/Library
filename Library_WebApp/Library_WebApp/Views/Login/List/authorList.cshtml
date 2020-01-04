@@ -17,6 +17,11 @@
     <input type="submit" value="Wyszukaj" class="btn btn-default" />
 }
 
+<button type="button" class="collapsible">Open Collapsible</button>
+<div class="content">
+    <p>Lorem ipsum...</p>
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -36,6 +41,12 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    <button type="button" class="collapsible">Pokaż książki</button>
+                    <div class="content">
+                        <p>Książki tego pajaca</p>
+                    </div>
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.firstName)
                 </td>
