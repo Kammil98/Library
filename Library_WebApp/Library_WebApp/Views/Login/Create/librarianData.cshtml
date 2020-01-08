@@ -19,8 +19,8 @@
                 <span asp-validation-for="dateOfHire" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="libraryBranchNumber" class="control-label">numer filii, w której pracuje</label>
-                <input asp-for="libraryBranchNumber" class="form-control" />
+                <label asp-for="libraryBranchNumber" class="control-label">numer filii</label>
+                @Html.DropDownListFor(m => m.libraryBranchNumber, Model.libraryBranchIds, "Wybierz numer filii", new { @class = "form-control" })
                 <span asp-validation-for="libraryBranchNumber" class="text-danger"></span>
             </div>
             <div class="form-group">

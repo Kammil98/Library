@@ -131,7 +131,13 @@ namespace Library_WebApp.Controllers
         [HttpGet]
         public IActionResult addBook()
         {
-            return View("~/Views/Login/Create/bookData.cshtml");
+            Book model = new Book();
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "epika", Value = "epika" });
+            items.Add(new SelectListItem { Text = "liryka", Value = "liryka" });
+            items.Add(new SelectListItem { Text = "dramat", Value = "dramat" });
+            model.Genres = items;
+            return View("~/Views/Login/Create/bookData.cshtml", model);
         }
 
         [HttpGet]
@@ -143,7 +149,23 @@ namespace Library_WebApp.Controllers
         [HttpGet]
         public IActionResult addEdition()
         {
-            return View("~/Views/Login/Create/editionData.cshtml");
+            Edition model = new Edition();
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "Władca Pierścieni", Value = "Władca Pierścieni" });
+            items.Add(new SelectListItem { Text = "Algorytm Frodo", Value = "Algorytm Frodo" });
+            items.Add(new SelectListItem { Text = "Moja autobiografia", Value = "Moja autobiografia"});
+            model.Books = items;
+            items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "Wydawnictwo alfa", Value = "Wydawnictwo alfa" });
+            items.Add(new SelectListItem { Text = "Wydawnictwo beta", Value = "Wydawnictwo beta" });
+            items.Add(new SelectListItem { Text = "Wydawnictwo charlie", Value = "Wydawnictwo charlie"});
+            model.PublishingHouses = items;
+            return View("~/Views/Login/Create/editionData.cshtml", model);
+        }
+        [HttpPost]
+        public IActionResult addEdition(Edition model, string Books)
+        {
+            return View("~/Views/Login/Create/editionData.cshtml", model);
         }
 
         [HttpGet]
@@ -155,7 +177,13 @@ namespace Library_WebApp.Controllers
         [HttpGet]
         public IActionResult addLibrarian()
         {
-            return View("~/Views/Login/Create/librarianData.cshtml");
+            Librarian model = new Librarian();
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "1", Value = "0" });
+            items.Add(new SelectListItem { Text = "2", Value = "1" });
+            items.Add(new SelectListItem { Text = "3", Value = "2" });
+            model.libraryBranchIds = items;
+            return View("~/Views/Login/Create/librarianData.cshtml", model);
         }
 
         [HttpGet]
@@ -167,7 +195,18 @@ namespace Library_WebApp.Controllers
         [HttpGet]
         public IActionResult addProperty()
         {
-            return View("~/Views/Login/Create/propertyData.cshtml");
+            Property model = new Property();
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "Kamil Luwański", Value = "Kamil Luwański" });
+            items.Add(new SelectListItem { Text = "Mateusz Bąk", Value = "Mateusz Bąk" });
+            items.Add(new SelectListItem { Text = "Ktoś Ktosiowaty", Value = "Ktoś Ktosiowaty"});
+            model.Authors = items;
+            items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "Władca Pierścieni", Value = "Władca Pierścieni" });
+            items.Add(new SelectListItem { Text = "Algorytm Frodo", Value = "Algorytm Frodo" });
+            items.Add(new SelectListItem { Text = "Moja autobiografia", Value = "Moja autobiografia" });
+            model.Books = items;
+            return View("~/Views/Login/Create/propertyData.cshtml", model);
         }
 
         [HttpGet]
@@ -191,16 +230,18 @@ namespace Library_WebApp.Controllers
         [HttpGet]
         public IActionResult addVolume()
         {
+            Volume model = new Volume();
             List<SelectListItem> items = new List<SelectListItem>();
-
-            items.Add(new SelectListItem { Text = "Kamil Luwański", Value = "0" });
-
-            items.Add(new SelectListItem { Text = "Mateusz Bąk", Value = "1" });
-
-            items.Add(new SelectListItem { Text = "Ktoś Ktosiowaty", Value = "2", Selected = true });
-
-            ViewBag.LibraryBranchId = items;
-            return View("~/Views/Login/Create/volumeData.cshtml");
+            items.Add(new SelectListItem { Text = "Wydanie 1", Value = "0" });
+            items.Add(new SelectListItem { Text = "Wydanie 2", Value = "1" });
+            items.Add(new SelectListItem { Text = "Wydanie 3", Value = "2"});
+            model.Editions = items;
+            items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "1", Value = "0" });
+            items.Add(new SelectListItem { Text = "2", Value = "1" });
+            items.Add(new SelectListItem { Text = "3", Value = "2"});
+            model.LibraryBranchIds = items;
+            return View("~/Views/Login/Create/volumeData.cshtml", model);
         }
         [HttpPost]
         public IActionResult addVolume(Volume model, string MovieType)
