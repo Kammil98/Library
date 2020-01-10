@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Library_WebApp.Models.Author>
+
 @{
     ViewData["searchString"] = "";
     ViewData["Title"] = "View1";
@@ -17,7 +18,7 @@
     <input type="submit" value="Wyszukaj" class="btn btn-default" />
 }
 
-<button type="button" class="collapsible">Open Collapsible</button>
+<button type="button" class="collapsible">Filtrowanie</button>
 <div class="content">
     <p>Lorem ipsum...</p>
 </div>
@@ -42,12 +43,6 @@
         {
             <tr>
                 <td>
-                    <button type="button" class="collapsible">Pokaż książki</button>
-                    <div class="content">
-                        <p>Książki tego pajaca</p>
-                    </div>
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.firstName)
                 </td>
                 <td>
@@ -62,6 +57,34 @@
                     @Html.ActionLink("Usuń", "deleteAuthor", item, null)
                 </td>
             </tr>
+            
         }
     </tbody>
 </table>
+<tr>
+    <td>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.firstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.lastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.country)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        Książki tego pajaca
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>

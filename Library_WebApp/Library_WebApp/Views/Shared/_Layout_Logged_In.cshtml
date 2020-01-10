@@ -43,12 +43,37 @@
             .collapsible:hover {
                 background-color: #808080;
             }
-
+            .collapsible:after {
+                content: "\002B";
+                color: black;
+                font-weight: bold;
+                float: left;
+                margin-left: 5px;
+            }
+            .active:after {
+              content: "\2212";
+            }
             .content {
                 padding: 0 18px;
-                display: none;
+                max-height: 0;
                 overflow: hidden;
+                transition: max-height 0.2s ease-in-out;
                 background-color: #f1f1f1;
+            }
+        </style>
+        <style>
+            .floatLeft { width: 50%; float: left; }
+            .floatRight {width: 50%; float: right; }
+            .pagecontainer { overflow: hidden; }
+        </style>
+        <style>
+            div.sticky {
+              position: -webkit-sticky;
+              position: sticky;
+              top: 200px;
+              padding: 5px;
+              background-color: #cae8ca;
+              border: 2px solid #4CAF50;
             }
         </style>
     </head>
@@ -120,6 +145,14 @@
             </footer>
         -->
         </div>
+        <script type="text/javascript">
+            $(function () {
+                $("#submit").click(function () {
+                    document.forms[0].submit();
+                    return false;
+                });
+            });
+        </script>
         <script>
             var coll = document.getElementsByClassName("collapsible");
             var i;
@@ -128,10 +161,10 @@
                 coll[i].addEventListener("click", function () {
                     this.classList.toggle("active");
                     var content = this.nextElementSibling;
-                    if (content.style.display === "block") {
-                        content.style.display = "none";
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
                     } else {
-                        content.style.display = "block";
+                        content.style.maxHeight = content.scrollHeight + "px";
                     }
                 });
             }

@@ -1,7 +1,10 @@
 ﻿using Library_WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+
 namespace Library_WebApp.Controllers
     //At the top are lines of code with Author class, to show how to comunicate and send data to View
 {
@@ -138,6 +141,115 @@ namespace Library_WebApp.Controllers
             items.Add(new SelectListItem { Text = "dramat", Value = "dramat" });
             model.Genres = items;
             return View("~/Views/Login/Create/bookData.cshtml", model);
+        }
+
+        [HttpGet]
+        public IActionResult bookList()
+        {
+            BooksList model = new BooksList();
+            Book book = new Book();
+            book.name = "Władca Pierścieni";
+            book.genre = "fantasy";
+            model.Books.Add(book);
+            book = new Book();
+            book.name = "Algorytm Frodo";
+            book.genre = "dramat";
+            model.Books.Add(book);
+
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "epika", Value = "epika" });
+            items.Add(new SelectListItem { Text = "liryka", Value = "liryka" });
+            items.Add(new SelectListItem { Text = "dramat", Value = "dramat" });
+            items.Add(new SelectListItem { Text = "fantasy", Value = "fantasy" });
+            model.Genres = items;
+
+            items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "1", Value = "0" });
+            items.Add(new SelectListItem { Text = "2", Value = "1" });
+            items.Add(new SelectListItem { Text = "3", Value = "2" });
+            model.LibraryBranchIds = items;
+            return View("~/Views/Login/List/bookList.cshtml", model);
+        }
+
+        [HttpPost]
+        public IActionResult bookList(BooksList model)
+        {
+            Book book = new Book();
+            book.name = "Władca Pierścieni";
+            book.genre = "fantasy";
+            model.Books.Add(book);
+            book = new Book();
+            book.name = "Algorytm Frodo";
+            book.genre = "dramat";
+            model.Books.Add(book);
+
+            Volume volume = new Volume();
+            volume.libraryBranchId = 5;
+            volume.condition = "dobry";
+            volume.State = Volume.BookState.Aviable;
+            model.Volumes.Add(volume);
+            book = new Book();
+            book.name = "Algorytm Frodo";
+            book.genre = "dramat";
+
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "epika", Value = "epika" });
+            items.Add(new SelectListItem { Text = "liryka", Value = "liryka" });
+            items.Add(new SelectListItem { Text = "dramat", Value = "dramat" });
+            items.Add(new SelectListItem { Text = "fantasy", Value = "fantasy" });
+            model.Genres = items;
+
+            items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "1", Value = "0" });
+            items.Add(new SelectListItem { Text = "2", Value = "1" });
+            items.Add(new SelectListItem { Text = "3", Value = "2" });
+            model.LibraryBranchIds = items;
+
+            return View("~/Views/Login/List/bookList.cshtml", model);
+        }
+
+        [HttpGet]
+        public IActionResult bookListWithVolume(Book model)
+        {
+            BooksList newModel = new BooksList();
+            Book book = new Book();
+            book.name = "Władca Pierścieni";
+            book.genre = "fantasy";
+            newModel.Books.Add(book);
+            book = new Book();
+            book.name = "Algorytm Frodo";
+            book.genre = "dramat";
+            newModel.Books.Add(book);
+
+            Volume volume = new Volume();
+            volume.libraryBranchId = 5;
+            volume.condition = "dobry";
+            volume.State = Volume.BookState.Aviable;
+            newModel.Volumes.Add(volume);
+            volume = new Volume();
+            volume.libraryBranchId = 2;
+            volume.condition = "zły";
+            volume.State = Volume.BookState.Borrowed;
+            newModel.Volumes.Add(volume);
+
+            book = new Book();
+            book.name = "Algorytm Frodo";
+            book.genre = "dramat";
+
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "epika", Value = "epika" });
+            items.Add(new SelectListItem { Text = "liryka", Value = "liryka" });
+            items.Add(new SelectListItem { Text = "dramat", Value = "dramat" });
+            items.Add(new SelectListItem { Text = "fantasy", Value = "fantasy" });
+            newModel.Genres = items;
+
+            items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "1", Value = "0" });
+            items.Add(new SelectListItem { Text = "2", Value = "1" });
+            items.Add(new SelectListItem { Text = "3", Value = "2" });
+            newModel.LibraryBranchIds = items;
+
+            return View("~/Views/Login/List/bookList.cshtml", newModel);
         }
 
         [HttpGet]
