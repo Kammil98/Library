@@ -144,14 +144,16 @@ namespace Library_WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult bookList()
+        public IActionResult bookList(int? BookId)
         {
-            BooksList model = new BooksList();
+            BooksListViewModel model = new BooksListViewModel();
             Book book = new Book();
+            book.id = 10;
             book.name = "Władca Pierścieni";
             book.genre = "fantasy";
             model.Books.Add(book);
             book = new Book();
+            book.id = 20;
             book.name = "Algorytm Frodo";
             book.genre = "dramat";
             model.Books.Add(book);
@@ -168,11 +170,35 @@ namespace Library_WebApp.Controllers
             items.Add(new SelectListItem { Text = "2", Value = "1" });
             items.Add(new SelectListItem { Text = "3", Value = "2" });
             model.LibraryBranchIds = items;
+            if(BookId != null)
+            {
+                model.Volumes = new List<Volume>();
+                ViewBag.BookId = BookId;
+                Volume volume = new Volume();
+                volume.libraryBranchId = 1;
+                volume.condition = "dobry";
+                volume.State = Volume.BookState.Aviable;
+                model.Volumes.Add(volume);
+                volume = new Volume();
+                volume.libraryBranchId = 2;
+                volume.condition = "zły";
+                volume.State = Volume.BookState.Borrowed;
+                model.Volumes.Add(volume);
+
+                PublishingHouse pubHouse = new PublishingHouse();
+                pubHouse.id = 1;
+                pubHouse.name = "alfa";
+                model.PublishingHouses.Add(pubHouse);
+                pubHouse = new PublishingHouse();
+                pubHouse.id = 2;
+                pubHouse.name = "beta";
+                model.PublishingHouses.Add(pubHouse);
+            }
             return View("~/Views/Login/List/bookList.cshtml", model);
         }
 
         [HttpPost]
-        public IActionResult bookList(BooksList model)
+        public IActionResult bookList(BooksListViewModel model)
         {
             Book book = new Book();
             book.name = "Władca Pierścieni";
@@ -182,15 +208,6 @@ namespace Library_WebApp.Controllers
             book.name = "Algorytm Frodo";
             book.genre = "dramat";
             model.Books.Add(book);
-
-            Volume volume = new Volume();
-            volume.libraryBranchId = 5;
-            volume.condition = "dobry";
-            volume.State = Volume.BookState.Aviable;
-            model.Volumes.Add(volume);
-            book = new Book();
-            book.name = "Algorytm Frodo";
-            book.genre = "dramat";
 
             List<SelectListItem> items = new List<SelectListItem>();
             items.Add(new SelectListItem { Text = "epika", Value = "epika" });
@@ -206,50 +223,6 @@ namespace Library_WebApp.Controllers
             model.LibraryBranchIds = items;
 
             return View("~/Views/Login/List/bookList.cshtml", model);
-        }
-
-        [HttpGet]
-        public IActionResult bookListWithVolume(Book model)
-        {
-            BooksList newModel = new BooksList();
-            Book book = new Book();
-            book.name = "Władca Pierścieni";
-            book.genre = "fantasy";
-            newModel.Books.Add(book);
-            book = new Book();
-            book.name = "Algorytm Frodo";
-            book.genre = "dramat";
-            newModel.Books.Add(book);
-
-            Volume volume = new Volume();
-            volume.libraryBranchId = 5;
-            volume.condition = "dobry";
-            volume.State = Volume.BookState.Aviable;
-            newModel.Volumes.Add(volume);
-            volume = new Volume();
-            volume.libraryBranchId = 2;
-            volume.condition = "zły";
-            volume.State = Volume.BookState.Borrowed;
-            newModel.Volumes.Add(volume);
-
-            book = new Book();
-            book.name = "Algorytm Frodo";
-            book.genre = "dramat";
-
-            List<SelectListItem> items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "epika", Value = "epika" });
-            items.Add(new SelectListItem { Text = "liryka", Value = "liryka" });
-            items.Add(new SelectListItem { Text = "dramat", Value = "dramat" });
-            items.Add(new SelectListItem { Text = "fantasy", Value = "fantasy" });
-            newModel.Genres = items;
-
-            items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "1", Value = "0" });
-            items.Add(new SelectListItem { Text = "2", Value = "1" });
-            items.Add(new SelectListItem { Text = "3", Value = "2" });
-            newModel.LibraryBranchIds = items;
-
-            return View("~/Views/Login/List/bookList.cshtml", newModel);
         }
 
         [HttpGet]

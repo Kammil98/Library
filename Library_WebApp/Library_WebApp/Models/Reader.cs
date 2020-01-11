@@ -8,6 +8,7 @@ namespace Library_WebApp.Models
 {
     public class Reader : User
     {
+        [Display(Name = "Data urodzenia")]
         [DataType(DataType.Date)]
         public DateTime dateOfBirth { set; get; }
     }

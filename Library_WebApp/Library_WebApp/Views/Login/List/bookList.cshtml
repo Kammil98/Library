@@ -1,4 +1,4 @@
-﻿@model Library_WebApp.Models.BooksList
+﻿@model Library_WebApp.Models.BooksListViewModel
 
 @{
     ViewData["Title"] = "Książki";
@@ -17,8 +17,9 @@
     <form asp-controller="Login" asp-action="bookList">
         <div class="row">
             <div class="form-group col-md-6">
-                <label for="Title">Tytuł</label>
+                <label asp-for="SearchName"></label>
                 <input type="text" name="SearchName" class="form-control">
+                <span asp-validation-for="SearchName" class="text-danger"></span>
             </div>
             <div class="form-group col-md-6">
                 <label asp-for="SearchLibraryBranchId" class="control-label">filia</label>
@@ -33,12 +34,14 @@
 
         <div class="row">
             <div class="form-group col-md-6">
-                <label for="Author">Autor</label>
+                <label asp-for="SearchAuthor"></label>
                 <input type="text" name="SearchAuthor" class="form-control">
+                <span asp-validation-for="SearchAuthor" class="text-danger"></span>
             </div>
             <div class="form-group col-md-6">
-                <label for="PublishingHouse">Wydawnictwo</label>
+                <label asp-for="SearchPublishingHouse"></label>
                 <input type="text" name="SearchPublishingHouse" class="form-control">
+                <span asp-validation-for="SearchName" class="text-danger"></span>
             </div>
         </div>
 
@@ -52,16 +55,32 @@
                 new { @class = "form-control" })
                 <span asp-validation-for="SearchGenre" class="text-danger"></span>
             </div>
+            <div class="form-group col-md-3">
+                <h5>Egzemplarze</h5>
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="isBorrowed" />
+                    @Html.DisplayNameFor(model => model.isBorrowed)
+                </label>
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="isReserved" />
+                    @Html.DisplayNameFor(model => model.isReserved)
+                </label>
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="isAviable" />
+                    @Html.DisplayNameFor(model => model.isAviable)
+                </label>
+            </div>
         </div>
+        
         <div class="form-row">
             <button type="submit" class="btn btn-primary mb-2">wyszukaj</button>
         </div>
     </form>
 </div>
 
-<div class="table-responsive col-md-6">
+<div class="table-responsive col-md-5">
     <h4>@ViewData["Title"]</h4>
-    <table class="table col-md-6">
+    <table class="table col-md-5">
         <thead>
             <tr>
                 <th>
@@ -76,7 +95,12 @@
         <tbody>
             @foreach (var item in Model.Books)
             {
-                <tr>
+                string selectedRow = "";
+                if (item.id == ViewBag.BookId)
+                {
+                    selectedRow = "success";
+                }
+                <tr class="@selectedRow">
                     <td>
                         @Html.DisplayFor(modelItem => item.name)
                     </td>
@@ -84,23 +108,32 @@
                         @Html.DisplayFor(modelItem => item.genre)
                     </td>
                     <td>
-                        @Html.ActionLink("Egzemplarze", "bookListWithVolume", item, null) |
-                        @Html.ActionLink("Edytuj", "editBook", item, null) |
-                        @Html.ActionLink("Szczegóły", "showBook", item, null) |
-                        @Html.ActionLink("Usuń", "deleteBook", item, null)
+                        @Html.ActionLink("Egzemplarze", "bookList", new { BookId = item.id }, null) |
+                        @Html.ActionLink("Edytuj", "editBook", new { id = item.id }, null) |
+                        @Html.ActionLink("Szczegóły", "showBook", new { id = item.id }, null) |
+                        @Html.ActionLink("Usuń", "deleteBook", new { id = item.id }, null)
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+<div class="container col-md-1">
+
+</div>
+@if (Model.Volumes != null)
+{
 <div class="table-responsive col-md-6">
     <h4>@ViewData["SubTable"]</h4>
+    @Html.ActionLink("Dodaj egzemplarz", "addVolume", null, null)
     <table class="table col-md-6">
         <thead>
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.Volumes[0].libraryBranchId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PublishingHouses[0].name)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Volumes[0].condition)
@@ -113,24 +146,56 @@
         <tbody>
             @foreach (var item in Model.Volumes)
             {
+                string state = "";
+                string PublishingHouseName = "";
+                string newLink = "";
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.libraryBranchId)
                     </td>
                     <td>
+                        @{
+                            PublishingHouseName = Model.PublishingHouses.Find(x => x.id == item.libraryBranchId).name;
+                        }
+                        @PublishingHouseName
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.condition)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.State)
+                        @{
+                            if (item.State == Volume.BookState.Aviable)
+                            {
+                                state = "Dostępna";
+                            }
+                            else if (item.State == Volume.BookState.Borrowed)
+                            {
+                                state = "Wypożyczona";
+                            }
+                            else
+                            {
+                                state = "Zarezerwowana";
+                            }
+                            @state
+                        }
+
                     </td>
                     <td>
-                        @Html.ActionLink("Dodaj", "addVolume", null, null) |
-                        @Html.ActionLink("Edytuj", "editVolume", item, null) |
-                        @Html.ActionLink("Szczegóły", "showVolume", item, null) |
-                        @Html.ActionLink("Usuń", "deleteVolume", item, null)
+                        @{
+                            if (item.State == Volume.BookState.Aviable)
+                            {
+                                @Html.ActionLink("Wypożycz", "borrowVolume", new { id = item.id }, null);
+                                newLink = " |";
+                            }
+                        }
+                        @newLink
+                        @Html.ActionLink("Edytuj", "editVolume", new { id = item.id }, null) |
+                        @Html.ActionLink("Szczegóły", "showVolume", new { id = item.id }, null) |
+                        @Html.ActionLink("Usuń", "deleteVolume", new { id = item.id }, null)
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+}

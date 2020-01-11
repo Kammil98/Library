@@ -10,9 +10,12 @@ namespace Library_WebApp.Models
     public class Edition
     {
         int id { set; get; }
-        public String title { set; get; }
+        [Display(Name = "Tytuł")]
+        public String title { set; get; }//title of a book
+        [Display(Name = "Data wydania")]
         [DataType(DataType.Date)]
         public DateTime releaseDate { set; get; }
+        [Display(Name = "Wydawnictwo")]
         public String publishingHouse { set; get; }
         public List<SelectListItem> Books { get; set; }
         public List<SelectListItem> PublishingHouses { get; set; }

@@ -8,6 +8,7 @@ namespace Library_WebApp.Models
 {
     public class Author
     {
+        public int id { set; get; }
         [Display(Name = "Imię")]
         public String firstName { set; get; }
         [Display(Name = "Nazwisko")]

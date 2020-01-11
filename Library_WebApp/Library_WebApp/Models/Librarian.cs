@@ -9,8 +9,10 @@ namespace Library_WebApp.Models
 {
     public class Librarian : User
     {
+        [Display(Name = "Data zatrudnienia")]
         [DataType(DataType.Date)]
         public DateTime dateOfHire { set; get; }
+        [Display(Name = "Nr filii")]
         public int libraryBranchNumber { set; get; }
         public List<SelectListItem> libraryBranchIds { get; set; }
     }
