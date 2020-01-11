@@ -25,10 +25,10 @@ namespace Library_WebApp.Models
         public Boolean isReserved { get; set; }
         [Display(Name = "Dostępne")]
         public Boolean isAviable { get; set; }
-        public Volume volume { get; set; }//choosed Volume
         public List<Book> Books { get; set; }//keep all books
         public List<Volume> Volumes { get; set; }//keep volumes of choosen book
         public List<PublishingHouse> PublishingHouses { get; set; }//keep PublishingHouses of all books, to search its names to display
+        public List<Edition> Editions { get; set; }//keep Editions of all books, to search its PublishingHouses id
         public List<SelectListItem> Genres { get; set; }//keep all aviable genres
         public List<SelectListItem> LibraryBranchIds { get; set; }//keep all aviable LibraryBranchIds
 
@@ -38,6 +38,7 @@ namespace Library_WebApp.Models
             Genres = new List<SelectListItem>();
             LibraryBranchIds = new List<SelectListItem>();
             PublishingHouses = new List<PublishingHouse>();
+            Editions = new List<Edition>();
         }
     }
 }

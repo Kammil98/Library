@@ -14,9 +14,9 @@
         <form asp-action="addEdition">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="title" class="control-label">książka</label>
-                @Html.DropDownListFor(m => m.title, Model.Books, "Wybierz tytuł", new { @class = "form-control" })
-                <span asp-validation-for="title" class="text-danger"></span>
+                <label asp-for="bookId" class="control-label">książka</label>
+                @Html.DropDownListFor(m => m.bookId, Model.Books, "Wybierz tytuł", new { @class = "form-control" })
+                <span asp-validation-for="bookId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="releaseDate" class="control-label">data wydania</label>
@@ -24,9 +24,9 @@
                 <span asp-validation-for="releaseDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="publishingHouse" class="control-label">wydawnictwo</label>
-                @Html.DropDownListFor(m => m.publishingHouse, Model.PublishingHouses, "Wybierz wydawnictwo", new { @class = "form-control" })
-                <span asp-validation-for="publishingHouse" class="text-danger"></span>
+                <label asp-for="publishingHouseId" class="control-label">wydawnictwo</label>
+                @Html.DropDownListFor(m => m.publishingHouseId, Model.PublishingHouses, "Wybierz wydawnictwo", new { @class = "form-control" })
+                <span asp-validation-for="publishingHouseId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Zatwierdź" class="btn btn-default" />

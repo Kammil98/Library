@@ -21,13 +21,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.title)
+                @Html.DisplayNameFor(model => model.bookId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.releaseDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.publishingHouse)
+                @Html.DisplayNameFor(model => model.publishingHouseId)
             </th>
             <th></th>
         </tr>
@@ -37,13 +37,13 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.title)
+                    @Html.DisplayFor(modelItem => item.bookId)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.releaseDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.publishingHouse)
+                    @Html.DisplayFor(modelItem => item.publishingHouseId)
                 </td>
                 <td>
                     @Html.ActionLink("Edytuj", "editEdition", item, null) |

@@ -149,13 +149,15 @@
                 string state = "";
                 string PublishingHouseName = "";
                 string newLink = "";
+                int publishingHouseId;
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.libraryBranchId)
                     </td>
                     <td>
                         @{
-                            PublishingHouseName = Model.PublishingHouses.Find(x => x.id == item.libraryBranchId).name;
+                            publishingHouseId = Model.Editions.Find(x => x.id == item.editionId).publishingHouseId;
+                            PublishingHouseName = Model.PublishingHouses.Find(x => x.id == publishingHouseId).name;
                         }
                         @PublishingHouseName
                     </td>
@@ -184,7 +186,7 @@
                         @{
                             if (item.State == Volume.BookState.Aviable)
                             {
-                                @Html.ActionLink("Wypożycz", "borrowVolume", new { id = item.id }, null);
+                                @Html.ActionLink("Wypożycz", "borrow", new { id = item.id }, null);
                                 newLink = " |";
                             }
                         }

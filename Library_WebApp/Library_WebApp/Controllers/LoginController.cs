@@ -176,25 +176,36 @@ namespace Library_WebApp.Controllers
                 ViewBag.BookId = BookId;
                 Volume volume = new Volume();
                 volume.libraryBranchId = 1;
+                volume.editionId = 5;
                 volume.condition = "dobry";
                 volume.State = Volume.BookState.Aviable;
                 model.Volumes.Add(volume);
                 volume = new Volume();
                 volume.libraryBranchId = 2;
+                volume.editionId = 6;
                 volume.condition = "zły";
                 volume.State = Volume.BookState.Borrowed;
                 model.Volumes.Add(volume);
 
                 PublishingHouse pubHouse = new PublishingHouse();
-                pubHouse.id = 1;
+                pubHouse.id = 100;
                 pubHouse.name = "alfa";
                 model.PublishingHouses.Add(pubHouse);
                 pubHouse = new PublishingHouse();
-                pubHouse.id = 2;
+                pubHouse.id = 200;
                 pubHouse.name = "beta";
                 model.PublishingHouses.Add(pubHouse);
+
+                Edition edition = new Edition();
+                edition.id = 5;
+                edition.publishingHouseId = 200;
+                model.Editions.Add(edition);
+                edition = new Edition();
+                edition.id = 6;
+                edition.publishingHouseId = 100;
+                model.Editions.Add(edition);
             }
-            return View("~/Views/Login/List/bookList.cshtml", model);
+            return View("~/Views/Login/ComplexPages/bookList.cshtml", model);
         }
 
         [HttpPost]
@@ -222,9 +233,79 @@ namespace Library_WebApp.Controllers
             items.Add(new SelectListItem { Text = "3", Value = "2" });
             model.LibraryBranchIds = items;
 
-            return View("~/Views/Login/List/bookList.cshtml", model);
+            return View("~/Views/Login/ComplexPages/bookList.cshtml", model);
         }
 
+        
+        
+        [HttpGet]
+        [HttpPost]
+        public IActionResult borrow(int id, BorrowViewModel model)
+        {
+            if(model == null)
+            {
+                model = new BorrowViewModel();
+            }
+            Volume volume = new Volume();
+            volume.id = 1;
+            volume.editionId = 2;
+            volume.libraryBranchId = 3;
+            volume.condition = "dobry";
+            volume.State = Volume.BookState.Aviable;
+            model.volume = volume;
+
+            Edition edition = new Edition();
+            edition.id = 2;
+            edition.publishingHouseId = 100;
+            edition.releaseDate = DateTime.Now;
+            edition.bookId = 20;
+            model.edition = edition;
+
+            Book book = new Book();
+            book.id = 20;
+            book.name = "Algorytm Frodo";
+            book.genre = "dramat";
+            Author author = new Author();
+            author.firstName = "Wiesława";
+            author.lastName = "Szymborska";
+            book.Authors.Add(author);
+            author = new Author();
+            author.firstName = "Jan";
+            author.lastName = "Kochanowski";
+            book.Authors.Add(author);
+            model.book = book;
+            
+            PublishingHouse pubHouse = new PublishingHouse();
+            pubHouse.id = 100;
+            pubHouse.name = "alfa";
+            model.publishingHouse = pubHouse;
+            if(model.reader != null)
+            {
+                Reader reader = new Reader();
+                reader.login = "kajak";
+                reader.dateOfBirth = DateTime.Now;
+                reader.lastName = "Jakiśtamiński";
+                reader.name = "Jaś";
+                reader.password = "123start";
+                model.reader = reader;
+            }
+            
+
+            Borrow borrow = new Borrow();
+            borrow.id = 15;
+            borrow.borrowDate = DateTime.Now;
+            borrow.userLogin = "Zbysiu";
+            borrow.volumeId = 1;
+            model.Borrows.Add(borrow);
+            borrow = new Borrow();
+            borrow.id = 25;
+            borrow.borrowDate = DateTime.Now;
+            borrow.userLogin = "Adam";
+            borrow.volumeId = 1;
+            model.Borrows.Add(borrow);
+
+            return View("~/Views/Login/ComplexPages/borrow.cshtml", model);
+        }
         [HttpGet]
         public IActionResult addBorrow()
         {
@@ -236,14 +317,14 @@ namespace Library_WebApp.Controllers
         {
             Edition model = new Edition();
             List<SelectListItem> items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "Władca Pierścieni", Value = "Władca Pierścieni" });
-            items.Add(new SelectListItem { Text = "Algorytm Frodo", Value = "Algorytm Frodo" });
-            items.Add(new SelectListItem { Text = "Moja autobiografia", Value = "Moja autobiografia"});
+            items.Add(new SelectListItem { Text = "Władca Pierścieni", Value = "1" });
+            items.Add(new SelectListItem { Text = "Algorytm Frodo", Value = "2" });
+            items.Add(new SelectListItem { Text = "Moja autobiografia", Value = "3"});
             model.Books = items;
             items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "Wydawnictwo alfa", Value = "Wydawnictwo alfa" });
-            items.Add(new SelectListItem { Text = "Wydawnictwo beta", Value = "Wydawnictwo beta" });
-            items.Add(new SelectListItem { Text = "Wydawnictwo charlie", Value = "Wydawnictwo charlie"});
+            items.Add(new SelectListItem { Text = "Wydawnictwo alfa", Value = "1" });
+            items.Add(new SelectListItem { Text = "Wydawnictwo beta", Value = "2" });
+            items.Add(new SelectListItem { Text = "Wydawnictwo charlie", Value = "3"});
             model.PublishingHouses = items;
             return View("~/Views/Login/Create/editionData.cshtml", model);
         }
@@ -252,7 +333,11 @@ namespace Library_WebApp.Controllers
         {
             return View("~/Views/Login/Create/editionData.cshtml", model);
         }
-
+        [HttpGet]
+        public IActionResult editVolume(int? id)
+        {
+            return View("~/Views/Login/Create/editionData.cshtml");
+        }
         [HttpGet]
         public IActionResult addGenre()
         {

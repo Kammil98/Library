@@ -14,6 +14,12 @@ namespace Library_WebApp.Models
         public String name { set; get; }
         [Display(Name = "Gatunek")]
         public String genre { set; get; }
+        [Display(Name = "Autorzy")]
+        public List<Author> Authors { get; set; }
         public List<SelectListItem> Genres { get; set; }
+        public Book()
+        {
+            Authors = new List<Author>();
+        }
     }
 }

@@ -29,5 +29,22 @@ namespace Library_WebApp.Models
         public BookState State { set; get; }
         public List<SelectListItem> Editions { get; set; }
         public List<SelectListItem> LibraryBranchIds { get; set; }
+        public string getStateName()
+        {
+            string state = "";
+            if (State == Volume.BookState.Aviable)
+            {
+                state = "Dostępna";
+            }
+            else if (State == Volume.BookState.Borrowed)
+            {
+                state = "Wypożyczona";
+            }
+            else
+            {
+                state = "Zarezerwowana";
+            }
+            return state;
+        }
     }
 }
