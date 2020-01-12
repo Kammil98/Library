@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Library_WebApp.Models
 {
-    public class BorrowViewModel
+    public class BorrowInfoViewModel
     {
         public Volume volume { get; set; }
         public Edition edition { get; set; }
@@ -15,7 +15,7 @@ namespace Library_WebApp.Models
         public Reader reader { get; set; }
         public List<Borrow> Borrows { get; set; }
         public PublishingHouse publishingHouse { get; set; }
-        public BorrowViewModel()
+        public BorrowInfoViewModel()
         {
             Borrows = new List<Borrow>();
         }

@@ -1,0 +1,324 @@
+﻿@model Library_WebApp.Models.ReaderListViewModel
+
+@{
+    ViewData["Title"] = "Czytelnicy";
+    ViewData["SubTable1"] = "Wypożyczenia";
+    ViewData["SubTable2"] = "Rezerwacje";
+    ViewData["SubTable3"] = "Historia wypożyczeń";
+    Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>
+    <a asp-action="addBook">Dodaj książkę</a>
+</p>
+
+<button type="button" class="collapsible">Filtrowanie</button>
+<div class="content">
+    <form asp-controller="Login" asp-action="readerList">
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label asp-for="SearchLastName"></label>
+                <input asp-for="SearchLastName" class="form-control">
+                <span asp-validation-for="SearchLastName" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="SearchFirstName"></label>
+                <input asp-for="SearchFirstName" class="form-control">
+                <span asp-validation-for="SearchFirstName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label asp-for="SearchLogin"></label>
+                <input asp-for="SearchLogin" class="form-control">
+                <span asp-validation-for="SearchLogin" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="SearchDate"></label>
+                <input asp-for="SearchDate" class="form-control">
+                <span asp-validation-for="SearchDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <button type="submit" class="btn btn-primary mb-2">wyszukaj</button>
+        </div>
+    </form>
+</div>
+
+<div class="table-responsive col-md-5">
+    <h4>@ViewData["Title"]</h4>
+    <table class="table col-md-5">
+        <thead class="bg-primary">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Readers[0].name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Readers[0].lastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Readers[0].login)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Readers[0].dateOfBirth)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int index = 0; }
+            @foreach (var item in Model.Readers)
+            {
+                string selectedRow = "";
+                string color = "";
+                if (item.login == ViewBag.login)
+                {
+                    selectedRow = "success";
+                    ++index;
+                }
+                else if (++index % 2 == 0)
+                {
+                    color = "bg-info";
+                }
+                <tr class="@selectedRow@color">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.lastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.login)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.dateOfBirth)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Przejrzyj", "readerList", new { login = item.login }, null) |
+                        @Html.ActionLink("Edytuj", "editReader", new { login = item.login }, null) |
+                        @Html.ActionLink("Szczegóły", "showReader", new { login = item.login }, null) |
+                        @Html.ActionLink("Usuń", "deleteReader", new { login = item.login }, null)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="container col-md-1">
+
+</div>
+@if (ViewBag.login != null)
+{
+    <div class="container col-md-6">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link" id="nav-borrows-tab" data-toggle="tab" href="#nav-borrows" role="tab" aria-controls="nav-borrows" aria-selected="true">@ViewData["SubTable1"]</a>
+                <a class="nav-item nav-link" id="nav-reservations-tab" data-toggle="tab" href="#nav-reservations" role="tab" aria-controls="nav-reservations" aria-selected="false">@ViewData["SubTable2"]</a>
+                <a class="nav-item nav-link" id="nav-borrowsHistory-tab" data-toggle="tab" href="#nav-borrowsHistory" role="tab" aria-controls="nav-borrowsHistory" aria-selected="false">@ViewData["SubTable3"]</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade" id="nav-borrows" role="tabpanel" aria-labelledby="nav-borrows-tab" style="background-color:white;">
+                <h4>@ViewData["SubTable1"]</h4>
+                @Html.ActionLink("Wypożycz", "bookList", null, null)
+                <hr />
+                <table>
+                    <thead class="bg-primary">
+                        <tr>
+                            <th>
+                                Tytuł
+                            </th>
+                            <th>
+                                Autorzy
+                            </th>
+                            <th>
+                                Wydawnictwo
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Borrows[0].borrowDate)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{index = 0; }
+                        @foreach (var item in Model.Borrows)
+                        {
+                            string PublishingHouseName, color = "";
+                            if (++index % 2 == 0)
+                            {
+                                color = "bg-info";
+                            }
+                            Edition edition;
+                            Book book;
+                            int editionId;
+                            editionId = Model.Volumes.Find(x => x.id == item.volumeId).editionId;
+                            edition = Model.Editions.Find(x => x.id == editionId);
+                            book = Model.Books.Find(x => x.id == edition.bookId);
+                            PublishingHouseName = Model.PublishingHouses.Find(x => x.id == edition.publishingHouseId).name;
+                            <tr class="@color">
+                                <td>
+                                    @book.name
+                                </td>
+                                <td>
+                                    @foreach (var author in book.Authors)
+                                    {
+                                        string concatenated = author.firstName + " " + author.lastName;
+                                        @concatenated<br />
+                                    }
+                                </td>
+                                <td>
+                                    @PublishingHouseName
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.borrowDate)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edytuj", "editBorrow", new { id = item.id }, null) |
+                                    @Html.ActionLink("Usuń", "deleteBorrow", new { id = item.id }, null)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="nav-reservations" role="tabpanel" aria-labelledby="nav-reservations-tab" style="background-color:white;">
+                <h4>@ViewData["SubTable2"]</h4>
+                @Html.ActionLink("Rezerwuj", "bookList", null, null)
+                <hr />
+                <table>
+                    <thead class="bg-primary">
+                        <tr>
+                            <th>
+                                Tytuł
+                            </th>
+                            <th>
+                                Autorzy
+                            </th>
+                            <th>
+                                Wydawnictwo
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Reservations[0].reservationDate)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{index = 0; }
+                        @foreach (var item in Model.Reservations)
+                        {
+                            string PublishingHouseName, color = "";
+                            if (++index % 2 == 0)
+                            {
+                                color = "bg-info";
+                            }
+                            Edition edition;
+                            Book book;
+                            int editionId;
+                            editionId = Model.Volumes.Find(x => x.id == item.volumeId).editionId;
+                            edition = Model.Editions.Find(x => x.id == editionId);
+                            book = Model.Books.Find(x => x.id == edition.bookId);
+                            PublishingHouseName = Model.PublishingHouses.Find(x => x.id == edition.publishingHouseId).name;
+                            <tr class="@color">
+                                <td>
+                                    @book.name
+                                </td>
+                                <td>
+                                    @foreach (var author in book.Authors)
+                                    {
+                                        string concatenated = author.firstName + " " + author.lastName;
+                                        @concatenated<br />
+                                    }
+                                </td>
+                                <td>
+                                    @PublishingHouseName
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.reservationDate)
+                                </td>
+                                <td width="20%">
+                                    @Html.ActionLink("Edytuj", "editReservation", new { id = item.id }, null) |
+                                    @Html.ActionLink("Usuń", "deleteReservation", new { id = item.id }, null)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="nav-borrowsHistory" role="tabpanel" aria-labelledby="nav-borrowsHistory-tab" style="background-color:white;">
+                <h4>@ViewData["SubTable3"]</h4>
+                <hr />
+                <table>
+                    <thead class="bg-primary">
+                        <tr>
+                            <th>
+                                Tytuł
+                            </th>
+                            <th>
+                                Autorzy
+                            </th>
+                            <th>
+                                Wydawnictwo
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.BorrowsHistory[0].borrowDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.BorrowsHistory[0].returnDate)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{index = 0; }
+                        @foreach (var item in Model.BorrowsHistory)
+                        {
+                            string PublishingHouseName, color = "";
+                            if (++index % 2 == 0)
+                            {
+                                color = "bg-info";
+                            }
+                            Edition edition;
+                            Book book;
+                            int editionId;
+                            editionId = Model.Volumes.Find(x => x.id == item.volumeId).editionId;
+                            edition = Model.Editions.Find(x => x.id == editionId);
+                            book = Model.Books.Find(x => x.id == edition.bookId);
+                            PublishingHouseName = Model.PublishingHouses.Find(x => x.id == edition.publishingHouseId).name;
+                            <tr class="@color">
+                                <td>
+                                    @book.name
+                                </td>
+                                <td>
+                                    @foreach (var author in book.Authors)
+                                    {
+                                        string concatenated = author.firstName + " " + author.lastName;
+                                        @concatenated<br />
+                                    }
+                                </td>
+                                <td>
+                                    @PublishingHouseName
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.borrowDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.returnDate)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edytuj", "editBorrow", new { id = item.id }, null) |
+                                    @Html.ActionLink("Usuń", "deleteBorrow", new { id = item.id }, null)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+

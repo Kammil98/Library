@@ -240,11 +240,11 @@ namespace Library_WebApp.Controllers
         
         [HttpGet]
         [HttpPost]
-        public IActionResult borrow(int id, BorrowViewModel model)
+        public IActionResult borrowInfo(int id, BorrowInfoViewModel model)
         {
             if(model == null)
             {
-                model = new BorrowViewModel();
+                model = new BorrowInfoViewModel();
             }
             Volume volume = new Volume();
             volume.id = 1;
@@ -304,7 +304,7 @@ namespace Library_WebApp.Controllers
             borrow.volumeId = 1;
             model.Borrows.Add(borrow);
 
-            return View("~/Views/Login/ComplexPages/borrow.cshtml", model);
+            return View("~/Views/Login/ComplexPages/borrowInfo.cshtml", model);
         }
         [HttpGet]
         public IActionResult addBorrow()
@@ -312,6 +312,125 @@ namespace Library_WebApp.Controllers
             return View("~/Views/Login/Create/borrowData.cshtml");
         }
 
+        [HttpGet]
+        [HttpPost]
+        public IActionResult readerList(String login, ReaderListViewModel model)
+        {
+            ViewBag.login = login;
+            if (model == null)
+            {
+                model = new ReaderListViewModel();
+            }
+            if(login != null)
+            {
+                PublishingHouse pubHouse = new PublishingHouse();
+                pubHouse.id = 1000;
+                pubHouse.name = "alfa";
+                model.PublishingHouses.Add(pubHouse);
+                pubHouse = new PublishingHouse();
+                pubHouse.id = 2000;
+                pubHouse.name = "beta";
+                model.PublishingHouses.Add(pubHouse);
+
+                Volume volume = new Volume();
+                volume.id = 1;
+                volume.editionId = 10;
+                volume.libraryBranchId = 3;
+                volume.condition = "dobry";
+                volume.State = Volume.BookState.Aviable;
+                model.Volumes.Add(volume);
+                volume = new Volume();
+                volume.id = 2;
+                volume.editionId = 20;
+                volume.libraryBranchId = 6;
+                volume.condition = "zły";
+                volume.State = Volume.BookState.Reserved;
+                model.Volumes.Add(volume);
+
+                Edition edition = new Edition();
+                edition.id = 10;
+                edition.publishingHouseId = 1000;
+                edition.releaseDate = DateTime.Now;
+                edition.bookId = 100;
+                model.Editions.Add(edition);
+                edition = new Edition();
+                edition.id = 20;
+                edition.publishingHouseId = 2000;
+                edition.releaseDate = DateTime.Now;
+                edition.bookId = 200;
+                model.Editions.Add(edition);
+
+                Book book = new Book();
+                book.id = 100;
+                book.name = "Algorytm Frodo";
+                book.genre = "dramat";
+                Author author = new Author();
+                author.firstName = "Wiesława";
+                author.lastName = "Szymborska";
+                book.Authors.Add(author);
+                author = new Author();
+                author.firstName = "Jan";
+                author.lastName = "Kochanowski";
+                book.Authors.Add(author);
+                model.Books.Add(book);
+
+                book = new Book();
+                book.id = 200;
+                book.name = "Władca Pierścieni";
+                book.genre = "fantasy";
+                author = new Author();
+                author.firstName = "Jan";
+                author.lastName = "Twardowski";
+                book.Authors.Add(author);
+                model.Books.Add(book);
+
+                Borrow borrow = new Borrow();
+                borrow.id = 1;
+                borrow.borrowDate = DateTime.Now;
+                borrow.userLogin = "kajak";
+                borrow.volumeId = 1;
+                model.Borrows.Add(borrow);
+                borrow = new Borrow();
+                borrow.id = 2;
+                borrow.borrowDate = DateTime.Now;
+                borrow.userLogin = "Kamil";
+                borrow.volumeId = 2;
+                model.Borrows.Add(borrow);
+
+                borrow = new Borrow();
+                borrow.id = 3;
+                borrow.borrowDate = DateTime.Now;
+                borrow.returnDate = DateTime.Now;
+                borrow.userLogin = "kajakHistoria";
+                borrow.volumeId = 1;
+                model.BorrowsHistory.Add(borrow);
+
+                Reservation reservation = new Reservation();
+                reservation = new Reservation();
+                reservation.id = 6;
+                reservation.reservationDate = DateTime.Now;
+                reservation.userLogin = "kajakOdTyłu";
+                reservation.volumeId = 2;
+                model.Reservations.Add(reservation);
+            }
+
+            Reader reader = new Reader();
+            reader.login = "kajak";
+            reader.dateOfBirth = DateTime.Now;
+            reader.lastName = "Jakiśtamiński";
+            reader.name = "Jaś";
+            reader.password = "123start";
+            model.Readers.Add(reader);
+            reader = new Reader();
+            reader.login = "student";
+            reader.dateOfBirth = DateTime.Now;
+            reader.lastName = "Luwański";
+            reader.name = "Kamil";
+            reader.password = "start456";
+            model.Readers.Add(reader);
+
+            return View("~/Views/Login/ComplexPages/readerList.cshtml", model);
+        }
         [HttpGet]
         public IActionResult addEdition()
         {

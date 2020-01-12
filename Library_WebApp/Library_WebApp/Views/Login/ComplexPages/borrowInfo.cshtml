@@ -1,0 +1,209 @@
+﻿@model Library_WebApp.Models.BorrowInfoViewModel
+
+@{
+    ViewData["Title"] = "Informacje o Egzemplarzu";
+    Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
+    if (Model.reader == null)
+    {
+        Model.reader = new Reader();
+    }
+}
+
+    <h2>Egzemplarz</h2>
+
+<div class="row">
+    <h4>@ViewData["Title"]</h4>
+    <hr />
+    <dl class="dl-horizontal col-md-5">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.book.name):
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.book.name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.book.Authors):
+        </dt>
+        <dd>
+            @foreach (var item in Model.book.Authors)
+            {
+                string concatenated = item.firstName + " " + item.lastName;
+                @concatenated<br />
+            }
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.book.genre):
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.book.genre)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.publishingHouse.name):
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.publishingHouse.name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.edition.releaseDate):
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.edition.releaseDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.volume.libraryBranchId):
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.volume.libraryBranchId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.volume.condition):
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.volume.condition)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.volume.State):
+        </dt>
+        <dd>
+            @Model.volume.getStateName()
+        </dd>
+        <dt>
+            @Html.ActionLink("Edytuj", "editVolume", new { id = Model.volume.id }, null)
+        </dt>
+        <dt>
+            @Html.ActionLink("Usuń", "deleteVolume", new { id = Model.volume.id }, null)
+        </dt>
+        <dt>
+            <a asp-action="volumeList">Wróć do listy</a>
+        </dt>
+    </dl>
+    <div class="dl-horizontal">
+        <form asp-controller="Login" asp-action="borrowInfo" class="container col-md-6">
+            <button type="button" class="collapsible">Wyszukaj czytelnika</button>
+            <div class="content">
+                <div class="form-group">
+                    <label asp-for="reader.login"></label>
+                    <input type="text" name="reader.login" class="form-control">
+                    <span asp-validation-for="reader.login" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <button type="submit" class="btn btn-primary mb-2">wyszukaj</button>
+                </div>
+
+
+            </div>
+        </form>
+        <form asp-controller="Login" asp-action="borrow" class="form-control-static col-md-4">
+            @if (!String.IsNullOrEmpty(Model.reader.login))
+            {
+                <h4> @Html.DisplayNameFor(model => model.reader):</h4>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.reader.dateOfBirth):
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.reader.dateOfBirth)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.reader.name):
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.reader.name)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.reader.lastName):
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.reader.lastName)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.reader.login):
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.reader.login)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.reader.password):
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.reader.password)
+                    </dd>
+                    <dt>
+                        Data Wypożyczenia:
+                    </dt>
+                    <dd>
+                        @DateTime.Today.ToString("MM/dd/yyyy")
+                    </dd>
+                </dl>
+                <div class="row">
+                    <button type="submit" 
+                            asp-route-volumeId="@Model.volume.id" 
+                            asp-route-login="@Model.reader.login" 
+                            class="btn btn-primary mb-2">Wypożycz</button>
+                    <button asp-controller="Login" 
+                            asp-action="reserve" 
+                            asp-route-volumeId="@Model.volume.id" 
+                            asp-route-login="@Model.reader.login" 
+                            class="btn btn-primary mb-2">Rezerwuj</button>
+                </div>
+            }
+        </form>
+    </div>
+    
+    
+
+</div>
+<h2>Wypożyczenia</h2>
+<table class="table">
+    <thead class="bg-primary">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Borrows[0].borrowDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Borrows[0].returnDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Borrows[0].userLogin)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int index = 0; }
+        @foreach (var item in Model.Borrows)
+        {
+            string returnDate = "";
+            string color = "";
+            if (++index % 2 == 0)
+            {
+                color = "bg-info";
+            }
+            <tr class="@color">
+                <td>
+                    @Html.DisplayFor(modelItem => item.borrowDate)
+                </td>
+                <td>
+                    @if (item.returnDate == null)
+                    {
+                        returnDate = "wypożyczenie trwa";
+                    }
+                    else
+                    {
+                        returnDate = item.returnDate.ToString("MM/dd/yyyy");
+                    }
+                    @returnDate
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.userLogin)
+                </td>
+                <td width="10%">
+                    @Html.ActionLink("Edytuj", "editBorrow", new { id = item.id }, null) |
+                    @Html.ActionLink("Usuń", "deleteBorrow", new { id = item.id }, null)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -4,12 +4,13 @@
     ViewData["Title"] = "Książki";
     ViewData["SubTable"] = "Egzemplarze";
     Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
+    
 }
 
 <h2>@ViewData["Title"]</h2>
 
 <p>
-    <a asp-action="addBook">Dodaj nową książkę</a>
+    <a asp-action="addBook">Dodaj książkę</a>
 </p>
 
 <button type="button" class="collapsible">Filtrowanie</button>
@@ -81,7 +82,7 @@
 <div class="table-responsive col-md-5">
     <h4>@ViewData["Title"]</h4>
     <table class="table col-md-5">
-        <thead>
+        <thead class="bg-primary">
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.Books[0].name)
@@ -93,14 +94,21 @@
             </tr>
         </thead>
         <tbody>
+            @{ int index = 0; }
             @foreach (var item in Model.Books)
             {
                 string selectedRow = "";
+                string color = "";
                 if (item.id == ViewBag.BookId)
                 {
                     selectedRow = "success";
+                    ++index;
                 }
-                <tr class="@selectedRow">
+                else if(++index % 2 == 0)
+                {
+                    color = "bg-info";
+                }
+                <tr class="@selectedRow@color">
                     <td>
                         @Html.DisplayFor(modelItem => item.name)
                     </td>
@@ -126,8 +134,9 @@
 <div class="table-responsive col-md-6">
     <h4>@ViewData["SubTable"]</h4>
     @Html.ActionLink("Dodaj egzemplarz", "addVolume", null, null)
-    <table class="table col-md-6">
-        <thead>
+    <hr />
+    <table class="tablecol-md-6">
+        <thead class="bg-primary">
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.Volumes[0].libraryBranchId)
@@ -141,16 +150,23 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Volumes[0].State)
                 </th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
+            @{index = 0; }
             @foreach (var item in Model.Volumes)
             {
+                string color = "";
+                if(++index % 2 == 0)
+                {
+                    color = "bg-info";
+                }
                 string state = "";
                 string PublishingHouseName = "";
                 string newLink = "";
                 int publishingHouseId;
-                <tr>
+                <tr class="@color">
                     <td>
                         @Html.DisplayFor(modelItem => item.libraryBranchId)
                     </td>
@@ -182,11 +198,11 @@
                         }
 
                     </td>
-                    <td>
+                    <td width="20%">
                         @{
                             if (item.State == Volume.BookState.Aviable)
                             {
-                                @Html.ActionLink("Wypożycz", "borrow", new { id = item.id }, null);
+                                @Html.ActionLink("Wypożycz", "borrowInfo", new { id = item.id }, null);
                                 newLink = " |";
                             }
                         }
