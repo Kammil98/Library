@@ -99,21 +99,44 @@
 <div class="dl-horizontal">
     @if (Model.libraryBranch != null)
     {
-        <form asp-controller="Login" asp-action="libraryBranchList">
-            <button asp-controller="Login"
-                    asp-action="libraryBranchList"
-                    asp-route-number="@Model.libraryBranch.number"
-                    class="btn btn-primary mb-2"
-                    style="float:right">
-                Przeglądaj zasoby
-            </button>
-        </form>
+
         string adressLine1 = "", adressLine2 = "";
         adressLine1 = "ul. " + Model.libraryBranch.address.street
             + " " + Model.libraryBranch.address.buildingNr;
         adressLine2 = Model.libraryBranch.address.zipCode
                 + " " + Model.libraryBranch.address.City
                 + " " + Model.libraryBranch.address.Country;
+        <form asp-controller="Login" asp-action="libraryBranchList">
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                    <button asp-controller="Login"
+                            asp-action="libraryBranchList"
+                            asp-route-number="@Model.libraryBranch.number"
+                            class="btn btn-primary mb-2"
+                            style="float:right">
+                        Przeglądaj zasoby
+                    </button>
+                </div>
+                <div class="btn-group mr-2" role="group" aria-label="Second group">
+                    <button asp-controller="Login"
+                            asp-action="libraryBranchData"
+                            asp-route-number="@Model.libraryBranch.number"
+                            class="btn btn-primary mb-2"
+                            style="float:right">
+                        Edytuj
+                    </button>
+                </div>
+                <div class="btn-group" role="group" aria-label="Third group">
+                    <button asp-controller="Login"
+                            asp-action="libraryBranchDelete"
+                            asp-route-number="@Model.libraryBranch.number"
+                            class="btn btn-primary mb-2"
+                            style="float:right">
+                        Usuń
+                    </button>
+                </div>
+            </div>
+        </form>
         <div>
             <dl class="dl-horizontal col-md-4">
                 <dt>
@@ -137,6 +160,7 @@
                 </dd>
             </dl>
         </div>
+
         <div class="table-responsive col-md-6">
             <h4>@ViewData["SubTable"]</h4>
             @Html.ActionLink("Dodaj bibliotekarza", "addLibrarian", null, null)
