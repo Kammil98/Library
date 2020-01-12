@@ -432,6 +432,54 @@ namespace Library_WebApp.Controllers
             return View("~/Views/Login/ComplexPages/readerList.cshtml", model);
         }
         [HttpGet]
+        [HttpPost]
+        public IActionResult libraryBranchList(int? number, LibraryBranchListViewModel model)
+        {
+            if (model == null)
+            {
+                model = new LibraryBranchListViewModel();
+            }
+            LibraryBranch lb = new LibraryBranch();
+            lb.number = 100;
+            lb.name = "alfa";
+            lb.address = new Address();
+            lb.address.street = "Wronkowa";
+            lb.address.zipCode = "61-871";
+            lb.address.Country = "Polska";
+            lb.address.City = "Poznań";
+            lb.address.buildingNr = 5;
+            model.LibraryBranchs.Add(lb);
+            lb = new LibraryBranch();
+            lb.number = 200;
+            lb.name = "beta";
+            lb.address = new Address();
+            lb.address.street = "Królowej Jadwigi";
+            lb.address.zipCode = "61-689";
+            lb.address.Country = "Polska";
+            lb.address.City = "Warszawa";
+            lb.address.buildingNr = 32;
+            model.LibraryBranchs.Add(lb);
+            if(number != null)
+            {
+                model.libraryBranch = lb;
+                Librarian librarian = new Librarian();
+                librarian.login = "kajak";
+                librarian.dateOfHire = DateTime.Now;
+                librarian.lastName = "Jakiśtamiński";
+                librarian.name = "Jaś";
+                librarian.password = "123start";
+                model.Librarians.Add(librarian);
+                librarian = new Librarian();
+                librarian.login = "student";
+                librarian.dateOfHire = DateTime.Now;
+                librarian.lastName = "Luwański";
+                librarian.name = "Kamil";
+                librarian.password = "start456";
+                model.Librarians.Add(librarian);
+            }
+            return View("~/Views/Login/ComplexPages/LibraryBranchList.cshtml", model);
+        }
+        [HttpGet]
         public IActionResult addEdition()
         {
             Edition model = new Edition();

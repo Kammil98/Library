@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Library_WebApp.Models
 {
+    [Display(Name = "Adres")]
     public class Address
     {
         public int id { set; get; }
