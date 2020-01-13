@@ -107,52 +107,30 @@
                 + " " + Model.libraryBranch.address.City
                 + " " + Model.libraryBranch.address.Country;
         <form asp-controller="Login" asp-action="libraryBranchList">
-            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                <div class="btn-group mr-2" role="group" aria-label="First group">
-                    <button asp-controller="Login"
-                            asp-action="libraryBranchList"
-                            asp-route-number="@Model.libraryBranch.number"
-                            class="btn btn-primary mb-2"
-                            style="float:right">
-                        Przeglądaj zasoby
-                    </button>
-                </div>
-                <div class="btn-group mr-2" role="group" aria-label="Second group">
-                    <button asp-controller="Login"
-                            asp-action="libraryBranchData"
-                            asp-route-number="@Model.libraryBranch.number"
-                            class="btn btn-primary mb-2"
-                            style="float:right">
-                        Edytuj
-                    </button>
-                </div>
-                <div class="btn-group" role="group" aria-label="Third group">
-                    <button asp-controller="Login"
-                            asp-action="libraryBranchDelete"
-                            asp-route-number="@Model.libraryBranch.number"
-                            class="btn btn-primary mb-2"
-                            style="float:right">
-                        Usuń
-                    </button>
-                </div>
-            </div>
+            <button asp-controller="Login"
+                    asp-action="libraryBranchList"
+                    asp-route-number="@Model.libraryBranch.number"
+                    class="btn btn-primary mb-2"
+                    style="float:right">
+                Przeglądaj zasoby
+            </button>
         </form>
         <div>
             <dl class="dl-horizontal col-md-4">
                 <dt>
-                    @Html.DisplayNameFor(model => model.libraryBranch.number)
+                    @Html.DisplayNameFor(model => model.libraryBranch.number):
                 </dt>
                 <dd>
                     @Html.DisplayFor(model => model.libraryBranch.number)
                 </dd>
                 <dt>
-                    @Html.DisplayNameFor(model => model.libraryBranch.name)
+                    @Html.DisplayNameFor(model => model.libraryBranch.name):
                 </dt>
                 <dd>
                     @Html.DisplayFor(model => model.libraryBranch.name)
                 </dd>
                 <dt>
-                    @Html.DisplayNameFor(model => model.libraryBranch.address)
+                    @Html.DisplayNameFor(model => model.libraryBranch.address):
                 </dt>
                 <dd>
                     @adressLine1<br />

@@ -10,6 +10,148 @@ namespace Library_WebApp.Controllers
 {
     public class LoginController : Controller
     {
+        public List<Book> Books = new List<Book>();
+        public List<PublishingHouse> PublishingHouses = new List<PublishingHouse>();
+        public List<Volume> Volumes = new List<Volume>(); 
+        public List<Edition> Editions = new List<Edition>();
+        public List<Borrow> Borrows = new List<Borrow>();
+        public List<Reservation> Reservations = new List<Reservation>();
+        public List<Reader> Readers = new List<Reader>();
+        public LoginController()
+        {
+            PublishingHouse pubHouse = new PublishingHouse();
+            pubHouse.id = 1000;
+            pubHouse.name = "alfa";
+            pubHouse.address = new Address();
+            pubHouse.address.street = "Królowej Jadwigi";
+            pubHouse.address.Country = "Polska";
+            pubHouse.address.buildingNr = 32;
+            pubHouse.address.City = "Poznań";
+            pubHouse.address.zipCode = "61-871";
+
+            PublishingHouses.Add(pubHouse);
+            pubHouse = new PublishingHouse();
+            pubHouse.id = 2000;
+            pubHouse.name = "beta";
+            pubHouse.address = new Address();
+            pubHouse.address.street = "Towarowa";
+            pubHouse.address.Country = "Polska";
+            pubHouse.address.buildingNr = 1;
+            pubHouse.address.City = "Poznań";
+            pubHouse.address.zipCode = "61-652";
+            PublishingHouses.Add(pubHouse);
+
+            pubHouse = new PublishingHouse();
+            pubHouse.address = new Address();
+            pubHouse.id = 3000;
+            pubHouse.name = "wydawnictwoAlfa";
+            pubHouse.address.street = "ZusamenStrasse";
+            pubHouse.address.Country = "Niemcy";
+            pubHouse.address.buildingNr = 7;
+            pubHouse.address.City = "Berlin";
+            pubHouse.address.zipCode = "03-371";
+            PublishingHouses.Add(pubHouse);
+
+            pubHouse = new PublishingHouse();
+            pubHouse.address = new Address();
+            pubHouse.id = 4000;
+            pubHouse.name = "wydawnictwoBeta";
+            pubHouse.address.street = "Towarowa";
+            pubHouse.address.Country = "Canada";
+            pubHouse.address.buildingNr = 15;
+            pubHouse.address.City = "canadiańska";
+            pubHouse.address.zipCode = "61-652";
+            PublishingHouses.Add(pubHouse);
+
+            Volume volume = new Volume();
+            volume.id = 1;
+            volume.editionId = 10;
+            volume.libraryBranchId = 3;
+            volume.condition = "dobry";
+            volume.State = Volume.BookState.Aviable;
+            Volumes.Add(volume);
+            volume = new Volume();
+            volume.id = 2;
+            volume.editionId = 20;
+            volume.libraryBranchId = 6;
+            volume.condition = "zły";
+            volume.State = Volume.BookState.Reserved;
+            Volumes.Add(volume);
+
+            Edition edition = new Edition();
+            edition.id = 10;
+            edition.publishingHouseId = 1000;
+            edition.releaseDate = DateTime.Now;
+            edition.bookId = 100;
+            Editions.Add(edition);
+            edition = new Edition();
+            edition.id = 20;
+            edition.publishingHouseId = 2000;
+            edition.releaseDate = DateTime.Now;
+            edition.bookId = 200;
+            Editions.Add(edition);
+
+            Book book = new Book();
+            book.id = 100;
+            book.name = "Algorytm Frodo";
+            book.genre = "dramat";
+            Author author = new Author();
+            author.firstName = "Wiesława";
+            author.lastName = "Szymborska";
+            book.Authors.Add(author);
+            author = new Author();
+            author.firstName = "Jan";
+            author.lastName = "Kochanowski";
+            book.Authors.Add(author);
+            Books.Add(book);
+
+            book = new Book();
+            book.id = 200;
+            book.name = "Władca Pierścieni";
+            book.genre = "fantasy";
+            author = new Author();
+            author.firstName = "Jan";
+            author.lastName = "Twardowski";
+            book.Authors.Add(author);
+            Books.Add(book);
+
+            Borrow borrow = new Borrow();
+            borrow.id = 1;
+            borrow.borrowDate = DateTime.Now;
+            borrow.userLogin = "kajak";
+            borrow.volumeId = 1;
+            Borrows.Add(borrow);
+            borrow = new Borrow();
+            borrow.id = 2;
+            borrow.borrowDate = DateTime.Now;
+            borrow.userLogin = "Kamil";
+            borrow.volumeId = 2;
+            Borrows.Add(borrow);
+
+            Reservation reservation = new Reservation();
+            reservation = new Reservation();
+            reservation.id = 6;
+            reservation.reservationDate = DateTime.Now;
+            reservation.userLogin = "kajakOdTyłu";
+            reservation.volumeId = 2;
+            Reservations.Add(reservation);
+        
+
+            Reader reader = new Reader();
+            reader.login = "kajak";
+            reader.dateOfBirth = DateTime.Now;
+            reader.lastName = "Jakiśtamiński";
+            reader.name = "Jaś";
+            reader.password = "123start";
+            Readers.Add(reader);
+            reader = new Reader();
+            reader.login = "student";
+            reader.dateOfBirth = DateTime.Now;
+            reader.lastName = "Luwański";
+            reader.name = "Kamil";
+            reader.password = "start456";
+            Readers.Add(reader);
+        }
         public IActionResult Index()
         {
             return View();
@@ -19,31 +161,23 @@ namespace Library_WebApp.Controllers
         {
             return View();
         }
-
-        [HttpGet]
-        public IActionResult publishingHouseList()
+        [HttpPost]
+        [HttpGet] 
+        public IActionResult publishingHouseList(publishingHouseListViewModel model, int? id)
         {
-            List<PublishingHouse> publishingHouses = new List<PublishingHouse>();
-            PublishingHouse publishingHouse = new PublishingHouse();
-            publishingHouse.address = new Address();
-            publishingHouse.name = "wydawnictwoAlfa";
-            publishingHouse.address.street = "Królowej Jadwigi";
-            publishingHouse.address.Country = "Polska";
-            publishingHouse.address.buildingNr = 32;
-            publishingHouse.address.City = "Poznań";
-            publishingHouse.address.zipCode = "61-871";
-            publishingHouses.Add(publishingHouse);
-
-            publishingHouse = new PublishingHouse();
-            publishingHouse.address = new Address();
-            publishingHouse.name = "wydawnictwoBeta";
-            publishingHouse.address.street = "Towarowa";
-            publishingHouse.address.Country = "Polska";
-            publishingHouse.address.buildingNr = 1;
-            publishingHouse.address.City = "Poznań";
-            publishingHouse.address.zipCode = "61-652";
-            publishingHouses.Add(publishingHouse);
-            return View("~/Views/Login/List/publishingHouseList.cshtml", publishingHouses);
+            if(model == null)
+            {
+                model = new publishingHouseListViewModel();
+            }
+            model.PublishingHouses = PublishingHouses;
+            if(id != null)
+            {
+                ViewBag.PublishingHouseId = id;
+                model.publishingHouse = model.PublishingHouses.Find(x => x.id == id);
+                model.Editions = Editions;
+                model.Books = Books;
+            }
+            return View("~/Views/Login/ComplexPages/publishingHouseList.cshtml", model);
         }
 
         [HttpGet]

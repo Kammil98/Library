@@ -8,8 +8,9 @@ namespace Library_WebApp.Models
 {
     public class LibraryBranchListViewModel
     {
+        [Range(0, int.MaxValue)]
         [Display(Name = "Nr filii")]
-        public int SearchLibraryBranchId { get; set; }
+        public int? SearchLibraryBranchId { get; set; }
         [Display(Name = "Nazwa filii")]
         public string SearchLibraryname { get; set; }
         [Display(Name = "Imię pracownika")]
