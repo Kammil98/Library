@@ -440,10 +440,20 @@ namespace Library_WebApp.Controllers
 
             return View("~/Views/Login/ComplexPages/borrowInfo.cshtml", model);
         }
+        [HttpPost]
         [HttpGet]
-        public IActionResult addBorrow()
+        public IActionResult addBorrow(BorrowDataViewModel model)
         {
-            return View("~/Views/Login/Create/borrowData.cshtml");
+            if(model == null)
+            {
+                model = new BorrowDataViewModel();
+            }
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "1", Value = "1" });
+            items.Add(new SelectListItem { Text = "2", Value = "2" });
+            items.Add(new SelectListItem { Text = "3", Value = "3" });
+            model.Volumes = items;
+            return View("~/Views/Login/Create/borrowData.cshtml", model);
         }
 
         [HttpGet]

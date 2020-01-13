@@ -12,8 +12,9 @@ namespace Library_WebApp.Models
         public int id { set; get; }
         [Display(Name = "Ulica")]
         public String street { set; get; }
+        [Required]
         [Display(Name = "Numer")]
-        public int buildingNr { set; get; }
+        public int? buildingNr { set; get; }
         [Display(Name = "Kraj")]
         public String Country { set; get; }
         [Display(Name = "Miasto")]
