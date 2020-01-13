@@ -16,7 +16,7 @@ namespace Library_WebApp.Models
         public string SearchLastName { get; set; }
         [DataType(DataType.Date)]
         [Display(Name = "Data urodzenia")]
-        public DateTime SearchDate { get; set; }
+        public DateTime? SearchDate { get; set; }
         public List<PublishingHouse> PublishingHouses { get; set; }
         public List<Book> Books { get; set; }
         public List<Edition> Editions { get; set; }

@@ -9,8 +9,9 @@ namespace Library_WebApp.Models
 {
     public class BooksListViewModel
     {
+        [Range(1, int.MaxValue, ErrorMessage = "{0} musi być z zakresu od {1} do {2}.")]
         [Display(Name = "Nr filii")]
-        public string SearchLibraryBranchId { get; set; }
+        public int? SearchLibraryBranchId { get; set; }
         [Display(Name = "Tytuł")]
         public string SearchName { get; set; }
         [Display(Name = "Wydawnictwo")]

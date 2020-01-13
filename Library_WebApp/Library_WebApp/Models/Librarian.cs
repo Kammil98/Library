@@ -11,9 +11,10 @@ namespace Library_WebApp.Models
     {
         [Display(Name = "Data zatrudnienia")]
         [DataType(DataType.Date)]
-        public DateTime dateOfHire { set; get; }
+        [Required]
+        public DateTime? dateOfHire { set; get; }
         [Display(Name = "Nr filii")]
-        public int libraryBranchNumber { set; get; }
-        public List<SelectListItem> libraryBranchIds { get; set; }
+        [Required]
+        public int? libraryBranchNumber { set; get; }
     }
 }

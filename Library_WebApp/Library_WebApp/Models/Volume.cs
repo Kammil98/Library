@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -27,8 +26,7 @@ namespace Library_WebApp.Models
         public String condition { set; get; }
         [Display(Name = "Dostępność")]
         public BookState State { set; get; }
-        public List<SelectListItem> Editions { get; set; }
-        public List<SelectListItem> LibraryBranchIds { get; set; }
+        
         public string getStateName()
         {
             string state = "";

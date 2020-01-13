@@ -17,7 +17,5 @@ namespace Library_WebApp.Models
         public DateTime releaseDate { set; get; }
         [Display(Name = "Id wydawnictwa")]
         public int publishingHouseId { set; get; }
-        public List<SelectListItem> Books { get; set; }
-        public List<SelectListItem> PublishingHouses { get; set; }
     }
 }

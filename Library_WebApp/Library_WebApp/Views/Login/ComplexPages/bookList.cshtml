@@ -27,7 +27,7 @@
                 @Html.DropDownListFor(
                    m => m.SearchLibraryBranchId,
                    new SelectList(Model.LibraryBranchIds, "Value", "Text"),
-                   "Wybierz gatunek",
+                   "Wybierz numer filii",
                    new { @class = "form-control" })
                 <span asp-validation-for="SearchLibraryBranchId" class="text-danger"></span>
             </div>

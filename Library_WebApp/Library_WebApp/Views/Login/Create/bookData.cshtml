@@ -1,4 +1,4 @@
-﻿@model Library_WebApp.Models.Book
+﻿@model Library_WebApp.Models.BookDataViewModel
 
 @{
     ViewData["Title"] = "View";
@@ -14,14 +14,14 @@
         <form asp-action="addBook">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="name" class="control-label">nazwa</label>
-                <input asp-for="name" class="form-control" />
-                <span asp-validation-for="name" class="text-danger"></span>
+                <label asp-for="book.name" class="control-label"></label>
+                <input asp-for="book.name" class="form-control" />
+                <span asp-validation-for="book.name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="genre" class="control-label">gatunek</label>
-                @Html.DropDownListFor(m => m.genre, Model.Genres, "Wybierz gatunek", new { @class = "form-control" })
-                <span asp-validation-for="genre" class="text-danger"></span>
+                <label asp-for="book.genre" class="control-label"></label>
+                @Html.DropDownListFor(m => m.book.genre, Model.Genres, "Wybierz gatunek", new { @class = "form-control" })
+                <span asp-validation-for="book.genre" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Zatwierdź" class="btn btn-default" />

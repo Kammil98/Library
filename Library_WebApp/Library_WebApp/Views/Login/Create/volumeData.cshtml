@@ -1,4 +1,4 @@
-﻿@model Library_WebApp.Models.Volume
+﻿@model Library_WebApp.Models.VolumeDataViewModel
 
 @{
     ViewData["Title"] = "addVolume";
@@ -14,19 +14,19 @@
         <form asp-action="addVolume">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="editionId" class="control-label">wydanie</label>
-                @Html.DropDownListFor(m => m.editionId, Model.Editions, "Wybierz wydanie", new { @class = "form-control" })
-                <span asp-validation-for="editionId" class="text-danger"></span>
+                <label asp-for="volume.editionId" class="control-label">wydanie</label>
+                @Html.DropDownListFor(m => m.volume.editionId, Model.Editions, "Wybierz wydanie", new { @class = "form-control" })
+                <span asp-validation-for="volume.editionId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="libraryBranchId" class="control-label">numer filii</label>
-                @Html.DropDownListFor(m => m.libraryBranchId, Model.LibraryBranchIds, "Wybierz numer filii", new { @class = "form-control" })
-                <span asp-validation-for="libraryBranchId" class="text-danger"></span>
+                <label asp-for="volume.libraryBranchId" class="control-label">numer filii</label>
+                @Html.DropDownListFor(m => m.volume.libraryBranchId, Model.LibraryBranchIds, "Wybierz numer filii", new { @class = "form-control" })
+                <span asp-validation-for="volume.libraryBranchId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="condition" class="control-label">stan egzemplarza</label>
-                <input asp-for="condition" class="form-control" />
-                <span asp-validation-for="condition" class="text-danger"></span>
+                <label asp-for="volume.condition" class="control-label">stan egzemplarza</label>
+                <input asp-for="volume.condition" class="form-control" />
+                <span asp-validation-for="volume.condition" class="text-danger"></span>
             </div>
             <div class="form-group">
 

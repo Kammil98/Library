@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,7 +15,6 @@ namespace Library_WebApp.Models
         public String genre { set; get; }
         [Display(Name = "Autorzy")]
         public List<Author> Authors { get; set; }
-        public List<SelectListItem> Genres { get; set; }
         public Book()
         {
             Authors = new List<Author>();

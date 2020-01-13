@@ -8,7 +8,7 @@ namespace Library_WebApp.Models
 {
     public class LibraryBranchListViewModel
     {
-        [Range(0, int.MaxValue)]
+        [Range(1, int.MaxValue, ErrorMessage = "{0} musi być z zakresu od {1} do {2}.")]
         [Display(Name = "Nr filii")]
         public int? SearchLibraryBranchId { get; set; }
         [Display(Name = "Nazwa filii")]

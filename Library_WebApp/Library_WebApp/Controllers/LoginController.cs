@@ -268,7 +268,7 @@ namespace Library_WebApp.Controllers
         [HttpGet]
         public IActionResult addBook()
         {
-            Book model = new Book();
+            BookDataViewModel model = new BookDataViewModel();
             List<SelectListItem> items = new List<SelectListItem>();
             items.Add(new SelectListItem { Text = "epika", Value = "epika" });
             items.Add(new SelectListItem { Text = "liryka", Value = "liryka" });
@@ -616,7 +616,7 @@ namespace Library_WebApp.Controllers
         [HttpGet]
         public IActionResult addEdition()
         {
-            Edition model = new Edition();
+            EditionDataViewModel model = new EditionDataViewModel();
             List<SelectListItem> items = new List<SelectListItem>();
             items.Add(new SelectListItem { Text = "Władca Pierścieni", Value = "1" });
             items.Add(new SelectListItem { Text = "Algorytm Frodo", Value = "2" });
@@ -645,10 +645,14 @@ namespace Library_WebApp.Controllers
             return View("~/Views/Login/Create/genreData.cshtml");
         }
 
+        [HttpPost]
         [HttpGet]
-        public IActionResult addLibrarian()
+        public IActionResult addLibrarian(LibrarianDataViewModel model)
         {
-            Librarian model = new Librarian();
+            if(model == null)
+            {
+                model = new LibrarianDataViewModel();
+            }
             List<SelectListItem> items = new List<SelectListItem>();
             items.Add(new SelectListItem { Text = "1", Value = "0" });
             items.Add(new SelectListItem { Text = "2", Value = "1" });
@@ -663,19 +667,23 @@ namespace Library_WebApp.Controllers
             return View("~/Views/Login/Create/libraryBranchData.cshtml");
         }
 
+        [HttpPost]
         [HttpGet]
-        public IActionResult addProperty()
+        public IActionResult addProperty(PropertyDataViewModel model)
         {
-            Property model = new Property();
+            if(model == null)
+            {
+                model = new PropertyDataViewModel();
+            }
             List<SelectListItem> items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "Kamil Luwański", Value = "Kamil Luwański" });
-            items.Add(new SelectListItem { Text = "Mateusz Bąk", Value = "Mateusz Bąk" });
-            items.Add(new SelectListItem { Text = "Ktoś Ktosiowaty", Value = "Ktoś Ktosiowaty"});
+            items.Add(new SelectListItem { Text = "Kamil Luwański", Value = "1" });
+            items.Add(new SelectListItem { Text = "Mateusz Bąk", Value = "2" });
+            items.Add(new SelectListItem { Text = "Ktoś Ktosiowaty", Value = "3"});
             model.Authors = items;
             items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "Władca Pierścieni", Value = "Władca Pierścieni" });
-            items.Add(new SelectListItem { Text = "Algorytm Frodo", Value = "Algorytm Frodo" });
-            items.Add(new SelectListItem { Text = "Moja autobiografia", Value = "Moja autobiografia" });
+            items.Add(new SelectListItem { Text = "Władca Pierścieni", Value = "4" });
+            items.Add(new SelectListItem { Text = "Algorytm Frodo", Value = "5" });
+            items.Add(new SelectListItem { Text = "Moja autobiografia", Value = "6" });
             model.Books = items;
             return View("~/Views/Login/Create/propertyData.cshtml", model);
         }
@@ -697,28 +705,25 @@ namespace Library_WebApp.Controllers
         {
             return View("~/Views/Login/Create/reservationData.cshtml");
         }
-
+        [HttpPost]
         [HttpGet]
-        public IActionResult addVolume()
+        public IActionResult addVolume(VolumeDataViewModel model)
         {
-            Volume model = new Volume();
+            if(model == null)
+            {
+                model = new VolumeDataViewModel();
+            }
             List<SelectListItem> items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "Wydanie 1", Value = "0" });
-            items.Add(new SelectListItem { Text = "Wydanie 2", Value = "1" });
-            items.Add(new SelectListItem { Text = "Wydanie 3", Value = "2"});
+            items.Add(new SelectListItem { Text = "Wydanie 1", Value = "1" });
+            items.Add(new SelectListItem { Text = "Wydanie 2", Value = "2" });
+            items.Add(new SelectListItem { Text = "Wydanie 3", Value = "3"});
             model.Editions = items;
             items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "1", Value = "0" });
-            items.Add(new SelectListItem { Text = "2", Value = "1" });
-            items.Add(new SelectListItem { Text = "3", Value = "2"});
+            items.Add(new SelectListItem { Text = "4", Value = "4" });
+            items.Add(new SelectListItem { Text = "5", Value = "5" });
+            items.Add(new SelectListItem { Text = "6", Value = "6"});
             model.LibraryBranchIds = items;
             return View("~/Views/Login/Create/volumeData.cshtml", model);
-        }
-        [HttpPost]
-        public IActionResult addVolume(Volume model, string MovieType)
-        {
-
-            return View("~/Views/Login/Create/volumeData.cshtml");
         }
     }
 }
