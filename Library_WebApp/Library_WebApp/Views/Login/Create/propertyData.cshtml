@@ -14,12 +14,12 @@
         <form asp-action="addProperty">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="property.authorId" class="control-label">autor</label>
+                <label asp-for="property.authorId" class="control-label">Autor</label>
                 @Html.DropDownListFor(m => m.property.authorId, Model.Authors, "Wybierz autora", new { @class = "form-control" })
                 <span asp-validation-for="property.authorId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="property.BookId" class="control-label">książka</label>
+                <label asp-for="property.BookId" class="control-label">Książka</label>
                 @Html.DropDownListFor(m => m.property.BookId, Model.Books, "Wybierz książkę", new { @class = "form-control" })
                 <span asp-validation-for="property.BookId" class="text-danger"></span>
             </div>

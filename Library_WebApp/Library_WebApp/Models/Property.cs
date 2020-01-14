@@ -8,9 +8,9 @@ namespace Library_WebApp.Models
 {
     public class Property
     {
-        [Required]
-        public int? authorId { set; get; }
-        [Required]
-        public int? BookId { set; get; }
+        [Required(ErrorMessage = "Pole Autor nie może być puste.")]
+        public int authorId { set; get; }
+        [Required(ErrorMessage = "Pole Książka nie może być puste.")]
+        public int BookId { set; get; }
     }
 }

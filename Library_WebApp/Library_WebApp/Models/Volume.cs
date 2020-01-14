@@ -19,8 +19,10 @@ namespace Library_WebApp.Models
         };
         public int id { set; get; }
         [Display(Name = "Id wydania")]
+        [Required(ErrorMessage = "Pole Wydanie nie może być puste.")]
         public int editionId { set; get; }
         [Display(Name = "Nr filii")]
+        [Required(ErrorMessage = "Pole {0} nie może być puste.")]
         public int libraryBranchId { set; get; }
         [Display(Name = "Stan")]
         public String condition { set; get; }

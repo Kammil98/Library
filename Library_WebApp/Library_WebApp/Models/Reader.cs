@@ -10,6 +10,7 @@ namespace Library_WebApp.Models
     {
         [Display(Name = "Data urodzenia")]
         [DataType(DataType.Date)]
+        [Required(ErrorMessage = "Pole {0} nie może być puste.")]
         public DateTime dateOfBirth { set; get; }
     }
 }

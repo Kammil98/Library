@@ -14,17 +14,17 @@
         <form asp-action="addVolume">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="volume.editionId" class="control-label">wydanie</label>
+                <label asp-for="volume.editionId" class="control-label">Wydanie</label>
                 @Html.DropDownListFor(m => m.volume.editionId, Model.Editions, "Wybierz wydanie", new { @class = "form-control" })
                 <span asp-validation-for="volume.editionId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="volume.libraryBranchId" class="control-label">numer filii</label>
+                <label asp-for="volume.libraryBranchId" class="control-label"></label>
                 @Html.DropDownListFor(m => m.volume.libraryBranchId, Model.LibraryBranchIds, "Wybierz numer filii", new { @class = "form-control" })
                 <span asp-validation-for="volume.libraryBranchId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="volume.condition" class="control-label">stan egzemplarza</label>
+                <label asp-for="volume.condition" class="control-label">Stan egzemplarza</label>
                 <input asp-for="volume.condition" class="form-control" />
                 <span asp-validation-for="volume.condition" class="text-danger"></span>
             </div>

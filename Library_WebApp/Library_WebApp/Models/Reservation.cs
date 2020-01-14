@@ -11,10 +11,13 @@ namespace Library_WebApp.Models
         public int id { set; get; }
         [Display(Name = "Data rezerwacji")]
         [DataType(DataType.Date)]
-        public DateTime reservationDate { set; get; }
-        [Display(Name = "id woluminu")]
+        [Required(ErrorMessage = "Pole {0} nie może być puste.")]
+        public DateTime? reservationDate { set; get; }
+        [Display(Name = "Id woluminu")]
+        [Required(ErrorMessage = "Pole {0} nie może być puste.")]
         public int volumeId { set; get; }
-        [Display(Name = "login rezerwującego")]
+        [Display(Name = "Login rezerwującego")]
+        [Required(ErrorMessage = "Pole {0} nie może być puste.")]
         public String userLogin { set; get; }
 }
 }

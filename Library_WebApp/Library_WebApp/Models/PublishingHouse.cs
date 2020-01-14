@@ -10,6 +10,7 @@ namespace Library_WebApp.Models
     {
         public int id { set; get; }
         [Display(Name = "Wydawnictwo")]
+        [Required(ErrorMessage = "Pole {0} nie może być puste.")]
         public String name { set; get; }
         public Address address { set; get; }
     }

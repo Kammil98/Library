@@ -9,6 +9,7 @@ namespace Library_WebApp.Models
     public class Genre
     {
         [Display(Name = "Gatunek")]
+        [Required(ErrorMessage = "Pole {0} nie może być puste.")]
         public String name { set; get; }
     }
 }

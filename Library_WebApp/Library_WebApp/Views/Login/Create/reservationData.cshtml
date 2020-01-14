@@ -14,17 +14,17 @@
         <form asp-action="addReservation">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="reservationDate" class="control-label">data rezerwacji</label>
+                <label asp-for="reservationDate" class="control-label"></label>
                 <input asp-for="reservationDate" class="form-control" />
                 <span asp-validation-for="reservationDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="volumeId" class="control-label">id woluminu</label>
+                <label asp-for="volumeId" class="control-label"></label>
                 <input asp-for="volumeId" class="form-control" />
                 <span asp-validation-for="volumeId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="userLogin" class="control-label">login użytkownika</label>
+                <label asp-for="userLogin" class="control-label"></label>
                 <input asp-for="userLogin" class="form-control" />
                 <span asp-validation-for="userLogin" class="text-danger"></span>
             </div>

@@ -11,10 +11,10 @@ namespace Library_WebApp.Models
     {
         [Display(Name = "Data zatrudnienia")]
         [DataType(DataType.Date)]
-        [Required]
+        [Required(ErrorMessage = "Pole {0} nie może być puste.")]
         public DateTime? dateOfHire { set; get; }
         [Display(Name = "Nr filii")]
-        [Required]
+        [Required(ErrorMessage = "Pole {0} nie może być puste.")]
         public int? libraryBranchNumber { set; get; }
     }
 }

@@ -10,8 +10,10 @@ namespace Library_WebApp.Models
     {
         public int id { set; get; }
         [Display(Name = "Tytuł")]
+        [Required(ErrorMessage = "Pole {0} nie może być puste.")]
         public String name { set; get; }
         [Display(Name = "Gatunek")]
+        [Required(ErrorMessage = "Pole {0} nie może być puste.")]
         public String genre { set; get; }
         [Display(Name = "Autorzy")]
         public List<Author> Authors { get; set; }

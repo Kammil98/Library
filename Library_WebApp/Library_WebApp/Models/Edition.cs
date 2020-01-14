@@ -11,11 +11,14 @@ namespace Library_WebApp.Models
     {
         public int id { set; get; }
         [Display(Name = "Id książki")]
+        [Required(ErrorMessage = "Pole Książka nie może być puste.")]
         public int bookId { set; get; }
         [Display(Name = "Data wydania")]
         [DataType(DataType.Date)]
-        public DateTime releaseDate { set; get; }
+        [Required(ErrorMessage = "Pole {0} nie może być puste.")]
+        public DateTime? releaseDate { set; get; }
         [Display(Name = "Id wydawnictwa")]
+        [Required(ErrorMessage = "Pole Wydawnictwo nie może być puste.")]
         public int publishingHouseId { set; get; }
     }
 }
