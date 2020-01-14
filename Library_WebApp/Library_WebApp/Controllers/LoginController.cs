@@ -220,7 +220,7 @@ namespace Library_WebApp.Controllers
                 model.Properties = Properties;
                 model.Books = Books;
             }
-            return View("~/Views/Login/ComplexPages/AuthorList.cshtml", model);
+            return View("~/Views/Login/ComplexPages/authorList.cshtml", model);
         }
 
         [HttpPost]
@@ -245,7 +245,7 @@ namespace Library_WebApp.Controllers
         [HttpGet]
         public IActionResult editPublishingHouse(string id, string name, string Country, string City, string buildingNr, string zipCode)
         {
-            return View("~/Views/Login/Create/PublishingHouseData.cshtml");
+            return View("~/Views/Login/Create/publishingHouseData.cshtml");
         }
         
 
