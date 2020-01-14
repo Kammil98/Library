@@ -1,0 +1,201 @@
+﻿@model Library_WebApp.Models.AuthorListViewModel
+
+@{
+    ViewData["Title"] = "Autorzy";
+    ViewData["SubTable"] = "Własności";
+    Layout = "~/Views/Shared/_Layout_Logged_In.cshtml";
+
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>
+    <a asp-action="addBook">Dodaj autora</a>
+</p>
+
+<button type="button" class="collapsible">Filtrowanie</button>
+<div class="content">
+    <form asp-controller="Login" asp-action="authorList">
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label asp-for="SearchFirstName"></label>
+                <input asp-for="SearchFirstName" class="form-control">
+                <span asp-validation-for="SearchFirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="SearchLastName"></label>
+                <input asp-for="SearchLastName" class="form-control">
+                <span asp-validation-for="SearchLastName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label asp-for="SearchCountry"></label>
+                <input asp-for="SearchCountry" class="form-control">
+                <span asp-validation-for="SearchCountry" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <button type="submit" class="btn btn-primary mb-2">wyszukaj</button>
+        </div>
+    </form>
+</div>
+
+<div class="table-responsive col-md-5">
+    <h4>@ViewData["Title"]</h4>
+    <table class="table col-md-5">
+        <thead class="bg-primary">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Authors[0].firstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Authors[0].lastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Authors[0].country)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int index = 0; }
+            @foreach (var item in Model.Authors)
+            {
+                string selectedRow = "";
+                string color = "";
+                if (item.id == ViewBag.AuthorId)
+                {
+                    selectedRow = "success";
+                    ++index;
+                }
+                else if (++index % 2 == 0)
+                {
+                    color = "bg-info";
+                }
+            <tr class="@selectedRow@color">
+                <td>
+                    @Html.DisplayFor(modelItem => item.firstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.lastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.country)
+                </td>
+                <td>
+                    @Html.ActionLink("Własności", "AuthorList", new { id = item.id }, null) |
+                    @Html.ActionLink("Edytuj", "editAuthor", new { id = item.id }, null) |
+                    @Html.ActionLink("Usuń", "deleteAuthor", new { id = item.id }, null)
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="container col-md-1">
+
+</div>
+<div class="dl-horizontal">
+    @if (Model.author != null)
+    {
+        <form asp-controller="Login" asp-action="bookList">
+            <button asp-controller="Login"
+                    asp-action="bookList"
+                    asp-route-id="@Model.author.id"
+                    class="btn btn-primary mb-2"
+                    style="float:right">
+                Przeglądaj zasoby
+            </button>
+        </form>
+        <div>
+            <dl class="dl-horizontal col-md-4">
+                <dt>
+                    @Html.DisplayNameFor(model => model.author.firstName):
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.author.firstName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.author.lastName):
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.author.lastName)
+                </dd>
+                @if (Model.author.country != null)
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.author.country):
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.author.country)
+                    </dd>
+                }
+
+            </dl>
+        </div>
+
+        <div class="table-responsive col-md-6">
+            <h4>@ViewData["SubTable"]</h4>
+            @Html.ActionLink("Dodaj Własność", "addProperty", null, null)
+            <hr />
+            <table class="tablecol-md-6">
+                <thead class="bg-primary">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Books[0].name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Books[0].genre)
+                        </th>
+                        <th>
+                            Współautorzy
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{index = 0; }
+                    @foreach (var item in Model.Properties)
+                    {
+                        Book book;
+                        book = Model.Books.Find(x => x.id == item.BookId);
+                        string color = "";
+                        if (++index % 2 == 0)
+                        {
+                            color = "bg-info";
+                        }
+                        string state = "";
+                        string PublishingHouseName = "";
+                        string newLink = "";
+                        int publishingHouseId;
+                        <tr class="@color">
+                            <td>
+                                @book.name
+                            </td>
+                            <td>
+                                @book.genre
+                            </td>
+                            <td>
+                                @foreach (var author in book.Authors)
+                                {
+                                    if (author.id != Model.author.id)
+                                    {
+                                        string concatenated = author.firstName + " " + author.lastName;
+                                        @concatenated<br />
+                                    }
+                                }
+                            </td>
+                            <td width="20%">
+                                @Html.ActionLink("Edytuj", "editProperty", new { id = item.id }, null) |
+                                @Html.ActionLink("Szczegóły", "showProperty", new { id = item.id }, null) |
+                                @Html.ActionLink("Usuń", "deleteProperty", new { id = item.id }, null)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

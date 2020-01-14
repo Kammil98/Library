@@ -17,6 +17,8 @@ namespace Library_WebApp.Controllers
         public List<Borrow> Borrows = new List<Borrow>();
         public List<Reservation> Reservations = new List<Reservation>();
         public List<Reader> Readers = new List<Reader>();
+        public List<Author> Authors = new List<Author>();
+        public List<Property> Properties = new List<Property>();
         public LoginController()
         {
             PublishingHouse pubHouse = new PublishingHouse();
@@ -96,12 +98,16 @@ namespace Library_WebApp.Controllers
             book.name = "Algorytm Frodo";
             book.genre = "dramat";
             Author author = new Author();
+            author.id = 1001;
             author.firstName = "Wiesława";
             author.lastName = "Szymborska";
+            Authors.Add(author);
             book.Authors.Add(author);
             author = new Author();
+            author.id = 1002;
             author.firstName = "Jan";
             author.lastName = "Kochanowski";
+            Authors.Add(author);
             book.Authors.Add(author);
             Books.Add(book);
 
@@ -110,8 +116,10 @@ namespace Library_WebApp.Controllers
             book.name = "Władca Pierścieni";
             book.genre = "fantasy";
             author = new Author();
+            author.id = 1003;
             author.firstName = "Jan";
             author.lastName = "Twardowski";
+            Authors.Add(author);
             book.Authors.Add(author);
             Books.Add(book);
 
@@ -151,6 +159,41 @@ namespace Library_WebApp.Controllers
             reader.name = "Kamil";
             reader.password = "start456";
             Readers.Add(reader);
+
+            author = new Author();
+            author.id = 1004;
+            author.firstName = "Kamil";
+            author.lastName = "Luwański";
+            author.country = "Polska";
+            Authors.Add(author);
+            author = new Author();
+            author.id = 1005;
+            author.firstName = "Mateusz";
+            author.lastName = "Bąk";
+            author.country = "InnaPolska";
+            Authors.Add(author);
+            author = new Author();
+            author.id = 1006;
+            author.firstName = "Ten, którego imienia nie wolno wymawiać";
+            author.lastName = "Voldemort";
+            author.country = "Niemcy";
+            Authors.Add(author);
+
+            Property property = new Property();
+            property.id = 2001;
+            property.authorId = 1001;
+            property.BookId = 100;
+            Properties.Add(property);
+            property = new Property();
+            property.id = 2002;
+            property.authorId = 1001;
+            property.BookId = 200;
+            Properties.Add(property);
+            property = new Property();
+            property.id = 2003;
+            property.authorId = 1002;
+            property.BookId = 100;
+            Properties.Add(property);
         }
         public IActionResult Index()
         {
@@ -161,6 +204,25 @@ namespace Library_WebApp.Controllers
         {
             return View();
         }
+        [HttpPost]
+        [HttpGet]
+        public IActionResult authorList(AuthorListViewModel model, int? id)
+        {
+            if (model == null)
+            {
+                model = new AuthorListViewModel();
+            }
+            model.Authors = Authors;
+            if (id != null)
+            {
+                ViewBag.AuthorId = id;
+                model.author = model.Authors.Find(x => x.id == id);
+                model.Properties = Properties;
+                model.Books = Books;
+            }
+            return View("~/Views/Login/ComplexPages/AuthorList.cshtml", model);
+        }
+
         [HttpPost]
         [HttpGet] 
         public IActionResult publishingHouseList(publishingHouseListViewModel model, int? id)
@@ -590,7 +652,7 @@ namespace Library_WebApp.Controllers
                 librarian.password = "start456";
                 model.Librarians.Add(librarian);
             }
-            return View("~/Views/Login/ComplexPages/LibraryBranchList.cshtml", model);
+            return View("~/Views/Login/ComplexPages/libraryBranchList.cshtml", model);
         }
         [HttpGet]
         public IActionResult addEdition()

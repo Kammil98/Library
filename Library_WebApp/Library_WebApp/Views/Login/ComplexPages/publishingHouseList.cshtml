@@ -99,9 +99,9 @@
         adressLine2 = Model.publishingHouse.address.zipCode
                 + " " + Model.publishingHouse.address.City
                 + " " + Model.publishingHouse.address.Country;
-        <form asp-controller="Login" asp-action="libraryBranchList">
+        <form asp-controller="Login" asp-action="bookList">
             <button asp-controller="Login"
-                    asp-action="libraryBranchList"
+                    asp-action="bookList"
                     asp-route-id="@Model.publishingHouse.id"
                     class="btn btn-primary mb-2"
                     style="float:right">

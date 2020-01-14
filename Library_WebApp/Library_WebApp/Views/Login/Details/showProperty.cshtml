@@ -23,7 +23,8 @@
         <dd>
             @foreach (var author in Model.Authors)
             {
-                @author
+                string concatenated = author.firstName + " " + author.lastName;
+                @concatenated<br />
             }
         </dd>
     </dl>

@@ -23,12 +23,16 @@
         <dd>
             @Html.DisplayFor(model => model.lastName)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.country):
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.country)
-        </dd>
+        @if (Model.country != null)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.country):
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.country)
+            </dd>
+        }
+
     </dl>
 </div>
 

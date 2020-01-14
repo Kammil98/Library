@@ -85,8 +85,8 @@
                     </td>
                     <td>
                         @Html.ActionLink("Pracownicy", "LibraryBranchList", new { number = item.number }, null) |
-                        @Html.ActionLink("Edytuj", "editBook", new { number = item.number }, null) |
-                        @Html.ActionLink("Usuń", "deleteBook", new { number = item.number }, null)
+                        @Html.ActionLink("Edytuj", "editLibraryBranch", new { number = item.number }, null) |
+                        @Html.ActionLink("Usuń", "deleteLibraryBranch", new { number = item.number }, null)
                     </td>
                 </tr>
             }
@@ -106,9 +106,9 @@
         adressLine2 = Model.libraryBranch.address.zipCode
                 + " " + Model.libraryBranch.address.City
                 + " " + Model.libraryBranch.address.Country;
-        <form asp-controller="Login" asp-action="libraryBranchList">
+        <form asp-controller="Login" asp-action="bookList">
             <button asp-controller="Login"
-                    asp-action="libraryBranchList"
+                    asp-action="bookList"
                     asp-route-number="@Model.libraryBranch.number"
                     class="btn btn-primary mb-2"
                     style="float:right">
