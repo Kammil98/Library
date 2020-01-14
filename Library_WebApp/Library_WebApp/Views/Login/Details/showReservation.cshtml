@@ -12,19 +12,19 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.reservationDate)
+            @Html.DisplayNameFor(model => model.reservationDate):
         </dt>
         <dd>
             @Html.DisplayFor(model => model.reservationDate)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.volumeId)
+            @Html.DisplayNameFor(model => model.volumeId):
         </dt>
         <dd>
             @Html.DisplayFor(model => model.volumeId)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.userLogin)
+            @Html.DisplayNameFor(model => model.userLogin):
         </dt>
         <dd>
             @Html.DisplayFor(model => model.userLogin)
@@ -32,6 +32,6 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edytuj", "editReservation", Model, null) |
+    @Html.ActionLink("Edytuj", "editReservation", new { id = Model.id }, null) |
     <a asp-action="reservationList">Wróć do listy</a>
 </div>

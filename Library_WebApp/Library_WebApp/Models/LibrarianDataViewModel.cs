@@ -10,9 +10,5 @@ namespace Library_WebApp.Models
     {
         public Librarian librarian { get; set; }
         public List<SelectListItem> libraryBranchIds { get; set; }
-        public LibrarianDataViewModel()
-        {
-            librarian = new Librarian();
-        }
     }
 }

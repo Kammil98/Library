@@ -1,4 +1,4 @@
-﻿@model Library_WebApp.Models.Property
+﻿@model Library_WebApp.Models.ShowPropertyViewModel
 
 @{
     ViewData["Title"] = "showProperty";
@@ -12,20 +12,23 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.authorId)
+            @Html.DisplayNameFor(model => model.bookTitle)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.authorId)
+            @Html.DisplayFor(model => model.bookTitle)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.BookId)
+            @Html.DisplayNameFor(model => model.Authors):
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.BookId)
+            @foreach (var author in Model.Authors)
+            {
+                @author
+            }
         </dd>
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edytuj", "editProperty", Model, null) |
+    @Html.ActionLink("Edytuj", "editProperty", new { id = Model.property.id }, null) |
     <a asp-action="propertyList">Wróć do listy</a>
 </div>

@@ -10,10 +10,6 @@ namespace Library_WebApp.Models
     {
         public Borrow borrow { get; set; }
         public List<SelectListItem> Volumes { get; set; }
-        public BorrowDataViewModel()
-        {
-            borrow = new Borrow();
-        }
 
     }
 }

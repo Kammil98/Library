@@ -12,50 +12,44 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.dateOfHire)
+            @Html.DisplayNameFor(model => model.dateOfHire):
         </dt>
         <dd>
             @Html.DisplayFor(model => model.dateOfHire)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.libraryBranchNumber)
+            @Html.DisplayNameFor(model => model.libraryBranchNumber):
         </dt>
         <dd>
             @Html.DisplayFor(model => model.libraryBranchNumber)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.name)
+            @Html.DisplayNameFor(model => model.name):
         </dt>
         <dd>
             @Html.DisplayFor(model => model.name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.lastName)
+            @Html.DisplayNameFor(model => model.lastName):
         </dt>
         <dd>
             @Html.DisplayFor(model => model.lastName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.login)
+            @Html.DisplayNameFor(model => model.login):
         </dt>
         <dd>
             @Html.DisplayFor(model => model.login)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.password)
+            @Html.DisplayNameFor(model => model.password):
         </dt>
         <dd>
             @Html.DisplayFor(model => model.password)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.passwordRepeat)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.passwordRepeat)
-        </dd>
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edytuj", "editLibrarian", Model, null) |
+    @Html.ActionLink("Edytuj", "editLibrarian", new { login = Model.login }, null) |
     <a asp-action="librarianList">Wróć do listy</a>
 </div>

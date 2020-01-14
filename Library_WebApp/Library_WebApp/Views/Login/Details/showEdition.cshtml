@@ -1,4 +1,4 @@
-﻿@model Library_WebApp.Models.Edition
+﻿@model Library_WebApp.Models.ShowEditionViewModel
 
 @{
     ViewData["Title"] = "showEdition";
@@ -12,26 +12,42 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.bookId)
+            @Html.DisplayNameFor(model => model.book.name):
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.bookId)
+            @Html.DisplayFor(model => model.book.name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.releaseDate)
+            @Html.DisplayNameFor(model => model.book.Authors):
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.releaseDate)
+            @foreach (var item in Model.book.Authors)
+            {
+                string concatenated = item.firstName + " " + item.lastName;
+                @concatenated<br />
+            }
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.publishingHouseId)
+            @Html.DisplayNameFor(model => model.book.genre):
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.publishingHouseId)
+            @Html.DisplayFor(model => model.book.genre)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.edition.releaseDate):
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.edition.releaseDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.publishingHouseName):
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.publishingHouseName)
         </dd>
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edytuj", "editEdition", Model, null) |
+    @Html.ActionLink("Edytuj", "editEdition", new { id = Model.edition.id }, null) |
     <a asp-action="editionList">Wróć do listy</a>
 </div>

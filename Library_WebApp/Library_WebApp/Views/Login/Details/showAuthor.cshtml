@@ -12,19 +12,19 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.firstName)
+            @Html.DisplayNameFor(model => model.firstName):
         </dt>
         <dd>
             @Html.DisplayFor(model => model.firstName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.lastName)
+            @Html.DisplayNameFor(model => model.lastName):
         </dt>
         <dd>
             @Html.DisplayFor(model => model.lastName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.country)
+            @Html.DisplayNameFor(model => model.country):
         </dt>
         <dd>
             @Html.DisplayFor(model => model.country)
@@ -33,111 +33,6 @@
 </div>
 
 <div>
-    @Html.ActionLink("Edytuj", "editAuthor", Model, null) |
-    <a asp-action="authorList">Wróć do listy</a>
-</div>
-
-<h2>Książki</h2>
-
-<p>
-    <a asp-action="addBook">Dodaj nową książkę</a>
-</p>
-
-@using (Html.BeginForm("showAuthor"))
-{
-    <input type="text" name="Bookphrase" />
-    <input type="submit" value="Wyszukaj książkę" class="btn btn-default" />
-}
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                tytuł
-            </th>
-            <th>
-                gatunek
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in (IEnumerable<Library_WebApp.Models.Book>)(ViewData["Books"]))
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(Book => item.name)
-                </td>
-                <td>
-                    @Html.DisplayFor(Book => item.genre)
-                </td>
-                <td>
-                    @Html.ActionLink("Edytuj", "editBook", item, null) |
-                    @Html.ActionLink("Szczegóły", "showBook", item, null) |
-                    @Html.ActionLink("Usuń", "deleteBook", item, null)
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<h2>Egzeplarze</h2>
-
-@using (Html.BeginForm("showAuthor"))
-{
-    <input type="text" name="Volumephrase" />
-    <input type="submit" value="Wyszukaj egzemplarz" class="btn btn-default" />
-}
-
-<p>
-    <a asp-action="addVolume">Dodaj nowy egzemplarz</a>
-</p>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                id
-            </th>
-            <th>
-                wydanie
-            </th>
-            <th>
-                numer filii
-            </th>
-            <th>
-               stan
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in  (IEnumerable<Library_WebApp.Models.Volume>)(ViewData["Volumes"]))
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(Volume => item.id)
-                </td>
-                <td>
-                    @Html.DisplayFor(Volume => item.editionId)
-                </td>
-                <td>
-                    @Html.DisplayFor(Volume => item.libraryBranchId)
-                </td>
-                <td>
-                    @Html.DisplayFor(Volume => item.condition)
-                </td>
-                <td>
-                    @Html.ActionLink("Zarezerwuj", "reserveVolume", item, null) |
-                    @Html.ActionLink("Edytuj", "editVolume", item, null) |
-                    @Html.ActionLink("Szczegóły", "showVolume", item, null) |
-                    @Html.ActionLink("Usuń", "deleteVolume", item, null)
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<div>
+    @Html.ActionLink("Edytuj", "editAuthor", new { id = Model.id }, null) |
     <a asp-action="authorList">Wróć do listy</a>
 </div>

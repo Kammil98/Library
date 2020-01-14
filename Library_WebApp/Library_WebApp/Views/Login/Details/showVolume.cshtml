@@ -1,4 +1,4 @@
-﻿@model Library_WebApp.Models.Volume
+﻿@model Library_WebApp.Models.ShowVolumeViewModel
 
 @{
     ViewData["Title"] = "showVolume";
@@ -12,32 +12,70 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.id)
+            @Html.DisplayNameFor(model => model.volume.id):
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.id)
+            @Html.DisplayFor(model => model.volume.id)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.editionId)
+            @Html.DisplayNameFor(model => model.book.name):
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.editionId)
+            @Html.DisplayFor(model => model.book.name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.libraryBranchId)
+            @Html.DisplayNameFor(model => model.book.Authors):
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.libraryBranchId)
+            @foreach (var item in Model.book.Authors)
+            {
+                string concatenated = item.firstName + " " + item.lastName;
+                @concatenated<br />
+            }
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.condition)
+            @Html.DisplayNameFor(model => model.book.genre):
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.condition)
+            @Html.DisplayFor(model => model.book.genre)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.publishingHouseName):
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.publishingHouseName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.edition.releaseDate):
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.edition.releaseDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.volume.libraryBranchId):
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.volume.libraryBranchId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.volume.State):
+        </dt>
+        <dd>
+            @Model.volume.getStateName()
+        </dd>
+        @if (Model.volume.condition != null)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.volume.condition):
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.volume.condition)
+            </dd>
+        }
+
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edytuj", "editVolume", Model, null) |
+    @Html.ActionLink("Edytuj", "editVolume", new { id = Model.volume.id }, null) |
     <a asp-action="volumeList">Wróć do listy</a>
 </div>

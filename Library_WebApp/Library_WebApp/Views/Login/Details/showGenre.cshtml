@@ -12,7 +12,7 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.name)
+            @Html.DisplayNameFor(model => model.name):
         </dt>
         <dd>
             @Html.DisplayFor(model => model.name)
@@ -20,6 +20,6 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edytuj", "editGenre", Model, null) |
+    @Html.ActionLink("Edytuj", "editGenre", new { name = Model.name }, null) |
     <a asp-action="genreList">Wróć do listy</a>
 </div>
