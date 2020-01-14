@@ -185,43 +185,12 @@ namespace Library_WebApp.Controllers
         {
             return View("~/Views/Login/Create/PublishingHouseData.cshtml");
         }
-
-        [HttpGet]
-        public IActionResult authorList()
-        {
-            List<Author> authors = new List<Author>();
-            Author author = new Author();
-            author.firstName = "Kamil";
-            author.lastName = "Luwański";
-            author.country = "Polska";
-            authors.Add(author);
-
-            author = new Author();
-            author.firstName = "Mateusz";
-            author.lastName = "Bąk";
-            author.country = "Inna Polska";
-            authors.Add(author);
-            return View("~/Views/Login/List/authorList.cshtml", authors);
-        }
-
-        [HttpPost]
-        public IActionResult authorList(string Bookphrase, string Volumephrase)
-        {
-            List<Author> authors = new List<Author>();
-            return View("~/Views/Login/List/authorList.cshtml", authors);
-        }
         
 
        [HttpGet]
         public IActionResult editAuthor(Author model)
         {
             return View("~/Views/Login/Create/authorData.cshtml", model);
-        }
-
-        [HttpGet]
-        public IActionResult deleteAuthor(Author model)
-        {
-            return View("~/Views/Login/Delete/authorDelete.cshtml", model);
         }
 
         
