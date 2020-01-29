@@ -292,7 +292,7 @@ namespace Library_WebApp.Controllers
         [HttpPost]
         public IActionResult addAuthor(Author model)
         {
-
+            ViewBag.errMsg = "wiadomosc";
             return View("~/Views/Login/Create/authorData.cshtml");
         }
 
