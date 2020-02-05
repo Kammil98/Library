@@ -195,6 +195,10 @@ namespace LibraryApp
             {
                 entity.HasKey(e => e.BranchNumber);
 
+                entity.HasIndex(e => e.AddressId)
+                    .HasName("AK_Branch")
+                    .IsUnique();
+
                 entity.Property(e => e.BranchNumber).HasColumnName("branchNumber");
 
                 entity.Property(e => e.AddressId).HasColumnName("addressId");
@@ -212,8 +216,8 @@ namespace LibraryApp
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.Address)
-                    .WithMany(p => p.Branch)
-                    .HasForeignKey(d => d.AddressId)
+                    .WithOne(p => p.Branch)
+                    .HasForeignKey<Branch>(d => d.AddressId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Branch_Address");
             });
@@ -224,9 +228,7 @@ namespace LibraryApp
                     .HasName("AK_Edition")
                     .IsUnique();
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedOnAdd();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.BookId).HasColumnName("bookId");
 
@@ -240,9 +242,9 @@ namespace LibraryApp
                     .HasColumnName("releaseDate")
                     .HasColumnType("date");
 
-                entity.HasOne(d => d.IdNavigation)
-                    .WithOne(p => p.Edition)
-                    .HasForeignKey<Edition>(d => d.Id)
+                entity.HasOne(d => d.Book)
+                    .WithMany(p => p.Edition)
+                    .HasForeignKey(d => d.BookId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Edition_Book");
 
@@ -260,8 +262,7 @@ namespace LibraryApp
                 entity.Property(e => e.Name)
                     .HasColumnName("name")
                     .HasMaxLength(256)
-                    .IsUnicode(false)
-                    .ValueGeneratedNever();
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Librarian>(entity =>
@@ -271,8 +272,7 @@ namespace LibraryApp
                 entity.Property(e => e.Login)
                     .HasColumnName("login")
                     .HasMaxLength(64)
-                    .IsUnicode(false)
-                    .ValueGeneratedNever();
+                    .IsUnicode(false);
 
                 entity.Property(e => e.BranchNumber).HasColumnName("branchNumber");
 
@@ -297,17 +297,20 @@ namespace LibraryApp
             {
                 entity.HasKey(e => e.Name);
 
+                entity.HasIndex(e => e.AddressId)
+                    .HasName("AK_PublishingHouse")
+                    .IsUnique();
+
                 entity.Property(e => e.Name)
                     .HasColumnName("name")
                     .HasMaxLength(256)
-                    .IsUnicode(false)
-                    .ValueGeneratedNever();
+                    .IsUnicode(false);
 
                 entity.Property(e => e.AddressId).HasColumnName("addressId");
 
                 entity.HasOne(d => d.Address)
-                    .WithMany(p => p.PublishingHouse)
-                    .HasForeignKey(d => d.AddressId)
+                    .WithOne(p => p.PublishingHouse)
+                    .HasForeignKey<PublishingHouse>(d => d.AddressId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PublishingHouse_Address");
             });
@@ -319,8 +322,7 @@ namespace LibraryApp
                 entity.Property(e => e.Login)
                     .HasColumnName("login")
                     .HasMaxLength(64)
-                    .IsUnicode(false)
-                    .ValueGeneratedNever();
+                    .IsUnicode(false);
 
                 entity.Property(e => e.BirthDate)
                     .HasColumnName("birthDate")
@@ -366,8 +368,7 @@ namespace LibraryApp
                 entity.Property(e => e.Login)
                     .HasColumnName("login")
                     .HasMaxLength(64)
-                    .IsUnicode(false)
-                    .ValueGeneratedNever();
+                    .IsUnicode(false);
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
@@ -387,6 +388,10 @@ namespace LibraryApp
                     .HasMaxLength(256)
                     .IsUnicode(false);
             });
+
+            OnModelCreatingPartial(modelBuilder);
         }
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

@@ -10,7 +10,7 @@ namespace LibraryApp.Models
         public DateTimeOffset BorrowDate { get; set; }
         public DateTimeOffset? ReturnDate { get; set; }
 
-        public BookCopy Copy { get; set; }
-        public Reader UserLoginNavigation { get; set; }
+        public virtual BookCopy Copy { get; set; }
+        public virtual Reader UserLoginNavigation { get; set; }
     }
 }

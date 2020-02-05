@@ -15,6 +15,6 @@ namespace LibraryApp.Models
         public string LastName { get; set; }
         public string Country { get; set; }
 
-        public ICollection<Authorship> Authorship { get; set; }
+        public virtual ICollection<Authorship> Authorship { get; set; }
     }
 }

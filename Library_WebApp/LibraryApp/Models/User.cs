@@ -10,7 +10,7 @@ namespace LibraryApp.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public Librarian Librarian { get; set; }
-        public Reader Reader { get; set; }
+        public virtual Librarian Librarian { get; set; }
+        public virtual Reader Reader { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace LibraryApp.Models
         public string Name { get; set; }
         public int AddressId { get; set; }
 
-        public Address Address { get; set; }
-        public ICollection<Edition> Edition { get; set; }
+        public virtual Address Address { get; set; }
+        public virtual ICollection<Edition> Edition { get; set; }
     }
 }

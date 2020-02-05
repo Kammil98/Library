@@ -9,7 +9,7 @@ namespace LibraryApp.Models
         public DateTime EmploymentDate { get; set; }
         public int BranchNumber { get; set; }
 
-        public Branch BranchNumberNavigation { get; set; }
-        public User LoginNavigation { get; set; }
+        public virtual Branch BranchNumberNavigation { get; set; }
+        public virtual User LoginNavigation { get; set; }
     }
 }

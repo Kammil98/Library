@@ -14,8 +14,8 @@ namespace LibraryApp.Models
         public string Login { get; set; }
         public DateTime BirthDate { get; set; }
 
-        public User LoginNavigation { get; set; }
-        public ICollection<Borrowing> Borrowing { get; set; }
-        public ICollection<Reservation> Reservation { get; set; }
+        public virtual User LoginNavigation { get; set; }
+        public virtual ICollection<Borrowing> Borrowing { get; set; }
+        public virtual ICollection<Reservation> Reservation { get; set; }
     }
 }

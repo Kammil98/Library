@@ -5,12 +5,6 @@ namespace LibraryApp.Models
 {
     public partial class Address
     {
-        public Address()
-        {
-            Branch = new HashSet<Branch>();
-            PublishingHouse = new HashSet<PublishingHouse>();
-        }
-
         public int Id { get; set; }
         public string Street { get; set; }
         public string BuildingNumber { get; set; }
@@ -18,7 +12,7 @@ namespace LibraryApp.Models
         public string City { get; set; }
         public string ZipCode { get; set; }
 
-        public ICollection<Branch> Branch { get; set; }
-        public ICollection<PublishingHouse> PublishingHouse { get; set; }
+        public virtual Branch Branch { get; set; }
+        public virtual PublishingHouse PublishingHouse { get; set; }
     }
 }

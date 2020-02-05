@@ -9,7 +9,7 @@ namespace LibraryApp.Models
         public int CopyId { get; set; }
         public DateTimeOffset ReservationDate { get; set; }
 
-        public BookCopy Copy { get; set; }
-        public Reader UserLoginNavigation { get; set; }
+        public virtual BookCopy Copy { get; set; }
+        public virtual Reader UserLoginNavigation { get; set; }
     }
 }

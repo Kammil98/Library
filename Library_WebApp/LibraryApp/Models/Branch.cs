@@ -16,8 +16,8 @@ namespace LibraryApp.Models
         public string Name { get; set; }
         public string OpeningHours { get; set; }
 
-        public Address Address { get; set; }
-        public ICollection<BookCopy> BookCopy { get; set; }
-        public ICollection<Librarian> Librarian { get; set; }
+        public virtual Address Address { get; set; }
+        public virtual ICollection<BookCopy> BookCopy { get; set; }
+        public virtual ICollection<Librarian> Librarian { get; set; }
     }
 }

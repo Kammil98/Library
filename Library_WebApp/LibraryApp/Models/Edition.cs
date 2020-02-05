@@ -15,8 +15,8 @@ namespace LibraryApp.Models
         public DateTime ReleaseDate { get; set; }
         public string PublishingHouse { get; set; }
 
-        public Book IdNavigation { get; set; }
-        public PublishingHouse PublishingHouseNavigation { get; set; }
-        public ICollection<BookCopy> BookCopy { get; set; }
+        public virtual Book Book { get; set; }
+        public virtual PublishingHouse PublishingHouseNavigation { get; set; }
+        public virtual ICollection<BookCopy> BookCopy { get; set; }
     }
 }

@@ -16,9 +16,9 @@ namespace LibraryApp.Models
         public int BranchNumber { get; set; }
         public string Condition { get; set; }
 
-        public Branch BranchNumberNavigation { get; set; }
-        public Edition Edition { get; set; }
-        public ICollection<Borrowing> Borrowing { get; set; }
-        public ICollection<Reservation> Reservation { get; set; }
+        public virtual Branch BranchNumberNavigation { get; set; }
+        public virtual Edition Edition { get; set; }
+        public virtual ICollection<Borrowing> Borrowing { get; set; }
+        public virtual ICollection<Reservation> Reservation { get; set; }
     }
 }
