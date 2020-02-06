@@ -735,27 +735,6 @@ namespace Library_WebApp.Controllers
             return View("~/Views/Login/Create/libraryBranchData.cshtml");
         }
 
-        [HttpPost]
-        [HttpGet]
-        public IActionResult addProperty(PropertyDataViewModel model)
-        {
-            if(model == null)
-            {
-                model = new PropertyDataViewModel();
-            }
-            List<SelectListItem> items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "Kamil Luwański", Value = "1" });
-            items.Add(new SelectListItem { Text = "Mateusz Bąk", Value = "2" });
-            items.Add(new SelectListItem { Text = "Ktoś Ktosiowaty", Value = "3"});
-            model.Authors = items;
-            items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "Władca Pierścieni", Value = "4" });
-            items.Add(new SelectListItem { Text = "Algorytm Frodo", Value = "5" });
-            items.Add(new SelectListItem { Text = "Moja autobiografia", Value = "6" });
-            model.Books = items;
-            return View("~/Views/Login/Create/propertyData.cshtml", model);
-        }
-
         [HttpGet]
         public IActionResult addPublishingHouse()
         {
