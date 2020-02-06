@@ -12,9 +12,13 @@ namespace Library_WebApp.Models
         public Book book { get; set; }
         [Display(Name = "Gatunki")]
         public List<SelectListItem> Genres { get; set; }
+        [Display(Name = "Autorzy")]
+        [Required(ErrorMessage = "Trzeba wybrać conajmniej jednego autora")]
+        public List<Author> Authors { get; set; }
         public BookDataViewModel()
         {
             book = new Book();
+            Authors = new List<Author>();
         }
 
 

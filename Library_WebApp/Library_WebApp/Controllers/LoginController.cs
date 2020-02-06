@@ -301,6 +301,7 @@ namespace Library_WebApp.Controllers
         {
             BookDataViewModel model = new BookDataViewModel();
             List<SelectListItem> items = new List<SelectListItem>();
+            items = new List<SelectListItem>();
             items.Add(new SelectListItem { Text = "epika", Value = "epika" });
             items.Add(new SelectListItem { Text = "liryka", Value = "liryka" });
             items.Add(new SelectListItem { Text = "dramat", Value = "dramat" });
@@ -308,6 +309,32 @@ namespace Library_WebApp.Controllers
             return View("~/Views/Login/Create/bookData.cshtml", model);
         }
 
+        [HttpPost]
+        public IActionResult addBook(BookDataViewModel model)
+        {
+            if (TryValidateModel(model))
+            {
+                return View("~/Views/Login/Index.cshtml");
+            }
+            List<SelectListItem> items = new List<SelectListItem>();
+            items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "epika", Value = "epika" });
+            items.Add(new SelectListItem { Text = "liryka", Value = "liryka" });
+            items.Add(new SelectListItem { Text = "dramat", Value = "dramat" });
+            model.Genres = items;
+            return View("~/Views/Login/Create/bookData.cshtml", model);
+        }
+        public IActionResult addAuthorField(BookDataViewModel model)
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "epika", Value = "epika" });
+            items.Add(new SelectListItem { Text = "liryka", Value = "liryka" });
+            items.Add(new SelectListItem { Text = "dramat", Value = "dramat" });
+            model.Genres = items;
+            model.Authors.Add(new Author());
+            return View("~/Views/Login/Create/bookData.cshtml", model);
+        }
         [HttpGet]
         public IActionResult bookList(int? BookId)
         {

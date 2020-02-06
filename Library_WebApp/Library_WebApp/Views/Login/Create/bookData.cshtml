@@ -9,6 +9,7 @@
 
 <h4>Książka</h4>
 <hr />
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="addBook">
@@ -20,9 +21,45 @@
             </div>
             <div class="form-group">
                 <label asp-for="book.genre" class="control-label"></label>
-                @Html.DropDownListFor(m => m.book.genre, Model.Genres, "Wybierz gatunek", new { @class = "form-control" })
+                @Html.DropDownListFor(m => m.book.genre,
+               Model.Genres.Select(x => new SelectListItem { Text = x.Text, Value = x.Value }),
+                "Wybierz gatunek",
+                new { @class = "form-control" })
                 <span asp-validation-for="book.genre" class="text-danger"></span>
             </div>
+            <div>
+                <input asp-controller="login" asp-action="addAuthorField" type="submit" value="Dodaj autora" class="btn btn-default" formmethod="post" />
+            </div>
+
+            <div>
+                @if (Model.Authors.Count > 0)
+                {
+                    <div>
+                        <label asp-for="book.Authors[0].firstName" class="control-label "></label>
+
+                        <label asp-for="book.Authors[0].lastName" class="control-label col-md-offset-5"></label>
+                    </div>
+                }
+                @for (var i = 0; i < Model.Authors.Count; i++)
+                {
+                    <div class="form-row">
+                        <div class="row">
+                            @Html.ActionLink("Usuń autora", "redoAuthor", new { firstName = Model.Authors[i].firstName, lastName = Model.Authors[i].lastName }, null)
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                @Html.TextBoxFor(a => Model.Authors[i].firstName, null, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Authors[i].firstName, null, new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group col-md-6">
+                                @Html.TextBoxFor(a => Model.Authors[i].lastName, null, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Authors[i].lastName, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
             <div class="form-group">
                 <div class="row">
                     <input type="submit" value="Zatwierdź" class="btn btn-default" />
@@ -39,7 +76,6 @@
 <div>
     <a asp-action="Index">Wróć na stronę główną</a>
 </div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<!--section Scripts {
+    {await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}-->
