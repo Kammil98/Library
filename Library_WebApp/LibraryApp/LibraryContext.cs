@@ -35,16 +35,16 @@ namespace LibraryApp
         {
             modelBuilder.Entity<Address>(entity =>
             {
-                entity.HasIndex(e => new { e.Street, e.BuildingNumber, e.Country, e.City })
+                entity.HasIndex(e => new { e.Street, e.City, e.Country })
                     .HasName("AK_Address")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.BuildingNumber)
+                entity.Property(e => e.Street)
                     .IsRequired()
-                    .HasColumnName("buildingNumber")
-                    .HasMaxLength(16)
+                    .HasColumnName("street")
+                    .HasMaxLength(256)
                     .IsUnicode(false);
 
                 entity.Property(e => e.City)
@@ -57,12 +57,6 @@ namespace LibraryApp
                     .IsRequired()
                     .HasColumnName("country")
                     .HasMaxLength(64)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Street)
-                    .IsRequired()
-                    .HasColumnName("street")
-                    .HasMaxLength(256)
                     .IsUnicode(false);
 
                 entity.Property(e => e.ZipCode)

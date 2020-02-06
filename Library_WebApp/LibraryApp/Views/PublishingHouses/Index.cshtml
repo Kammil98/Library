@@ -1,0 +1,136 @@
+﻿@model LibraryApp.Models.PublishingHousesViewModel
+
+@{
+    ViewData["Title"] = "Wydawnictwa";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create">Dodaj wydawnictwo</a>
+</p>
+
+<button type="button" class="collapsible">Filtrowanie</button>
+<div class="content">
+    <form asp-action="Index" method="get">
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label asp-for="NameFilter"></label>
+                <input asp-for="NameFilter" class="form-control" value="@Model.NameFilter">
+                <span asp-validation-for="NameFilter" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="AddressFilter"></label>
+                <input asp-for="AddressFilter" class="form-control" value="@Model.AddressFilter">
+                <span asp-validation-for="AddressFilter" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <button type="submit" class="btn btn-primary mb-2">Wyszukaj</button>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+
+    <div class="table-responsive col">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Wydawnictwo
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.PublishingHouses) {
+                    var selectedRow = "";
+                    if (Model.Selection != null && item.Name == Model.Selection.Name) {
+                        selectedRow = "table-success";
+                    }
+                    <tr class="@selectedRow">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td align="right">
+                            <a asp-action="Index" asp-route-id="@item.Name">Szczegóły</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-responsive col">
+        @if (Model.Selection != null) {
+            <table class="table table-borderless">
+                <tr>
+                    <td>
+                        <h2>@Model.Selection.Name</h2>
+                    </td>
+                    <td align="right">
+                        <a>Przeglądaj zasoby</a> |
+                        <a asp-action="Edit" asp-route-id="@Model.Selection.Name">Edytuj</a> |
+                        <a asp-action="Delete" asp-route-id="@Model.Selection.Name">Usuń</a>
+                    </td>
+                </tr>
+            </table>
+            var address = Model.Selection.Address;
+            var adressLine1 = address.Street;
+            var adressLine2 = $"{address.ZipCode} {address.City}, {address.Country}";
+            <div>
+                <dl class="dl-horizontal">
+                    <dt>
+                        Adres:
+                    </dt>
+                    <dd>
+                        @adressLine1<br />
+                        @adressLine2
+                    </dd>
+                </dl>
+            </div>
+
+            <div class="table-responsive">
+                <h4>Wydania</h4>
+                <p>
+                    <a asp-controller="Editions" asp-action="Create">Dodaj wydanie</a>
+                </p>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Tytuł
+                            </th>
+                            <th>
+                                Data wydania
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Editions) {
+                            var book = item.Book;
+                            <tr>
+                                <td>
+                                    <a asp-controller="Books" asp-action="Index" asp-route-id="@book.Id">@book.Title</a>
+                                </td>
+                                <td>
+                                    @{
+                                        var releaseDate = item.ReleaseDate.ToString("d");
+                                    }
+                                    @releaseDate
+                                </td>
+                                <td align="right">
+                                    <a asp-controller="Editions" asp-action="Edit" asp-route-id="@item.Id">Edytuj</a> |
+                                    <a asp-controller="Editions" asp-action="Delete" asp-route-id="@item.Id">Usuń</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+
+</div>

@@ -1,0 +1,33 @@
+﻿@model LibraryApp.Models.PublishingHouse
+
+@{
+    ViewData["Title"] = "Usuń wydawnictwo";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>Czy na pewno chcesz usunąć to wydawnictwo?</h3>
+<div>
+    <h2>@Model.Name</h2>
+    <hr />
+    @{
+        var address = Model.Address;
+        var adressLine1 = address.Street;
+        var adressLine2 = $"{address.ZipCode} {address.City}, {address.Country}";
+        <dl class="dl-horizontal">
+            <dt>
+                Adres:
+            </dt>
+            <dd>
+                @adressLine1<br />
+                @adressLine2
+            </dd>
+        </dl>
+    }
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Name" />
+        <input type="submit" value="Usuń" class="btn btn-danger mb-2" />
+        <button class="btn btn-secondary mb-2" asp-action="Index">Anuluj</button>
+    </form>
+</div>

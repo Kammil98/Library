@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace LibraryApp.Models
 {
@@ -10,6 +11,7 @@ namespace LibraryApp.Models
             Edition = new HashSet<Edition>();
         }
 
+        [Required(ErrorMessage = "To pole jest wymagane")]
         public string Name { get; set; }
         public int AddressId { get; set; }
 
