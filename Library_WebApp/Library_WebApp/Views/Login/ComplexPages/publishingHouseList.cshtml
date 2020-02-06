@@ -78,7 +78,7 @@
                         @Html.DisplayFor(modelItem => item.name)
                     </td>
                     <td>
-                        @Html.ActionLink("Pracownicy", "publishingHouseList", new { id = item.id }, null) |
+                        @Html.ActionLink("Wydania", "editionsList", new { id = item.id }, null) |
                         @Html.ActionLink("Edytuj", "editPublishingHouse", new { id = item.id }, null) |
                         @Html.ActionLink("Usuń", "deletePublishingHouse", new { id = item.id }, null)
                     </td>

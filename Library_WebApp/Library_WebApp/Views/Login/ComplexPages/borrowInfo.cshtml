@@ -94,6 +94,12 @@
 
             </div>
         </form>
+        <div class="form-row col-md-6">
+            @if (ViewBag.errMsg != null)
+            {
+                <span class="text-danger">@ViewBag.errMsg</span>
+            }
+        </div>
         <form asp-controller="Login" asp-action="borrow" class="form-control-static col-md-4">
             @if (!String.IsNullOrEmpty(Model.reader.login))
             {
@@ -137,15 +143,19 @@
                     </dd>
                 </dl>
                 <div class="row">
-                    <button type="submit" 
-                            asp-route-volumeId="@Model.volume.id" 
-                            asp-route-login="@Model.reader.login" 
-                            class="btn btn-primary mb-2">Wypożycz</button>
-                    <button asp-controller="Login" 
-                            asp-action="reserve" 
-                            asp-route-volumeId="@Model.volume.id" 
-                            asp-route-login="@Model.reader.login" 
-                            class="btn btn-primary mb-2">Rezerwuj</button>
+                    <button type="submit"
+                            asp-route-volumeId="@Model.volume.id"
+                            asp-route-login="@Model.reader.login"
+                            class="btn btn-primary mb-2">
+                        Wypożycz
+                    </button>
+                    <button asp-controller="Login"
+                            asp-action="reserve"
+                            asp-route-volumeId="@Model.volume.id"
+                            asp-route-login="@Model.reader.login"
+                            class="btn btn-primary mb-2">
+                        Rezerwuj
+                    </button>
                 </div>
             }
         </form>
