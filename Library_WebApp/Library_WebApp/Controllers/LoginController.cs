@@ -10,15 +10,15 @@ namespace Library_WebApp.Controllers
 {
     public class LoginController : Controller
     {
-        public List<Book> Books = new List<Book>();
-        public List<PublishingHouse> PublishingHouses = new List<PublishingHouse>();
-        public List<Volume> Volumes = new List<Volume>(); 
-        public List<Edition> Editions = new List<Edition>();
-        public List<Borrow> Borrows = new List<Borrow>();
-        public List<Reservation> Reservations = new List<Reservation>();
-        public List<Reader> Readers = new List<Reader>();
-        public List<Author> Authors = new List<Author>();
-        public List<Property> Properties = new List<Property>();
+        private List<Book> Books = new List<Book>();
+        private List<PublishingHouse> PublishingHouses = new List<PublishingHouse>();
+        private List<Volume> Volumes = new List<Volume>();
+        private List<Edition> Editions = new List<Edition>();
+        private List<Borrow> Borrows = new List<Borrow>();
+        private List<Reservation> Reservations = new List<Reservation>();
+        private List<Reader> Readers = new List<Reader>();
+        private List<Author> Authors = new List<Author>();
+        private List<Property> Properties = new List<Property>();
         public LoginController()
         {
             PublishingHouse pubHouse = new PublishingHouse();
@@ -233,6 +233,22 @@ namespace Library_WebApp.Controllers
             }
             model.PublishingHouses = PublishingHouses;
             if(id != null)
+            {
+                ViewBag.PublishingHouseId = id;
+                model.publishingHouse = model.PublishingHouses.Find(x => x.id == id);
+                model.Editions = Editions;
+                model.Books = Books;
+            }
+            return View("~/Views/Login/ComplexPages/publishingHouseList.cshtml", model);
+        }
+
+        [HttpPost]
+        [HttpGet]
+        public IActionResult editionsList(int? id)
+        {
+            publishingHouseListViewModel model = new publishingHouseListViewModel();
+            model.PublishingHouses = PublishingHouses;
+            if (id != null)
             {
                 ViewBag.PublishingHouseId = id;
                 model.publishingHouse = model.PublishingHouses.Find(x => x.id == id);
