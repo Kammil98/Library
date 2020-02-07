@@ -12,7 +12,7 @@
 
 <button type="button" class="collapsible">Filtrowanie</button>
 <div class="content">
-    <form asp-action="Index" method="get">
+    <form asp-action="Index" asp-route-id="" method="get">
         <div class="row">
             <div class="form-group col-md-6">
                 <label asp-for="NameFilter"></label>
@@ -54,7 +54,9 @@
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td align="right">
-                            <a asp-action="Index" asp-route-id="@item.Name">Szczegóły</a>
+                            <a asp-action="Index" asp-route-id="@item.Name"
+                               asp-route-NameFilter="@Model.NameFilter"
+                               asp-route-AddressFilter="@Model.AddressFilter">Szczegóły</a>
                         </td>
                     </tr>
                 }
@@ -116,10 +118,7 @@
                                     <a asp-controller="Books" asp-action="Index" asp-route-id="@book.Id">@book.Title</a>
                                 </td>
                                 <td>
-                                    @{
-                                        var releaseDate = item.ReleaseDate.ToString("d");
-                                    }
-                                    @releaseDate
+                                    @item.ReleaseDate.ToString("d")
                                 </td>
                                 <td align="right">
                                     <a asp-controller="Editions" asp-action="Edit" asp-route-id="@item.Id">Edytuj</a> |
