@@ -20,29 +20,37 @@ namespace LibraryApp.Controllers {
 
         // GET: PublishingHouses
         public async Task<IActionResult> Index(string id = null) {
+            // Sorting
             var orderBy = HttpContext.Request.Query["OrderBy"];
             ViewData["OrderBy"] = orderBy;
             ViewData["DetailOrderBy"] = "";
-            ViewData["NameSortParam"] = string.IsNullOrEmpty(orderBy) ? "name_desc" : "";
-            IQueryable<PublishingHouse> publishingHouses = _context.PublishingHouse
-                .Include(i => i.Address);
-            switch (orderBy) {
-                case "name_desc":
-                    publishingHouses = publishingHouses.OrderByDescending(i => i.Name);
-                    break;
-                default:
-                    publishingHouses = publishingHouses.OrderBy(i => i.Name);
-                    break;
+            ViewData["NameSortParam"] = "";
+            if (string.IsNullOrEmpty(orderBy)) {
+                orderBy = "Name";
+                ViewData["NameSortParam"] = "Name_desc";
             }
-            var viewModel = new PublishingHousesViewModel {
-                PublishingHouses = await publishingHouses.ToListAsync()
-            };
-
+            PublishingHousesViewModel viewModel;
+            try {
+                viewModel = new PublishingHousesViewModel {
+                    PublishingHouses = await _context.PublishingHouse
+                        .Include(i => i.Address)
+                        .OrderByQuery(orderBy)
+                        .ToListAsync()
+                };
+            }
+            catch (InvalidOperationException) {
+                viewModel = new PublishingHousesViewModel {
+                    PublishingHouses = await _context.PublishingHouse
+                        .Include(i => i.Address)
+                        .OrderBy(i => i.Name)
+                        .ToListAsync()
+                };
+            }
+            // Filtering
             var nameFilter = HttpContext.Request.Query["NameFilter"];
             viewModel.NameFilter = nameFilter;
             var addressFilter = HttpContext.Request.Query["AddressFilter"];
             viewModel.AddressFilter = addressFilter;
-
             viewModel.PublishingHouses = viewModel.PublishingHouses
                 .Where(i => {
                     if (!i.Name.ToLower().StartsWith(nameFilter.ToString().ToLower())) {
@@ -65,26 +73,26 @@ namespace LibraryApp.Controllers {
                         .ToHashSet();
                     return address.IsSubsetOf(match);
                 });
-
+            // Detail view
             if (id != null) {
                 viewModel.Selection = viewModel.PublishingHouses
                     .FirstOrDefault(i => i.Name == id);
                 if (viewModel.Selection != null) {
                     var detailOrderBy = HttpContext.Request.Query["DetailOrderBy"];
                     ViewData["DetailOrderBy"] = detailOrderBy;
-                    ViewData["TitleSortParam"] = string.IsNullOrEmpty(detailOrderBy) ? "title_desc" : "";
-                    ViewData["DateSortParam"] = detailOrderBy == "date" ? "date_desc" : "date";
+                    ViewData["DateSortParam"] = detailOrderBy == "ReleaseDate" ? "ReleaseDate_desc" : "ReleaseDate";
+                    ViewData["TitleSortParam"] = string.IsNullOrEmpty(detailOrderBy) ? "Book_desc" : "";
                     IQueryable<Edition> editions = _context.Edition
                         .Where(i => i.PublishingHouse == id)
                         .Include(i => i.Book);
                     switch (detailOrderBy) {
-                        case "date_desc":
+                        case "ReleaseDate_desc":
                             editions = editions.OrderByDescending(i => i.ReleaseDate);
                             break;
-                        case "date":
+                        case "ReleaseDate":
                             editions = editions.OrderBy(i => i.ReleaseDate);
                             break;
-                        case "title_desc":
+                        case "Book_desc":
                             editions = editions.OrderByDescending(i => i.Book.Title);
                             break;
                         default:
