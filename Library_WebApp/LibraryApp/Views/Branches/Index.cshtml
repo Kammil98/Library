@@ -1,0 +1,183 @@
+﻿@model LibraryApp.Models.BranchesViewModel
+
+@{
+    ViewData["Title"] = "Filie";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create">Dodaj filię</a>
+</p>
+
+<button type="button" class="collapsible">Filtrowanie</button>
+<div class="content">
+    <form asp-action="Index" asp-route-id="" method="get">
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label asp-for="NameFilter"></label>
+                <input asp-for="NameFilter" class="form-control" value="@Model.NameFilter">
+                <span asp-validation-for="NameFilter" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="AddressFilter"></label>
+                <input asp-for="AddressFilter" class="form-control" value="@Model.AddressFilter">
+                <span asp-validation-for="AddressFilter" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <button type="submit" class="btn btn-primary mb-2">Wyszukaj</button>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+
+    <div class="table-responsive col">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-OrderBy="@ViewData["NumberSortParam"]"
+                           asp-route-DetailOrderBy="@ViewData["DetailOrderBy"]"
+                           asp-route-NameFilter="@Model.NameFilter"
+                           asp-route-AddressFilter="@Model.AddressFilter">Numer</a>
+                    </th>
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-OrderBy="@ViewData["NameSortParam"]"
+                           asp-route-DetailOrderBy="@ViewData["DetailOrderBy"]"
+                           asp-route-NameFilter="@Model.NameFilter"
+                           asp-route-AddressFilter="@Model.AddressFilter">Nazwa</a>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Branches) {
+                    var selectedRow = "";
+                    if (Model.Selection != null && item.BranchNumber == Model.Selection.BranchNumber) {
+                        selectedRow = "table-success";
+                    }
+                    <tr class="@selectedRow">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BranchNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td align="right">
+                            <a asp-action="Index" asp-route-id="@item.BranchNumber"
+                               asp-route-OrderBy="@ViewData["OrderBy"]"
+                               asp-route-DetailOrderBy="@ViewData["DetailOrderBy"]"
+                               asp-route-NameFilter="@Model.NameFilter"
+                               asp-route-AddressFilter="@Model.AddressFilter">Szczegóły</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-responsive col">
+        @if (Model.Selection != null) {
+            <table class="table table-borderless">
+                <tr>
+                    <td>
+                        <h2>@Model.Selection.Name</h2>
+                    </td>
+                    <td align="right">
+                        <a>Przeglądaj zasoby</a> |
+                        <a asp-action="Edit" asp-route-id="@Model.Selection.BranchNumber">Edytuj</a> |
+                        <a asp-action="Delete" asp-route-id="@Model.Selection.BranchNumber">Usuń</a>
+                    </td>
+                </tr>
+            </table>
+            var address = Model.Selection.Address;
+            var adressLine1 = address.Street;
+            var adressLine2 = $"{address.ZipCode} {address.City}, {address.Country}";
+            <div>
+                <dl class="dl-horizontal">
+                    <dt>
+                        Numer filii:
+                    </dt>
+                    <dd>
+                        @Model.Selection.BranchNumber
+                    </dd>
+                    <dt>
+                        Godziny otwarcia:
+                    </dt>
+                    <dd>
+                        @foreach (var line in Model.Selection.OpeningHours.Split('\n')) {
+                            @line<br />
+                        }
+                    </dd>
+                    <dt>
+                        Adres:
+                    </dt>
+                    <dd>
+                        @adressLine1<br />
+                        @adressLine2
+                    </dd>
+                </dl>
+            </div>
+
+            <div class="table-responsive">
+                <h4>Pracownicy</h4>
+                <p>
+                    <a asp-controller="Librarians" asp-action="Create">Dodaj pracownika</a>
+                </p>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                <a asp-action="Index"
+                                   asp-route-OrderBy="@ViewData["OrderBy"]"
+                                   asp-route-DetailOrderBy="@ViewData["LastNameSortParam"]"
+                                   asp-route-NameFilter="@Model.NameFilter"
+                                   asp-route-AddressFilter="@Model.AddressFilter">Nazwisko</a>
+                            </th>
+                            <th>
+                                <a asp-action="Index"
+                                   asp-route-OrderBy="@ViewData["OrderBy"]"
+                                   asp-route-DetailOrderBy="@ViewData["FirstNameSortParam"]"
+                                   asp-route-NameFilter="@Model.NameFilter"
+                                   asp-route-AddressFilter="@Model.AddressFilter">Imię</a>
+                            </th>
+                            <th>
+                                <a asp-action="Index"
+                                   asp-route-OrderBy="@ViewData["OrderBy"]"
+                                   asp-route-DetailOrderBy="@ViewData["DateSortParam"]"
+                                   asp-route-NameFilter="@Model.NameFilter"
+                                   asp-route-AddressFilter="@Model.AddressFilter">Data zatrudnienia</a>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Librarians) {
+                            var user = item.LoginNavigation;
+                            <tr>
+                                <td>
+                                    @user.LastName
+                                </td>
+                                <td>
+                                    @user.FirstName
+                                </td>
+                                <td>
+                                    @item.EmploymentDate.ToString("d")
+                                </td>
+                                <td align="right">
+                                    <a asp-controller="Librarians" asp-action="Edit" asp-route-id="@item.Login">Edytuj</a> |
+                                    <a asp-controller="Librarians" asp-action="Delete" asp-route-id="@item.Login">Usuń</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+
+</div>
