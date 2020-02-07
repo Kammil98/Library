@@ -51,6 +51,10 @@ namespace LibraryApp.Controllers {
             viewModel.NameFilter = nameFilter;
             var addressFilter = HttpContext.Request.Query["AddressFilter"];
             viewModel.AddressFilter = addressFilter;
+            var address = addressFilter.ToString()
+                .ToLower()
+                .Split(new char[0], StringSplitOptions.RemoveEmptyEntries)
+                .ToHashSet();
             viewModel.PublishingHouses = viewModel.PublishingHouses
                 .Where(i => {
                     if (!i.Name.ToLower().StartsWith(nameFilter.ToString().ToLower())) {
@@ -59,10 +63,6 @@ namespace LibraryApp.Controllers {
                     if (string.IsNullOrEmpty(addressFilter)) {
                         return true;
                     }
-                    var address = addressFilter.ToString()
-                        .ToLower()
-                        .Split(new char[0], StringSplitOptions.RemoveEmptyEntries)
-                        .ToHashSet();
                     var match = string.Join(' ',
                         i.Address.Street,
                         i.Address.Country,
