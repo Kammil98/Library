@@ -38,7 +38,11 @@
             <thead>
                 <tr>
                     <th>
-                        Wydawnictwo
+                        <a asp-action="Index"
+                           asp-route-OrderBy="@ViewData["NameSortParam"]"
+                           asp-route-DetailOrderBy="@ViewData["DetailOrderBy"]"
+                           asp-route-NameFilter="@Model.NameFilter"
+                           asp-route-AddressFilter="@Model.AddressFilter">Wydawnictwo</a>
                     </th>
                     <th></th>
                 </tr>
@@ -55,6 +59,8 @@
                         </td>
                         <td align="right">
                             <a asp-action="Index" asp-route-id="@item.Name"
+                               asp-route-OrderBy="@ViewData["OrderBy"]"
+                               asp-route-DetailOrderBy="@ViewData["DetailOrderBy"]"
                                asp-route-NameFilter="@Model.NameFilter"
                                asp-route-AddressFilter="@Model.AddressFilter">Szczegóły</a>
                         </td>
@@ -102,10 +108,18 @@
                     <thead>
                         <tr>
                             <th>
-                                Tytuł
+                                <a asp-action="Index"
+                                   asp-route-OrderBy="@ViewData["OrderBy"]"
+                                   asp-route-DetailOrderBy="@ViewData["TitleSortParam"]"
+                                   asp-route-NameFilter="@Model.NameFilter"
+                                   asp-route-AddressFilter="@Model.AddressFilter">Tytuł</a>
                             </th>
                             <th>
-                                Data wydania
+                                <a asp-action="Index"
+                                   asp-route-OrderBy="@ViewData["OrderBy"]"
+                                   asp-route-DetailOrderBy="@ViewData["DateSortParam"]"
+                                   asp-route-NameFilter="@Model.NameFilter"
+                                   asp-route-AddressFilter="@Model.AddressFilter">Data wydania</a>
                             </th>
                             <th></th>
                         </tr>

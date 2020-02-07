@@ -20,11 +20,22 @@ namespace LibraryApp.Controllers {
 
         // GET: PublishingHouses
         public async Task<IActionResult> Index(string id = null) {
+            var orderBy = HttpContext.Request.Query["OrderBy"];
+            ViewData["OrderBy"] = orderBy;
+            ViewData["DetailOrderBy"] = "";
+            ViewData["NameSortParam"] = string.IsNullOrEmpty(orderBy) ? "name_desc" : "";
+            IQueryable<PublishingHouse> publishingHouses = _context.PublishingHouse
+                .Include(i => i.Address);
+            switch (orderBy) {
+                case "name_desc":
+                    publishingHouses = publishingHouses.OrderByDescending(i => i.Name);
+                    break;
+                default:
+                    publishingHouses = publishingHouses.OrderBy(i => i.Name);
+                    break;
+            }
             var viewModel = new PublishingHousesViewModel {
-                PublishingHouses = await _context.PublishingHouse
-                .Include(i => i.Address)
-                .OrderBy(i => i.Name)
-                .ToListAsync()
+                PublishingHouses = await publishingHouses.ToListAsync()
             };
 
             var nameFilter = HttpContext.Request.Query["NameFilter"];
@@ -59,12 +70,28 @@ namespace LibraryApp.Controllers {
                 viewModel.Selection = viewModel.PublishingHouses
                     .FirstOrDefault(i => i.Name == id);
                 if (viewModel.Selection != null) {
-                    _context.Address.Where(i => i.Id == viewModel.Selection.AddressId).Load();
-
-                    viewModel.Editions = await _context.Edition
+                    var detailOrderBy = HttpContext.Request.Query["DetailOrderBy"];
+                    ViewData["DetailOrderBy"] = detailOrderBy;
+                    ViewData["TitleSortParam"] = string.IsNullOrEmpty(detailOrderBy) ? "title_desc" : "";
+                    ViewData["DateSortParam"] = detailOrderBy == "date" ? "date_desc" : "date";
+                    IQueryable<Edition> editions = _context.Edition
                         .Where(i => i.PublishingHouse == id)
-                        .Include(i => i.Book)
-                        .ToListAsync();
+                        .Include(i => i.Book);
+                    switch (detailOrderBy) {
+                        case "date_desc":
+                            editions = editions.OrderByDescending(i => i.ReleaseDate);
+                            break;
+                        case "date":
+                            editions = editions.OrderBy(i => i.ReleaseDate);
+                            break;
+                        case "title_desc":
+                            editions = editions.OrderByDescending(i => i.Book.Title);
+                            break;
+                        default:
+                            editions = editions.OrderBy(i => i.Book.Title);
+                            break;
+                    }
+                    viewModel.Editions = await editions.ToListAsync();
                 }
             }
 
