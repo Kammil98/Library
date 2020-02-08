@@ -155,7 +155,7 @@ namespace LibraryApp.Controllers {
         // POST: Branches/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id,
+        public async Task<IActionResult> Edit(int id,
             [Bind("BranchNumber,Name,OpeningHours,AddressId,Address")] Branch branch) {
             if (id != branch.BranchNumber) {
                 return NotFound();
@@ -201,7 +201,7 @@ namespace LibraryApp.Controllers {
         // POST: Branches/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int? id) {
+        public async Task<IActionResult> DeleteConfirmed(int id) {
             var branch = await _context.Branch
                 .Include(p => p.Address)
                 .FirstOrDefaultAsync(m => m.BranchNumber == id);
@@ -211,7 +211,7 @@ namespace LibraryApp.Controllers {
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BranchExists(int? id) {
+        private bool BranchExists(int id) {
             return _context.Branch.Any(e => e.BranchNumber == id);
         }
     }

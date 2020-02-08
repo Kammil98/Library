@@ -21,6 +21,7 @@ namespace LibraryApp
         public virtual DbSet<Authorship> Authorship { get; set; }
         public virtual DbSet<Book> Book { get; set; }
         public virtual DbSet<BookCopy> BookCopy { get; set; }
+        public virtual DbSet<BookCopyState> BookCopyState { get; set; }
         public virtual DbSet<Borrowing> Borrowing { get; set; }
         public virtual DbSet<Branch> Branch { get; set; }
         public virtual DbSet<Edition> Edition { get; set; }
@@ -41,12 +42,6 @@ namespace LibraryApp
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Street)
-                    .IsRequired()
-                    .HasColumnName("street")
-                    .HasMaxLength(256)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.City)
                     .IsRequired()
                     .HasColumnName("city")
@@ -59,6 +54,12 @@ namespace LibraryApp
                     .HasMaxLength(64)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Street)
+                    .IsRequired()
+                    .HasColumnName("street")
+                    .HasMaxLength(256)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.ZipCode)
                     .HasColumnName("zipCode")
                     .HasMaxLength(16)
@@ -67,6 +68,9 @@ namespace LibraryApp
 
             modelBuilder.Entity<Author>(entity =>
             {
+                entity.HasIndex(e => new { e.LastName, e.FirstName })
+                    .HasName("IX_Author");
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Country)
@@ -110,6 +114,9 @@ namespace LibraryApp
 
             modelBuilder.Entity<Book>(entity =>
             {
+                entity.HasIndex(e => e.Title)
+                    .HasName("IX_Book");
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Genre)
@@ -133,6 +140,9 @@ namespace LibraryApp
 
             modelBuilder.Entity<BookCopy>(entity =>
             {
+                entity.HasIndex(e => e.EditionId)
+                    .HasName("IX_BookCopy");
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.BranchNumber).HasColumnName("branchNumber");
@@ -157,9 +167,29 @@ namespace LibraryApp
                     .HasConstraintName("FK_BookCopy_Edition");
             });
 
+            modelBuilder.Entity<BookCopyState>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("BookCopyState");
+
+                entity.Property(e => e.BookId).HasColumnName("bookId");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.State)
+                    .IsRequired()
+                    .HasColumnName("state")
+                    .HasMaxLength(9)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Borrowing>(entity =>
             {
                 entity.HasKey(e => new { e.UserLogin, e.CopyId, e.BorrowDate });
+
+                entity.HasIndex(e => new { e.CopyId, e.BorrowDate })
+                    .HasName("IX_Borrowing");
 
                 entity.Property(e => e.UserLogin)
                     .HasColumnName("userLogin")
@@ -193,7 +223,13 @@ namespace LibraryApp
                     .HasName("AK_Branch")
                     .IsUnique();
 
-                entity.Property(e => e.BranchNumber).HasColumnName("branchNumber");
+                entity.HasIndex(e => e.Name)
+                    .HasName("AK_Branch_Name")
+                    .IsUnique();
+
+                entity.Property(e => e.BranchNumber)
+                    .HasColumnName("branchNumber")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.AddressId).HasColumnName("addressId");
 
@@ -218,6 +254,9 @@ namespace LibraryApp
 
             modelBuilder.Entity<Edition>(entity =>
             {
+                entity.HasIndex(e => e.BookId)
+                    .HasName("IX_Edition");
+
                 entity.HasIndex(e => new { e.BookId, e.ReleaseDate, e.PublishingHouse })
                     .HasName("AK_Edition")
                     .IsUnique();
@@ -262,6 +301,9 @@ namespace LibraryApp
             modelBuilder.Entity<Librarian>(entity =>
             {
                 entity.HasKey(e => e.Login);
+
+                entity.HasIndex(e => e.BranchNumber)
+                    .HasName("IX_Librarian");
 
                 entity.Property(e => e.Login)
                     .HasColumnName("login")
@@ -333,6 +375,9 @@ namespace LibraryApp
             {
                 entity.HasKey(e => new { e.UserLogin, e.CopyId, e.ReservationDate });
 
+                entity.HasIndex(e => e.CopyId)
+                    .HasName("IX_Reservation");
+
                 entity.Property(e => e.UserLogin)
                     .HasColumnName("userLogin")
                     .HasMaxLength(64)
@@ -358,6 +403,9 @@ namespace LibraryApp
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.Login);
+
+                entity.HasIndex(e => new { e.LastName, e.FirstName })
+                    .HasName("IX_User");
 
                 entity.Property(e => e.Login)
                     .HasColumnName("login")

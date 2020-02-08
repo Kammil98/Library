@@ -1,0 +1,290 @@
+﻿@model LibraryApp.Models.BooksViewModel
+
+@{
+    ViewData["Title"] = "Książki";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create">Dodaj książkę</a>
+</p>
+
+<button type="button" class="collapsible">Filtrowanie</button>
+<div class="content">
+    <form asp-action="Index" asp-route-id="" method="get">
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label asp-for="TitleFilter"></label>
+                <input asp-for="TitleFilter" class="form-control" value="@Model.TitleFilter">
+                <span asp-validation-for="TitleFilter" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="GenreFilter"></label>
+                <select asp-for="GenreFilter" class="form-control" asp-items="ViewBag.Genre">
+                    <option value="">Wszystkie gatunki</option>
+                </select>
+                <span asp-validation-for="GenreFilter" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label asp-for="AuthorFilter"></label>
+                <input asp-for="AuthorFilter" class="form-control" value="@Model.AuthorFilter">
+                <span asp-validation-for="AuthorFilter" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="BranchFilter"></label>
+                <select asp-for="BranchFilter" class="form-control" asp-items="ViewBag.Branch">
+                    <option value="">Wszystkie filie</option>
+                </select>
+                <span asp-validation-for="BranchFilter" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label asp-for="PublishingHouseFilter"></label>
+                <input asp-for="PublishingHouseFilter" class="form-control" value="@Model.PublishingHouseFilter">
+                <span asp-validation-for="PublishingHouseFilter" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Egzemplarze</label>
+                <div>
+                    <span>
+                        @if (Model.Available) {
+                            <input asp-for="Available" type="checkbox" value="True" checked />
+                        }
+                        else {
+                            <input asp-for="Available" type="checkbox" value="True" />
+                        }
+                        dostępne
+                    </span><br />
+                    <span>
+                        @if (Model.Reserved) {
+                            <input asp-for="Reserved" type="checkbox" value="True" checked />
+                        }
+                        else {
+                            <input asp-for="Reserved" type="checkbox" value="True" />
+                        }
+                        zarezerwowane
+                    </span><br />
+                    <span>
+                        @if (Model.Borrowed) {
+                            <input asp-for="Borrowed" type="checkbox" value="True" checked />
+                        }
+                        else {
+                            <input asp-for="Borrowed" type="checkbox" value="True" />
+                        }
+                        wypożyczone
+                    </span><br />
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <button type="submit" class="btn btn-primary mb-2">Wyszukaj</button>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+
+    <div class="table-responsive col">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-OrderBy="@ViewData["TitleSortParam"]"
+                           asp-route-DetailOrderBy="@ViewData["DetailOrderBy"]"
+                           asp-route-TitleFilter="@Model.TitleFilter"
+                           asp-route-AuthorFilter="@Model.AuthorFilter"
+                           asp-route-PublishingHouseFilter="@Model.PublishingHouseFilter"
+                           asp-route-BranchFilter="@Model.BranchFilter"
+                           asp-route-GenreFilter="@Model.GenreFilter"
+                           asp-route-Available="@Model.Available"
+                           asp-route-Reserved="@Model.Reserved"
+                           asp-route-Borrowed="@Model.Borrowed">Tytuł</a>
+                    </th>
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-OrderBy="@ViewData["GenreSortParam"]"
+                           asp-route-DetailOrderBy="@ViewData["DetailOrderBy"]"
+                           asp-route-TitleFilter="@Model.TitleFilter"
+                           asp-route-AuthorFilter="@Model.AuthorFilter"
+                           asp-route-PublishingHouseFilter="@Model.PublishingHouseFilter"
+                           asp-route-BranchFilter="@Model.BranchFilter"
+                           asp-route-GenreFilter="@Model.GenreFilter"
+                           asp-route-Available="@Model.Available"
+                           asp-route-Reserved="@Model.Reserved"
+                           asp-route-Borrowed="@Model.Borrowed">Gatunek</a>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Books) {
+                    var selectedRow = "";
+                    if (Model.Selection != null && item.Id == Model.Selection.Id) {
+                        selectedRow = "table-success";
+                    }
+                    <tr class="@selectedRow">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Genre)
+                        </td>
+                        <td align="right">
+                            <a asp-action="Index" asp-route-id="@item.Id"
+                               asp-route-OrderBy="@ViewData["OrderBy"]"
+                               asp-route-DetailOrderBy="@ViewData["DetailOrderBy"]"
+                               asp-route-TitleFilter="@Model.TitleFilter"
+                               asp-route-AuthorFilter="@Model.AuthorFilter"
+                               asp-route-PublishingHouseFilter="@Model.PublishingHouseFilter"
+                               asp-route-BranchFilter="@Model.BranchFilter"
+                               asp-route-GenreFilter="@Model.GenreFilter"
+                               asp-route-Available="@Model.Available"
+                               asp-route-Reserved="@Model.Reserved"
+                               asp-route-Borrowed="@Model.Borrowed">Szczegóły</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-responsive col">
+        @if (Model.Selection != null) {
+            <table class="table table-borderless">
+                <tr>
+                    <td>
+                        <h2>@Model.Selection.Title</h2>
+                    </td>
+                    <td align="right">
+                        <a asp-action="Edit" asp-route-id="@Model.Selection.Id">Edytuj</a> |
+                        <a asp-action="Delete" asp-route-id="@Model.Selection.Id">Usuń</a>
+                    </td>
+                </tr>
+            </table>
+            <div>
+                <dl class="dl-horizontal">
+                    <dt>
+                        Gatunek:
+                    </dt>
+                    <dd>
+                        @Model.Selection.Genre
+                    </dd>
+                    <dt>
+                        Autorzy:
+                    </dt>
+                    <dd>
+                        @foreach (var author in Model.Authors) {
+                            @author.FirstName @author.LastName<br />
+                        }
+                    </dd>
+                    <dt>
+                        Liczba egzemplarzy:
+                    </dt>
+                    <dd>
+                        @Model.CopiesCount
+                    </dd>
+                    <dt>
+                        Dostępne:
+                    </dt>
+                    <dd>
+                        @Model.CopiesAvailable
+                    </dd>
+                </dl>
+            </div>
+
+            <div class="table-responsive">
+                <h4>Egzemplarze</h4>
+                <p>
+                    <a asp-controller="BookCopies" asp-action="Create">Dodaj egzemplarz</a>
+                </p>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                <a asp-action="Index"
+                                   asp-route-OrderBy="@ViewData["OrderBy"]"
+                                   asp-route-DetailOrderBy="@ViewData["BranchSortParam"]"
+                                   asp-route-TitleFilter="@Model.TitleFilter"
+                                   asp-route-AuthorFilter="@Model.AuthorFilter"
+                                   asp-route-PublishingHouseFilter="@Model.PublishingHouseFilter"
+                                   asp-route-BranchFilter="@Model.BranchFilter"
+                                   asp-route-GenreFilter="@Model.GenreFilter"
+                                   asp-route-Available="@Model.Available"
+                                   asp-route-Reserved="@Model.Reserved"
+                                   asp-route-Borrowed="@Model.Borrowed">Filia</a>
+                            </th>
+                            <th>
+                                <a asp-action="Index"
+                                   asp-route-OrderBy="@ViewData["OrderBy"]"
+                                   asp-route-DetailOrderBy="@ViewData["PublishingHouseSortParam"]"
+                                   asp-route-TitleFilter="@Model.TitleFilter"
+                                   asp-route-AuthorFilter="@Model.AuthorFilter"
+                                   asp-route-PublishingHouseFilter="@Model.PublishingHouseFilter"
+                                   asp-route-BranchFilter="@Model.BranchFilter"
+                                   asp-route-GenreFilter="@Model.GenreFilter"
+                                   asp-route-Available="@Model.Available"
+                                   asp-route-Reserved="@Model.Reserved"
+                                   asp-route-Borrowed="@Model.Borrowed">Wydawnictwo</a>
+                            </th>
+                            <th>
+                                Stan
+                            </th>
+                            <th>
+                                <a asp-action="Index"
+                                   asp-route-OrderBy="@ViewData["OrderBy"]"
+                                   asp-route-DetailOrderBy="@ViewData["StateSortParam"]"
+                                   asp-route-TitleFilter="@Model.TitleFilter"
+                                   asp-route-AuthorFilter="@Model.AuthorFilter"
+                                   asp-route-PublishingHouseFilter="@Model.PublishingHouseFilter"
+                                   asp-route-BranchFilter="@Model.BranchFilter"
+                                   asp-route-GenreFilter="@Model.GenreFilter"
+                                   asp-route-Available="@Model.Available"
+                                   asp-route-Reserved="@Model.Reserved"
+                                   asp-route-Borrowed="@Model.Borrowed">Dostępność</a>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Copies) {
+                            var branch = item.BranchNumberNavigation;
+                            var edition = item.Edition;
+                            <tr>
+                                <td>
+                                    @branch.Name
+                                </td>
+                                <td>
+                                    @edition.PublishingHouse
+                                </td>
+                                <td>
+                                    @item.Condition
+                                </td>
+                                @if (Model.States[item.Id] == "available") {
+                                    <td>dostępny</td>
+                                }
+                                @if (Model.States[item.Id] == "reserved") {
+                                    <td>zarezerwowany</td>
+                                }
+                                @if (Model.States[item.Id] == "borrowed") {
+                                    <td>wypożyczony</td>
+                                }
+                                <td align="right">
+                                    <a asp-controller="BookCopies" asp-action="Edit" asp-route-id="@item.Id">Edytuj</a> |
+                                    <a asp-controller="BookCopies" asp-action="Delete" asp-route-id="@item.Id">Usuń</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+
+</div>
