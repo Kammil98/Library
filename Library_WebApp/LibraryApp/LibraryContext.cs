@@ -102,13 +102,11 @@ namespace LibraryApp
                 entity.HasOne(d => d.Author)
                     .WithMany(p => p.Authorship)
                     .HasForeignKey(d => d.AuthorId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Authorship_Author");
 
                 entity.HasOne(d => d.Book)
                     .WithMany(p => p.Authorship)
                     .HasForeignKey(d => d.BookId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Authorship_Book");
             });
 
@@ -205,13 +203,11 @@ namespace LibraryApp
                 entity.HasOne(d => d.Copy)
                     .WithMany(p => p.Borrowing)
                     .HasForeignKey(d => d.CopyId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Borrowing_BookCopy");
 
                 entity.HasOne(d => d.UserLoginNavigation)
                     .WithMany(p => p.Borrowing)
                     .HasForeignKey(d => d.UserLogin)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Borrowing_Reader");
             });
 
@@ -278,13 +274,11 @@ namespace LibraryApp
                 entity.HasOne(d => d.Book)
                     .WithMany(p => p.Edition)
                     .HasForeignKey(d => d.BookId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Edition_Book");
 
                 entity.HasOne(d => d.PublishingHouseNavigation)
                     .WithMany(p => p.Edition)
                     .HasForeignKey(d => d.PublishingHouse)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Edition_PublishingHouse");
             });
 
@@ -325,7 +319,6 @@ namespace LibraryApp
                 entity.HasOne(d => d.LoginNavigation)
                     .WithOne(p => p.Librarian)
                     .HasForeignKey<Librarian>(d => d.Login)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Librarian_User");
             });
 
@@ -367,7 +360,6 @@ namespace LibraryApp
                 entity.HasOne(d => d.LoginNavigation)
                     .WithOne(p => p.Reader)
                     .HasForeignKey<Reader>(d => d.Login)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Reader_User");
             });
 
@@ -390,13 +382,11 @@ namespace LibraryApp
                 entity.HasOne(d => d.Copy)
                     .WithMany(p => p.Reservation)
                     .HasForeignKey(d => d.CopyId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Reservation_BookCopy");
 
                 entity.HasOne(d => d.UserLoginNavigation)
                     .WithMany(p => p.Reservation)
                     .HasForeignKey(d => d.UserLogin)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Reservation_Reader");
             });
 
