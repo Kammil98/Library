@@ -1,0 +1,247 @@
+﻿@model LibraryApp.Models.ReadersViewModel
+
+@{
+    ViewData["Title"] = "Czytelnicy";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create">Dodaj czytelnika</a>
+</p>
+
+<button type="button" class="collapsible">Filtrowanie</button>
+<div class="content">
+    <form asp-action="Index" asp-route-id="" method="get">
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label asp-for="NameFilter"></label>
+                <input asp-for="NameFilter" class="form-control" value="@Model.NameFilter">
+                <span asp-validation-for="NameFilter" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="LoginFilter"></label>
+                <input asp-for="LoginFilter" class="form-control" value="@Model.LoginFilter">
+                <span asp-validation-for="LoginFilter" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <button type="submit" class="btn btn-primary mb-2">Wyszukaj</button>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+
+    <div class="table-responsive col">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-OrderBy="@ViewData["LoginSortParam"]"
+                           asp-route-DetailOrderBy="@ViewData["DetailOrderBy"]"
+                           asp-route-NameFilter="@Model.NameFilter"
+                           asp-route-LoginFilter="@Model.LoginFilter">Login</a>
+                    </th>
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-OrderBy="@ViewData["LastNameSortParam"]"
+                           asp-route-DetailOrderBy="@ViewData["DetailOrderBy"]"
+                           asp-route-NameFilter="@Model.NameFilter"
+                           asp-route-LoginFilter="@Model.LoginFilter">Nazwisko</a>
+                    </th>
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-OrderBy="@ViewData["FirstNameSortParam"]"
+                           asp-route-DetailOrderBy="@ViewData["DetailOrderBy"]"
+                           asp-route-NameFilter="@Model.NameFilter"
+                           asp-route-LoginFilter="@Model.LoginFilter">Imię</a>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Readers) {
+                    var selectedRow = "";
+                    if (Model.Selection != null && item.Login == Model.Selection.Login) {
+                        selectedRow = "table-success";
+                    }
+                    <tr class="@selectedRow">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Login)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LoginNavigation.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LoginNavigation.FirstName)
+                        </td>
+                        <td align="right">
+                            <a asp-action="Index" asp-route-id="@item.Login"
+                               asp-route-OrderBy="@ViewData["OrderBy"]"
+                               asp-route-NameFilter="@Model.NameFilter"
+                               asp-route-LoginFilter="@Model.LoginFilter">Szczegóły</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-responsive col">
+        @if (Model.Selection != null) {
+            <table class="table table-borderless">
+                <tr>
+                    <td>
+                        <h2>@Model.Selection.Login</h2>
+                    </td>
+                    <td align="right">
+                        <a asp-action="Edit" asp-route-id="@Model.Selection.Login">Edytuj</a> |
+                        <a asp-action="Delete" asp-route-id="@Model.Selection.Login">Usuń</a>
+                    </td>
+                </tr>
+            </table>
+            <div>
+                <dl class="dl-horizontal">
+                    <dt>
+                        Imię:
+                    </dt>
+                    <dd>
+                        @Model.Selection.LoginNavigation.FirstName
+                    </dd>
+                    <dt>
+                        Nazwisko:
+                    </dt>
+                    <dd>
+                        @Model.Selection.LoginNavigation.LastName
+                    </dd>
+                    <dt>
+                        Data urodzenia:
+                    </dt>
+                    <dd>
+                        @Model.Selection.BirthDate.ToString("d")
+                    </dd>
+                </dl>
+            </div>
+
+            var reservationsNav = "nav-item nav-link";
+            var reservationsTab = "tab-pane fade";
+            var borrowingsNav = "nav-item nav-link";
+            var borrowingsTab = "tab-pane fade";
+            if (!ViewData["DetailOrderBy"].ToString().StartsWith("Borrow")
+                && !ViewData["DetailOrderBy"].ToString().StartsWith("Return")) {
+                reservationsNav += " active";
+                reservationsTab += " show active";
+            }
+            else {
+                borrowingsNav += " active";
+                borrowingsTab += " show active";
+            }
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="@reservationsNav" id="nav-reservations-tab" data-toggle="tab" href="#reservations" role="tab" aria-controls="reservations" aria-selected="true">Rezerwacje</a>
+                    <a class="@borrowingsNav" id="nav-borrowings-tab" data-toggle="tab" href="#borrowings" role="tab" aria-controls="borrowings" aria-selected="false">Wypożyczenia</a>
+                </div>
+            </nav>
+            <div class="tab-content">
+                <div class="@reservationsTab" id="reservations" role="tabpanel" aria-labelledby="nav-reservations-tab">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <a asp-action="Index"
+                                       asp-route-OrderBy="@ViewData["OrderBy"]"
+                                       asp-route-DetailOrderBy="@ViewData["ReservationTitleSortParam"]"
+                                       asp-route-NameFilter="@Model.NameFilter"
+                                       asp-route-LoginFilter="@Model.LoginFilter">Tytuł</a>
+                                </th>
+                                <th>
+                                    <a asp-action="Index"
+                                       asp-route-OrderBy="@ViewData["OrderBy"]"
+                                       asp-route-DetailOrderBy="@ViewData["ReservationDateSortParam"]"
+                                       asp-route-NameFilter="@Model.NameFilter"
+                                       asp-route-LoginFilter="@Model.LoginFilter">Data rezerwacji</a>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Reservations) {
+                                var book = item.Copy.Edition.Book;
+                                <tr>
+                                    <td>
+                                        <a asp-controller="Books" asp-action="Index" asp-route-id="@book.Id">@book.Title</a>
+                                    </td>
+                                    <td>
+                                        @item.ReservationDate.ToString("g")
+                                    </td>
+                                    <td align="right">
+                                        <a asp-controller="BookCopies" asp-action="Index" asp-route-id="@item.CopyId">Szczegóły</a> |
+                                        <a asp-controller="Reservations" asp-action="Delete" asp-route-id="@item.CopyId">Usuń</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="@borrowingsTab" id="borrowings" role="tabpanel" aria-labelledby="nav-borrowings-tab">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <a asp-action="Index"
+                                       asp-route-OrderBy="@ViewData["OrderBy"]"
+                                       asp-route-DetailOrderBy="@ViewData["BorrowingTitleSortParam"]"
+                                       asp-route-NameFilter="@Model.NameFilter"
+                                       asp-route-LoginFilter="@Model.LoginFilter">Tytuł</a>
+                                </th>
+                                <th>
+                                    <a asp-action="Index"
+                                       asp-route-OrderBy="@ViewData["OrderBy"]"
+                                       asp-route-DetailOrderBy="@ViewData["BorrowDateSortParam"]"
+                                       asp-route-NameFilter="@Model.NameFilter"
+                                       asp-route-LoginFilter="@Model.LoginFilter">Data wypożyczenia</a>
+                                </th>
+                                <th>
+                                    <a asp-action="Index"
+                                       asp-route-OrderBy="@ViewData["OrderBy"]"
+                                       asp-route-DetailOrderBy="@ViewData["ReturnDateSortParam"]"
+                                       asp-route-NameFilter="@Model.NameFilter"
+                                       asp-route-LoginFilter="@Model.LoginFilter">Data zwrotu</a>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Borrowings) {
+                                var book = item.Copy.Edition.Book;
+                                <tr>
+                                    <td>
+                                        <a asp-controller="Books" asp-action="Index" asp-route-id="@book.Id">@book.Title</a>
+                                    </td>
+                                    <td>
+                                        @item.BorrowDate.ToString("g")
+                                    </td>
+                                    <td>
+                                        @if (item.ReturnDate != null) {
+                                            @item.ReturnDate.Value.ToString("g")
+                                        }
+                                        else {
+                                            @:wypożyczenie trwa
+                                        }
+                                    </td>
+                                    <td align="right">
+                                        <a asp-controller="BookCopies" asp-action="Index" asp-route-id="@item.CopyId">Szczegóły</a> |
+                                        <a asp-controller="Borrowings" asp-action="Delete" asp-route-id="@item.CopyId">Usuń</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
