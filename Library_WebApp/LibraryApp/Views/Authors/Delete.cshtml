@@ -1,0 +1,27 @@
+﻿@model LibraryApp.Models.Author
+
+@{
+    ViewData["Title"] = "Usuń autora";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>Czy na pewno chcesz usunąć tego autora?</h3>
+<div>
+    <h2>@Model.FirstName&nbsp;@Model.LastName</h2>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Kraj:
+        </dt>
+        <dd>
+            @Model.Country
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Usuń" class="btn btn-danger mb-2" />
+        <button class="btn btn-secondary mb-2" asp-action="Index">Anuluj</button>
+    </form>
+</div>
