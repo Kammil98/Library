@@ -28,7 +28,7 @@ namespace LibraryApp.Controllers {
             ViewData["FirstNameSortParam"] = "";
             if (string.IsNullOrEmpty(orderBy)) {
                 orderBy = "FirstName";
-                ViewData["NameSortParam"] = "FirstName_desc";
+                ViewData["FirstNameSortParam"] = "FirstName_desc";
             }
             AuthorsViewModel viewModel;
             try {
@@ -76,12 +76,16 @@ namespace LibraryApp.Controllers {
                     var detailOrderBy = HttpContext.Request.Query["DetailOrderBy"];
                     ViewData["DetailOrderBy"] = detailOrderBy;
                     ViewData["GenreSortParam"] = detailOrderBy == "Genre" ? "Genre_desc" : "Genre";
-                    ViewData["TitleSortParam"] = string.IsNullOrEmpty(detailOrderBy) ? "Book_desc" : "";
+                    ViewData["TitleSortParam"] = "";
+                    if (string.IsNullOrEmpty(detailOrderBy)) {
+                        detailOrderBy = "Title";
+                        ViewData["TitleSortParam"] = "Title_desc";
+                    }
                     try {
                         viewModel.Books = await _context.Book
                             .Include(i => i.Authorship)
                             .Where(i => i.Authorship.Any(a => a.AuthorId == id))
-                            .OrderByQuery(orderBy)
+                            .OrderByQuery(detailOrderBy)
                             .ToListAsync();
                     }
                     catch (InvalidOperationException) {
