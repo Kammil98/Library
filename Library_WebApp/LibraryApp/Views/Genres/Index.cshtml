@@ -1,0 +1,36 @@
+﻿@model IEnumerable<LibraryApp.Models.Genre>
+
+@{
+    ViewData["Title"] = "Gatunki";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create">Dodaj gatunek</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index"
+                   asp-route-OrderBy="@ViewData["NameSortParam"]">Nazwa</a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td align="right">
+                    <a asp-action="Edit" asp-route-id="@item.Name">Edytuj</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Name">Usuń</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
