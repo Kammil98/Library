@@ -1,0 +1,45 @@
+﻿@model LibraryApp.Models.Librarian
+
+@{
+    ViewData["Title"] = "Usuń bibliotekarza";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>Czy na pewno chcesz usunąć tego bibliotekarza?</h3>
+<div>
+    <h2>@Model.Login</h2>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Imię:
+        </dt>
+        <dd>
+            @Model.LoginNavigation.FirstName
+        </dd>
+        <dt>
+            Nazwisko:
+        </dt>
+        <dd>
+            @Model.LoginNavigation.LastName
+        </dd>
+        <dt>
+            Filia:
+        </dt>
+        <dd>
+            @Model.BranchNumberNavigation.Name
+        </dd>
+        <dt>
+            Data zatrudnienia:
+        </dt>
+        <dd>
+            @Model.EmploymentDate.ToString("d")
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Login" />
+        <input type="submit" value="Usuń" class="btn btn-danger mb-2" />
+        <button class="btn btn-secondary mb-2" asp-action="Index">Anuluj</button>
+    </form>
+</div>

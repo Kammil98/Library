@@ -1,0 +1,61 @@
+﻿@model LibraryApp.Models.Librarian
+
+@{
+    ViewData["Title"] = "Dodaj bibliotekarza";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="LoginNavigation.Login" class="control-label">Login</label>
+                <input asp-for="LoginNavigation.Login" class="form-control" />
+                <span asp-validation-for="LoginNavigation.Login" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LoginNavigation.Password" class="control-label">Hasło</label>
+                <input asp-for="LoginNavigation.Password" class="form-control" />
+                <span asp-validation-for="LoginNavigation.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LoginNavigation.ConfirmPassword" class="control-label">Potwierdź hasło</label>
+                <input asp-for="LoginNavigation.ConfirmPassword" class="form-control" />
+                <span asp-validation-for="LoginNavigation.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LoginNavigation.FirstName" class="control-label">Imię</label>
+                <input asp-for="LoginNavigation.FirstName" class="form-control" />
+                <span asp-validation-for="LoginNavigation.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LoginNavigation.LastName" class="control-label">Nazwisko</label>
+                <input asp-for="LoginNavigation.LastName" class="form-control" />
+                <span asp-validation-for="LoginNavigation.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BranchNumber" class="control-label">Filia</label>
+                <select asp-for="BranchNumber" class="form-control" asp-items="ViewBag.BranchNumber"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmploymentDate" class="control-label">Data zatrudnienia</label>
+                <input asp-for="EmploymentDate" class="form-control" />
+                <span asp-validation-for="EmploymentDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Dodaj" class="btn btn-primary mb-2" />
+                <button class="btn btn-secondary mb-2" asp-action="Index" formnovalidate>Anuluj</button>
+                @if (ViewBag.errMsg != null) {
+                    <span class="text-danger">@ViewBag.errMsg</span>
+                }
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
