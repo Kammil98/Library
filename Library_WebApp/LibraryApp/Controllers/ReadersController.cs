@@ -158,7 +158,7 @@ namespace LibraryApp.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Login,LoginNavigation,BirthDate")] Reader reader) {
             if (ModelState.IsValid) {
-                var user = _context.Add(reader.LoginNavigation);
+                _context.Add(reader.LoginNavigation);
                 _context.Add(reader);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
