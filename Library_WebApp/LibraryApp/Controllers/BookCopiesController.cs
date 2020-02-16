@@ -169,7 +169,8 @@ namespace LibraryApp.Controllers {
             }
 
             var editions = _context.Edition
-                .Where(i => i.BookId == id);
+                .Where(i => i.BookId == id)
+                .OrderByDescending(i => i.ReleaseDate);
             ViewData["BranchNumber"] = new SelectList(_context.Branch, "BranchNumber", "Name");
             ViewData["EditionId"] = new SelectList(editions, "Id", "EditionString");
             ViewData["Title"] = book.Title;
@@ -180,7 +181,7 @@ namespace LibraryApp.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int id,
-            [Bind("Id,EditionId,BranchNumber,Condition")] BookCopy bookCopy) {
+            [Bind("EditionId,BranchNumber,Condition")] BookCopy bookCopy) {
             if (ModelState.IsValid) {
                 _context.Add(bookCopy);
                 await _context.SaveChangesAsync();
@@ -191,7 +192,8 @@ namespace LibraryApp.Controllers {
                 return NotFound();
             }
             var editions = _context.Edition
-                .Where(i => i.BookId == id);
+                .Where(i => i.BookId == id)
+                .OrderByDescending(i => i.ReleaseDate);
             ViewData["BranchNumber"] = new SelectList(_context.Branch, "BranchNumber", "Name", bookCopy.BranchNumber);
             ViewData["EditionId"] = new SelectList(editions, "Id", "EditionString", bookCopy.EditionId);
             ViewData["Title"] = book.Title;
@@ -212,7 +214,8 @@ namespace LibraryApp.Controllers {
                 return NotFound();
             }
             var editions = _context.Edition
-                .Where(i => i.BookId == bookCopy.Edition.BookId);
+                .Where(i => i.BookId == bookCopy.Edition.BookId)
+                .OrderByDescending(i => i.ReleaseDate);
             ViewData["BranchNumber"] = new SelectList(_context.Branch, "BranchNumber", "Name", bookCopy.BranchNumber);
             ViewData["EditionId"] = new SelectList(editions, "Id", "EditionString", bookCopy.EditionId);
             return View(bookCopy);
@@ -243,7 +246,8 @@ namespace LibraryApp.Controllers {
                 return RedirectToAction(nameof(Index));
             }
             var editions = _context.Edition
-                .Where(i => i.BookId == bookCopy.Edition.BookId);
+                .Where(i => i.BookId == bookCopy.Edition.BookId)
+                .OrderByDescending(i => i.ReleaseDate);
             ViewData["BranchNumber"] = new SelectList(_context.Branch, "BranchNumber", "Name", bookCopy.BranchNumber);
             ViewData["EditionId"] = new SelectList(editions, "Id", "EditionString", bookCopy.EditionId);
             return View(bookCopy);
