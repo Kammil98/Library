@@ -22,15 +22,15 @@ namespace LibraryApp {
             }
         }
 
+        public static IQueryable<Models.Author> BookAuthors(this LibraryContext context, int bookId) {
+            return context.Author.FromSqlInterpolated($"SELECT * FROM BookAuthors({bookId})");
+        }
+
         public static IQueryable<Models.Book> FilterBooks(this LibraryContext context,
             string titleFilter, string publishingHouseFilter, string genre, int? branchNumber, string state) {
             genre = genre == "" ? null : genre;
             state = state == "" ? null : state;
-            return context.Book.FromSqlInterpolated($"SELECT * FROM FilterBooks({titleFilter}, {publishingHouseFilter}, {genre}, {branchNumber}, {state})");
-        }
-
-        public static IQueryable<Models.Author> BookAuthors(this LibraryContext context, int bookId) {
-            return context.Author.FromSqlInterpolated($"SELECT * FROM BookAuthors({bookId})");
+            return context.Book.FromSqlInterpolated($"EXEC FilterBooks {titleFilter}, {publishingHouseFilter}, {genre}, {branchNumber}, {state}");
         }
     }
 }

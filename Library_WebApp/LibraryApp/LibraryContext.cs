@@ -189,6 +189,9 @@ namespace LibraryApp
                 entity.HasIndex(e => new { e.CopyId, e.BorrowDate })
                     .HasName("IX_Borrowing");
 
+                entity.HasIndex(e => new { e.ReturnDate, e.CopyId })
+                    .HasName("IX_Borrowing_Return");
+
                 entity.Property(e => e.UserLogin)
                     .HasColumnName("userLogin")
                     .HasMaxLength(64)

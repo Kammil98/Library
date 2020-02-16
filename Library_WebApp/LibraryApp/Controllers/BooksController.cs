@@ -41,20 +41,27 @@ namespace LibraryApp.Controllers {
             viewModel.GenreFilter = genreFilter;
             var branch = await _context.Branch.Where(i => i.Name == branchFilter.ToString()).FirstOrDefaultAsync();
             int? branchNumber = branch?.BranchNumber;
-            IQueryable<Book> books;
-            if (!viewModel.Available && !viewModel.Reserved && !viewModel.Borrowed) {
-                books = _context.FilterBooks(titleFilter, publishingHouseFilter, genreFilter, branchNumber, null);
+            IEnumerable<Book> books;
+            if (!titleFilter.Any() && !publishingHouseFilter.Any() && !genreFilter.Any() && !branchFilter.Any()
+                && ((!viewModel.Available && !viewModel.Reserved && !viewModel.Borrowed)
+                || (viewModel.Available && viewModel.Reserved && viewModel.Borrowed))) {
+                books = await _context.Book.ToListAsync();
+            }
+            else if ((!viewModel.Available && !viewModel.Reserved && !viewModel.Borrowed)
+                || (viewModel.Available && viewModel.Reserved && viewModel.Borrowed)) {
+                books = await _context.FilterBooks(titleFilter, publishingHouseFilter, genreFilter, branchNumber, null)
+                    .AsNoTracking().ToListAsync();
             }
             else {
                 books = _context.Book.Take(0);
                 if (viewModel.Available) {
-                    books = books.Union(_context.FilterBooks(titleFilter, publishingHouseFilter, genreFilter, branchNumber, "available"));
+                    books = books.Union(await _context.FilterBooks(titleFilter, publishingHouseFilter, genreFilter, branchNumber, "available").AsNoTracking().ToListAsync());
                 }
                 if (viewModel.Reserved) {
-                    books = books.Union(_context.FilterBooks(titleFilter, publishingHouseFilter, genreFilter, branchNumber, "reserved"));
+                    books = books.Union(await _context.FilterBooks(titleFilter, publishingHouseFilter, genreFilter, branchNumber, "reserved").AsNoTracking().ToListAsync());
                 }
                 if (viewModel.Borrowed) {
-                    books = books.Union(_context.FilterBooks(titleFilter, publishingHouseFilter, genreFilter, branchNumber, "borrowed"));
+                    books = books.Union(await _context.FilterBooks(titleFilter, publishingHouseFilter, genreFilter, branchNumber, "borrowed").AsNoTracking().ToListAsync());
                 }
             }
             // Sorting
@@ -62,21 +69,22 @@ namespace LibraryApp.Controllers {
             ViewData["OrderBy"] = orderBy;
             ViewData["DetailOrderBy"] = "";
             ViewData["GenreSortParam"] = orderBy == "Genre" ? "Genre_desc" : "Genre";
-            ViewData["TitleSortParam"] = "";
-            if (string.IsNullOrEmpty(orderBy)) {
-                orderBy = "Title";
-                ViewData["TitleSortParam"] = "Title_desc";
+            ViewData["TitleSortParam"] = (string.IsNullOrEmpty(orderBy)) ? "Title_desc" : "";
+            switch (orderBy) {
+                case "Genre_desc":
+                    books = books.OrderByDescending(i => i.Genre);
+                    break;
+                case "Genre":
+                    books = books.OrderBy(i => i.Genre);
+                    break;
+                case "Title_desc":
+                    books = books.OrderByDescending(i => i.Title);
+                    break;
+                default:
+                    books = books.OrderBy(i => i.Title);
+                    break;
             }
-            try {
-                viewModel.Books = await books
-                        .OrderByQuery(orderBy)
-                        .ToListAsync();
-            }
-            catch (InvalidOperationException) {
-                viewModel.Books = await books
-                        .OrderBy(i => i.Title)
-                        .ToListAsync();
-            }
+            viewModel.Books = books;
             // Filtering (authors)
             var authors = authorFilter.ToString()
                 .ToLower()
