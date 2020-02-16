@@ -1,0 +1,47 @@
+﻿@model LibraryApp.Models.Edition
+
+@{
+    ViewData["Title"] = "Usuń wydanie";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>Czy na pewno chcesz usunąć to wydanie?</h3>
+<div>
+    <h2>@Model.Book.Title</h2>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Autorzy:
+        </dt>
+        <dd>
+            @foreach (var author in ViewBag.Authors) {
+                @author.FirstName@:&nbsp;@author.LastName<br />
+            }
+        </dd>
+        <dt>
+            Gatunek:
+        </dt>
+        <dd>
+            @Model.Book.Genre
+        </dd>
+        <dt>
+            Wydawnictwo:
+        </dt>
+        <dd>
+            @Model.PublishingHouse
+        </dd>
+        <dt>
+            Data wydania:
+        </dt>
+        <dd>
+            @Model.ReleaseDate.ToString("d")
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Usuń" class="btn btn-danger mb-2" />
+        <button class="btn btn-secondary mb-2" asp-action="Index">Anuluj</button>
+    </form>
+</div>

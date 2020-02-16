@@ -202,6 +202,8 @@
             <div class="table-responsive">
                 <h4>Egzemplarze</h4>
                 <p>
+                    <a asp-controller="Editions" asp-action="Create"
+                       asp-route-id="@Model.Selection.Id">Dodaj wydanie</a> |
                     <a asp-controller="BookCopies" asp-action="Create"
                        asp-route-id="@Model.Selection.Id">Dodaj egzemplarz</a>
                 </p>

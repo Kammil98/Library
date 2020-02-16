@@ -1,0 +1,49 @@
+﻿@model LibraryApp.Models.Edition
+
+@{
+    ViewData["Title"] = "Dodaj wydanie";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="BookId" />
+            <h4>@ViewBag.Title</h4>
+            <div class="form-group">
+                <label asp-for="ReleaseDate" class="control-label">Data wydania</label>
+                <input asp-for="ReleaseDate" class="form-control" />
+                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PublishingHouse" class="control-label">Wydawnictwo</label>
+                <input asp-for="PublishingHouse" id="publishingHouse" class="form-control" />
+                <span asp-validation-for="PublishingHouse" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Dodaj" class="btn btn-primary mb-2" />
+                <button class="btn btn-secondary mb-2" asp-controller="Books" asp-action="Index" formnovalidate>Anuluj</button>
+                @if (ViewBag.errMsg != null) {
+                    <span class="text-danger">@ViewBag.errMsg</span>
+                }
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#publishingHouse').autocomplete({
+                source: '/api/publishing-houses/search'
+            });
+        });
+    </script>
+}

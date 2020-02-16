@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LibraryApp.Models {
@@ -9,8 +10,12 @@ namespace LibraryApp.Models {
         }
 
         public int Id { get; set; }
+        [Required(ErrorMessage = "To pole jest wymagane")]
         public int BookId { get; set; }
+        [DataType(DataType.Date)]
+        [Required(ErrorMessage = "To pole jest wymagane")]
         public DateTime ReleaseDate { get; set; }
+        [Required(ErrorMessage = "To pole jest wymagane")]
         public string PublishingHouse { get; set; }
 
         public virtual Book Book { get; set; }
