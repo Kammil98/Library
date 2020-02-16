@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LibraryApp.Models
-{
-    public partial class Edition
-    {
-        public Edition()
-        {
+namespace LibraryApp.Models {
+    public partial class Edition {
+        public Edition() {
             BookCopy = new HashSet<BookCopy>();
         }
 
@@ -18,5 +16,12 @@ namespace LibraryApp.Models
         public virtual Book Book { get; set; }
         public virtual PublishingHouse PublishingHouseNavigation { get; set; }
         public virtual ICollection<BookCopy> BookCopy { get; set; }
+
+        [NotMapped]
+        public virtual string EditionString {
+            get {
+                return $"{PublishingHouse} ({ReleaseDate.ToString("d")})";
+            }
+        }
     }
 }

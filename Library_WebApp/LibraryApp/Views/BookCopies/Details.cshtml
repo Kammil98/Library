@@ -1,0 +1,241 @@
+﻿@model LibraryApp.Models.BookCopiesViewModel
+
+@{
+    ViewData["Title"] = "Informacje o ezgemplarzu";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col">
+        <h2>@Model.Copy.Edition.Book.Title</h2>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Autorzy:
+            </dt>
+            <dd>
+                @foreach (var author in ViewBag.Authors) {
+                    @author.FirstName@:&nbsp;@author.LastName<br />
+                }
+            </dd>
+            <dt>
+                Gatunek:
+            </dt>
+            <dd>
+                @Model.Copy.Edition.Book.Genre
+            </dd>
+            <dt>
+                Wydawnictwo:
+            </dt>
+            <dd>
+                @Model.Copy.Edition.PublishingHouse
+            </dd>
+            <dt>
+                Data wydania:
+            </dt>
+            <dd>
+                @Model.Copy.Edition.ReleaseDate.ToString("d")
+            </dd>
+            <dt>
+                Filia:
+            </dt>
+            <dd>
+                @Model.Copy.BranchNumberNavigation.Name
+            </dd>
+            @if (Model.Copy.Condition != null) {
+                <dt>
+                    Stan:
+                </dt>
+                <dd>
+                    @Model.Copy.Condition
+                </dd>
+            }
+            <dt>
+                Dostępność:
+            </dt>
+            <dd>
+                @if (ViewBag.State == "available") {
+                    @:dostępny
+                }
+                @if (ViewBag.State == "reserved") {
+                    @:zarezerwowany
+                }
+                @if (ViewBag.State == "borrowed") {
+                    @:wypożyczony
+                }
+            </dd>
+        </dl>
+    </div>
+
+    <div class="col">
+        <button type="button" class="collapsible">Wypożyczanie</button>
+        <div class="content">
+            @if (Model.Reader == null) {
+                <form asp-action="Details" asp-route-id="@Model.Copy.Id">
+                    <div class="form-group">
+                        <label asp-for="ReaderQuery">Login wypożyczającego</label>
+                        <input asp-for="ReaderQuery" id="reader" class="form-control" />
+                        <span asp-validation-for="ReaderQuery" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Wyszukaj" class="btn btn-primary mb-2" />
+                        @if (ViewBag.errMsg != null) {
+                            <span class="text-danger">@ViewBag.errMsg</span>
+                        }
+                    </div>
+                </form>
+            }
+            else {
+                if (ViewBag.State == "borrowed") {
+                    <h4>Wypożyczony przez:</h4>
+                }
+                <dl class="dl-horizontal">
+                    <dt>
+                        Login:
+                    </dt>
+                    <dd>
+                        @Model.Reader.Login
+                    </dd>
+                    <dt>
+                        Nazwisko:
+                    </dt>
+                    <dd>
+                        @Model.Reader.LoginNavigation.LastName
+                    </dd>
+                    <dt>
+                        Imię:
+                    </dt>
+                    <dd>
+                        @Model.Reader.LoginNavigation.FirstName
+                    </dd>
+                    <dt>
+                        Data urodzenia:
+                    </dt>
+                    <dd>
+                        @Model.Reader.BirthDate.ToString("d")
+                    </dd>
+                </dl>
+                <hr />
+                <dl>
+                    <dt>
+                        Data wypożyczenia:
+                    </dt>
+                    <dd>
+                        @if (ViewBag.State == "borrowed") {
+                            @ViewBag.BorrowDate.ToString("g")
+                        }
+                        else {
+                            @DateTime.Now.ToString("g")
+                        }
+                    </dd>
+                </dl>
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        @if (ViewBag.State == "borrowed") {
+                            <form asp-controller="Borrowings" asp-action="Return">
+                                <input type="hidden" id="CopyId" value="@Model.Copy.Id" />
+                                <input type="submit" value="Zwróć" class="btn btn-primary mb-2" />
+                            </form>
+                        }
+                        else {
+                            <form asp-controller="Borrowings" asp-action="Create">
+                                <input type="hidden" id="CopyId" value="@Model.Copy.Id" />
+                                <input type="hidden" id="Login" value="@Model.Reader.Login" />
+                                <input type="submit" value="Wypożycz" class="btn btn-primary mb-2" />
+                            </form>
+                        }
+                    </div>
+                    <div class="col-auto">
+                        @if (ViewBag.State != "borrowed") {
+                            if (ViewBag.State == "reserved") {
+                                <form asp-controller="Reservations" asp-action="Return">
+                                    <input type="hidden" id="CopyId" value="@Model.Copy.Id" />
+                                    <input type="submit" value="Anuluj rezerwację" class="btn btn-secondary mb-2" />
+                                </form>
+                            }
+                            else {
+                                <form asp-controller="Reservations" asp-action="Create">
+                                    <input type="hidden" id="CopyId" value="@Model.Copy.Id" />
+                                    <input type="hidden" id="Login" value="@Model.Reader.Login" />
+                                    <input type="submit" value="Zarezerwuj" class="btn btn-secondary mb-2" />
+                                </form>
+                            }
+                        }
+                    </div>
+                    @if (ViewBag.errMsg != null) {
+                        <span class="text-danger">@ViewBag.errMsg</span>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <h4>Historia wypożyczeń</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    <a asp-action="Details"
+                       asp-route-OrderBy="@ViewData["ReturnDateSortParam"]">Data zwrotu</a>
+                </th>
+                <th>
+                    <a asp-action="Details"
+                       asp-route-OrderBy="@ViewData["BorrowDateSortParam"]">Data wypożyczenia</a>
+                </th>
+                <th>
+                    <a asp-action="Details"
+                       asp-route-OrderBy="@ViewData["NameSortParam"]">Wypożyczający</a>
+                </th>
+                <th>
+                    <a asp-action="Details"
+                       asp-route-OrderBy="@ViewData["LoginSortParam"]">Login</a>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Borrowings) {
+                var user = item.UserLoginNavigation.LoginNavigation;
+                <tr>
+                    <td>
+                        @if (item.ReturnDate.HasValue) {
+                            @item.ReturnDate.Value.ToString("g")
+                        }
+                        else {
+                            @:wypożyczenie trwa
+                        }
+                    </td>
+                    <td>
+                        @item.BorrowDate.ToString("g")
+                    </td>
+                    <td>
+                        @user.LastName&nbsp;@user.FirstName
+                    </td>
+                    <td>
+                        @user.Login
+                    </td>
+                    <td align="right">
+                        <a asp-controller="Borrowings" asp-action="Edit" asp-route-id="@item.CopyId">Edytuj</a> |
+                        <a asp-controller="Borrowings" asp-action="Delete" asp-route-id="@item.CopyId">Usuń</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#reader').autocomplete({
+                source: '/api/readers/search'
+            });
+        });
+    </script>
+}

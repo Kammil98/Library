@@ -1,0 +1,41 @@
+﻿@model LibraryApp.Models.BookCopy
+
+@{
+    ViewData["Title"] = "Dodaj egzemplarz";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h4>@ViewBag.Title</h4>
+            <div class="form-group">
+                <label asp-for="EditionId" class="control-label">Wydanie</label>
+                <select asp-for="EditionId" class="form-control" asp-items="ViewBag.EditionId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="BranchNumber" class="control-label">Filia</label>
+                <select asp-for="BranchNumber" class="form-control" asp-items="ViewBag.BranchNumber"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Condition" class="control-label">Stan</label>
+                <input asp-for="Condition" class="form-control" value="Nowy" />
+                <span asp-validation-for="Condition" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Dodaj" class="btn btn-primary mb-2" />
+                <button class="btn btn-secondary mb-2" asp-action="Index" formnovalidate>Anuluj</button>
+                @if (ViewBag.errMsg != null) {
+                    <span class="text-danger">@ViewBag.errMsg</span>
+                }
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
