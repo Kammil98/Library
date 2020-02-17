@@ -1,0 +1,176 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - LibraryApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <STYLE type="text/css">
+        ol.nostyle {
+            list-style-type: none;
+        }
+
+        li.nostyle {
+            list-style-type: none;
+        }
+    </STYLE>
+    <style>
+        .collapsible {
+            background-color: #fff;
+            color: black;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .active {
+            background-color: #cacaca;
+        }
+
+        .collapsible:hover {
+            background-color: #808080;
+        }
+
+        .collapsible:after {
+            content: "\002B";
+            color: black;
+            font-weight: bold;
+            float: left;
+            margin-left: 5px;
+        }
+
+        .active:after {
+            content: "\2212";
+        }
+
+        .content {
+            padding: 0 18px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-in-out;
+            background-color: #f1f1f1;
+        }
+    </style>
+    <style>
+        .floatLeft {
+            width: 50%;
+            float: left;
+        }
+
+        .floatRight {
+            width: 50%;
+            float: right;
+        }
+
+        .pagecontainer {
+            overflow: hidden;
+        }
+    </style>
+    <style>
+        div.sticky {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 200px;
+            padding: 5px;
+            background-color: #cae8ca;
+            border: 2px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">LibraryApp</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Dodaj
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-area="" asp-controller="Genres" asp-action="Create">Gatunek</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addBook">Książka</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addEdition">Wydanie</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addVolume">Egzemplarz</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addPublishingHouse">Wydawnictwo</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Authors" asp-action="Create">Autor</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addProperty">Własność</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addReader">Czytelnik</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addLibrarian">Bibliotekarz</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addLibraryBranch">Filia</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addBorrow">Wypożyczenie</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="addReservation">Rezerwacja</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Przeglądaj
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="bookList">Książki</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="readerList">Czytelnicy</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="libraryBranchList">Filie</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="publishingHouseList">Wydawnictwa</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="authorList">Autorzy</a><br />
+                            </div>
+                        </li>
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Wyloguj</a>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container body-content">
+
+        @RenderBody()
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $("#submit").click(function () {
+                document.forms[0].submit();
+                return false;
+            });
+        });
+    </script>
+    <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - LibraryApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
