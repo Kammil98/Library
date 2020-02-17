@@ -25,20 +25,30 @@ namespace LibraryApp.Controllers {
                 string term = HttpContext.Request.Query["term"].ToString().ToLower();
                 if (term.Length > 3) {
                     var names = await _context.Reader
-                        .Where(i => i.Login.ToLower().Contains(term))
-                        .Select(i => i.Login)
-                        .OrderBy(i => i.ToLower().IndexOf(term))
-                            .ThenBy(i => i)
+                        .Include(i => i.LoginNavigation)
                         .ToListAsync();
-                    return Ok(names);
-                }
-                else if (term.Length > 0) {
-                    var names = await _context.Reader
-                        .Where(i => i.Login.ToLower().StartsWith(term))
-                        .Select(i => i.Login)
-                        .OrderBy(i => i)
-                        .ToListAsync();
-                    return Ok(names);
+                    var keywords = term.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
+                    var result = names
+                        .Where(i => {
+                            var login = i.Login.ToLower();
+                            var lastName = i.LoginNavigation.LastName.ToLower();
+                            var firstName = i.LoginNavigation.FirstName.ToLower();
+                            foreach (var keyword in keywords) {
+                                if (!(login.StartsWith(keyword)
+                                || lastName.StartsWith(keyword)
+                                || firstName.StartsWith(keyword))) {
+                                    return false;
+                                }
+                            }
+                            return true;
+                        })
+                        .Select(i => new {
+                            label = $"{i.LoginNavigation.LastName} {i.LoginNavigation.FirstName} ({i.Login})",
+                            value = i.Login
+                        })
+                        .OrderBy(i => i.label)
+                        .Take(10);
+                    return Ok(result);
                 }
                 return Ok(new List<string>());
             }
