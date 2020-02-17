@@ -127,6 +127,7 @@ namespace LibraryApp.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id,
             [Bind("UserLogin,CopyId,BorrowDate")] Borrowing borrowing) {
+            borrowing.BorrowDate = DateTimeOffset.FromUnixTimeMilliseconds(id);
             _context.Remove(borrowing);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index), new { id = borrowing.CopyId });
