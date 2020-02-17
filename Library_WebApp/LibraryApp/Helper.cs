@@ -32,5 +32,17 @@ namespace LibraryApp {
             state = state == "" ? null : state;
             return context.Book.FromSqlInterpolated($"EXEC FilterBooks {titleFilter}, {publishingHouseFilter}, {genre}, {branchNumber}, {state}");
         }
+
+        public static async Task BorrowCopy(this LibraryContext context, int copyId, string login) {
+            await context.Database.ExecuteSqlInterpolatedAsync($"EXEC BorrowCopy {copyId}, {login}");
+        }
+
+        public static async Task ReserveCopy(this LibraryContext context, int copyId, string login) {
+            await context.Database.ExecuteSqlInterpolatedAsync($"EXEC ReserveCopy {copyId}, {login}");
+        }
+
+        public static async Task ReturnCopy(this LibraryContext context, int copyId) {
+            await context.Database.ExecuteSqlInterpolatedAsync($"EXEC ReturnCopy {copyId}");
+        }
     }
 }

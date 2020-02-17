@@ -134,14 +134,14 @@
                     <div class="col-auto">
                         @if (ViewBag.State == "borrowed") {
                             <form asp-controller="Borrowings" asp-action="Return">
-                                <input type="hidden" id="CopyId" value="@Model.Copy.Id" />
+                                <input type="hidden" name="copyId" value="@Model.Copy.Id" />
                                 <input type="submit" value="Zwróć" class="btn btn-primary mb-2" />
                             </form>
                         }
                         else {
                             <form asp-controller="Borrowings" asp-action="Create">
-                                <input type="hidden" id="CopyId" value="@Model.Copy.Id" />
-                                <input type="hidden" id="Login" value="@Model.Reader.Login" />
+                                <input type="hidden" name="copyId" value="@Model.Copy.Id" />
+                                <input type="hidden" name="login" value="@Model.Reader.Login" />
                                 <input type="submit" value="Wypożycz" class="btn btn-primary mb-2" />
                             </form>
                         }
@@ -150,14 +150,14 @@
                         @if (ViewBag.State != "borrowed") {
                             if (ViewBag.State == "reserved") {
                                 <form asp-controller="Reservations" asp-action="Return">
-                                    <input type="hidden" id="CopyId" value="@Model.Copy.Id" />
+                                    <input type="hidden" name="copyId" value="@Model.Copy.Id" />
                                     <input type="submit" value="Anuluj rezerwację" class="btn btn-secondary mb-2" />
                                 </form>
                             }
                             else {
                                 <form asp-controller="Reservations" asp-action="Create">
-                                    <input type="hidden" id="CopyId" value="@Model.Copy.Id" />
-                                    <input type="hidden" id="Login" value="@Model.Reader.Login" />
+                                    <input type="hidden" name="copyId" value="@Model.Copy.Id" />
+                                    <input type="hidden" name="login" value="@Model.Reader.Login" />
                                     <input type="submit" value="Zarezerwuj" class="btn btn-secondary mb-2" />
                                 </form>
                             }
@@ -218,8 +218,14 @@
                         @user.Login
                     </td>
                     <td align="right">
-                        <a asp-controller="Borrowings" asp-action="Edit" asp-route-id="@item.CopyId">Edytuj</a> |
-                        <a asp-controller="Borrowings" asp-action="Delete" asp-route-id="@item.CopyId">Usuń</a>
+                        <a asp-controller="Borrowings" asp-action="Edit"
+                           asp-route-id="@item.BorrowDate.ToUnixTimeMilliseconds()"
+                           asp-route-Login="@user.Login"
+                           asp-route-CopyId="@item.CopyId">Edytuj</a> |
+                        <a asp-controller="Borrowings" asp-action="Delete"
+                           asp-route-id="@item.BorrowDate.ToUnixTimeMilliseconds()"
+                           asp-route-Login="@user.Login"
+                           asp-route-CopyId="@item.CopyId">Usuń</a>
                     </td>
                 </tr>
             }

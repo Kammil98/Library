@@ -1,0 +1,45 @@
+﻿@model LibraryApp.Models.Borrowing
+
+@{
+    ViewData["Title"] = "Usuń element";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>Czy na pewno chcesz usunąć ten element z historii wypożyczeń?</h3>
+<div>
+    <h2>@Model.Copy.Edition.Book.Title</h2>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Wypożyczający:
+        </dt>
+        <dd>
+            @Model.UserLoginNavigation.LoginNavigation.LastName&nbsp;@Model.UserLoginNavigation.LoginNavigation.FirstName
+            <br />
+            @Model.UserLogin
+        </dd>
+        <dt>
+            Data wypożyczenia:
+        </dt>
+        <dd>
+            @Model.BorrowDate.ToString("g")
+        </dd>
+        @if (Model.ReturnDate.HasValue) {
+            <dt>
+                Data zwrotu:
+            </dt>
+            <dd>
+                @Model.ReturnDate.Value.ToString("g")
+            </dd>
+        }
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="UserLogin" />
+        <input type="hidden" asp-for="CopyId" />
+        <input type="hidden" asp-for="BorrowDate" />
+        <input type="submit" value="Usuń" class="btn btn-danger mb-2" />
+        <button class="btn btn-secondary mb-2" asp-action="Index" asp-route-id="@Model.CopyId">Anuluj</button>
+    </form>
+</div>
