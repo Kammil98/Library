@@ -72,7 +72,7 @@
         <button type="button" class="collapsible">Wypożyczanie</button>
         <div class="content">
             @if (Model.Reader == null) {
-                <form asp-action="Details" asp-route-id="@Model.Copy.Id">
+                <form asp-action="Details" asp-route-id="@Model.Copy.Id" id="getReader">
                     <div class="form-group">
                         <label asp-for="ReaderQuery">Login wypożyczającego</label>
                         <input asp-for="ReaderQuery" id="reader" class="form-control" />
@@ -240,7 +240,12 @@
     <script>
         $(document).ready(function () {
             $('#reader').autocomplete({
-                source: '/api/readers/search'
+                source: '/api/readers/search',
+                minLength: 4,
+                select: function (event, ui) {
+                    document.forms["getReader"].submit();
+                    document.getElementById("getReader").style.display = "none";
+                }
             });
         });
     </script>
