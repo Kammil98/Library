@@ -23,12 +23,13 @@ namespace LibraryApp.Controllers {
         public async Task<IActionResult> Search() {
             try {
                 string term = HttpContext.Request.Query["term"].ToString().ToLower();
-                if (term.Length > 3) {
+                if (term.Length >= 3) {
                     var names = await _context.PublishingHouse
                         .Where(i => i.Name.ToLower().Contains(term))
                         .Select(i => i.Name)
                         .OrderBy(i => i.ToLower().IndexOf(term))
                             .ThenBy(i => i)
+                        .Take(10)
                         .ToListAsync();
                     return Ok(names);
                 }
@@ -37,6 +38,7 @@ namespace LibraryApp.Controllers {
                         .Where(i => i.Name.ToLower().StartsWith(term))
                         .Select(i => i.Name)
                         .OrderBy(i => i)
+                        .Take(10)
                         .ToListAsync();
                     return Ok(names);
                 }

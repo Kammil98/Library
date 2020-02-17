@@ -36,7 +36,7 @@ namespace LibraryApp.Controllers {
                             foreach (var keyword in keywords) {
                                 if (!(login.StartsWith(keyword)
                                 || lastName.StartsWith(keyword)
-                                || firstName.StartsWith(keyword))) {
+                                || firstName.Contains(keyword))) {
                                     return false;
                                 }
                             }
@@ -46,7 +46,8 @@ namespace LibraryApp.Controllers {
                             label = $"{i.LoginNavigation.LastName} {i.LoginNavigation.FirstName} ({i.Login})",
                             value = i.Login
                         })
-                        .OrderBy(i => i.label)
+                        .OrderBy(i => i.label.ToLower().IndexOf(term))
+                            .ThenBy(i => i.label)
                         .Take(10);
                     return Ok(result);
                 }
