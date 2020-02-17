@@ -55,5 +55,10 @@
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Usuń" class="btn btn-danger mb-2" />
         <button class="btn btn-secondary mb-2" asp-action="Index">Anuluj</button>
+        <div>
+            @if (ViewBag.errMsg != null) {
+                <span class="text-danger">@ViewBag.errMsg</span>
+            }
+        </div>
     </form>
 </div>
