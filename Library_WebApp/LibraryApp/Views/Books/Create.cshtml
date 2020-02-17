@@ -20,6 +20,33 @@
                 <label asp-for="Genre" class="control-label">Gatunek</label>
                 <select asp-for="Genre" class="form-control" asp-items="ViewBag.Genre"></select>
             </div>
+            <h4>Autorzy</h4>
+            @for (int i = 0; i < Model.Authors.Count; i++) {
+                <div class="form-group row align-items-center">
+                    <div class="col-auto mr-auto">
+                        <h5>@Model.Authors[i].FirstName&nbsp;@Model.Authors[i].LastName</h5>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" name="removeAuthor" value="@i"
+                                class="btn btn-outline-danger mb-2" formnovalidate>
+                            Usuń
+                        </button>
+                    </div>
+                </div>
+                @Html.HiddenFor(model => Model.Authors[i].Id)
+                @Html.HiddenFor(model => Model.Authors[i].FirstName)
+                @Html.HiddenFor(model => Model.Authors[i].LastName)
+                @Html.HiddenFor(model => Model.Authors[i].Country)
+            }
+            <div class="form-group row">
+                <div class="col-auto mr-auto">
+                    <input id="author" name="newAuthor" type="text" class="form-control" />
+                </div>
+                <div class="col-auto">
+                    <input type="submit" id="addAuthor" name="addAuthor" value="Dodaj"
+                           class="btn btn-outline-primary mb-2" formnovalidate />
+                </div>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Dodaj" class="btn btn-primary mb-2" />
                 <button class="btn btn-secondary mb-2" asp-action="Index" formnovalidate>Anuluj</button>
@@ -33,4 +60,23 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#author').autocomplete({
+                source: '/api/authors/search',
+                minLength: 3,
+                select: function (event, ui) {
+                    if (ui.item) {
+                        $('#author').val(ui.item.value);
+                    }
+                    document.getElementById("addAuthor").click();
+                    document.getElementById("author").style.display = "none";
+                },
+                focus: function (event, ui) { event.preventDefault(); }
+            });
+        });
+    </script>
 }

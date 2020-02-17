@@ -173,15 +173,30 @@ namespace LibraryApp.Controllers {
         // GET: Books/Create
         public IActionResult Create() {
             ViewData["Genre"] = new SelectList(_context.Genre, "Name", "Name");
-            return View();
+            return View(new Book());
         }
 
         // POST: Books/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Genre")] Book book) {
-            if (ModelState.IsValid) {
+        public async Task<IActionResult> Create(Book book, string addAuthor, string newAuthor, string removeAuthor) {
+            if (addAuthor != null && int.TryParse(newAuthor, out int authorId)) {
+                var author = await _context.Author
+                    .FindAsync(authorId);
+                if (author != null) {
+                    book.Authors.Add(author);
+                }
+            }
+            else if (int.TryParse(removeAuthor, out int index)) {
+                book.Authors.RemoveAt(index);
+                ModelState.Clear();
+            }
+            else if (ModelState.IsValid) {
                 _context.Add(book);
+                await _context.SaveChangesAsync();
+                foreach (var author in book.Authors) {
+                    _context.Add(new Authorship { AuthorId = author.Id, BookId = book.Id });
+                }
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -199,6 +214,7 @@ namespace LibraryApp.Controllers {
             if (book == null) {
                 return NotFound();
             }
+            book.Authors = await _context.BookAuthors(id.Value).ToListAsync();
             ViewData["Genre"] = new SelectList(_context.Genre, "Name", "Name", book.Genre);
             return View(book);
         }
@@ -206,14 +222,32 @@ namespace LibraryApp.Controllers {
         // POST: Books/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Genre")] Book book) {
+        public async Task<IActionResult> Edit(int id, Book book, string addAuthor, string newAuthor, string removeAuthor) {
             if (id != book.Id) {
                 return NotFound();
             }
 
-            if (ModelState.IsValid) {
+            if (addAuthor != null && int.TryParse(newAuthor, out int authorId)) {
+                var author = await _context.Author
+                    .FindAsync(authorId);
+                if (author != null) {
+                    book.Authors.Add(author);
+                }
+            }
+            else if (int.TryParse(removeAuthor, out int index)) {
+                book.Authors.RemoveAt(index);
+                ModelState.Clear();
+            }
+            else if (ModelState.IsValid) {
                 try {
                     _context.Update(book);
+                    await _context.Entry(book).Collection(i => i.Authorship).LoadAsync();
+                    foreach (var authorship in book.Authorship) {
+                        _context.Remove(authorship);
+                    }
+                    foreach (var author in book.Authors) {
+                        _context.Add(new Authorship { AuthorId = author.Id, BookId = book.Id });
+                    }
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException) {
@@ -243,6 +277,7 @@ namespace LibraryApp.Controllers {
                 return NotFound();
             }
 
+            book.Authors = await _context.BookAuthors(id.Value).ToListAsync();
             return View(book);
         }
 

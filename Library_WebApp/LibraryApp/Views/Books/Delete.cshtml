@@ -17,6 +17,14 @@
         <dd>
             @Model.Genre
         </dd>
+        <dt>
+            Autorzy:
+        </dt>
+        <dd>
+            @foreach (var author in Model.Authors) {
+                @author.FirstName@:&nbsp;@author.LastName<br />
+            }
+        </dd>
     </dl>
 
     <form asp-action="Delete">
