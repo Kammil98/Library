@@ -7,6 +7,7 @@ namespace LibraryApp.Models {
         public string UserLogin { get; set; }
         public int CopyId { get; set; }
         [DataType(DataType.DateTime)]
+        [DateLessThanOrEqualToToday(ErrorMessage = "Data nie może przekraczać aktualnej daty")]
         public DateTimeOffset ReservationDate { get; set; }
 
         public virtual BookCopy Copy { get; set; }

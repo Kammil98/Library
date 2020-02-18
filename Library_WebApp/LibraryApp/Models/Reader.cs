@@ -12,6 +12,7 @@ namespace LibraryApp.Models {
         public string Login { get; set; }
         [Required(ErrorMessage = "To pole jest wymagane")]
         [DataType(DataType.Date)]
+        [DateLessThanOrEqualToToday(ErrorMessage = "Data nie może przekraczać aktualnej daty")]
         public DateTime BirthDate { get; set; }
 
         public virtual User LoginNavigation { get; set; }

@@ -14,6 +14,7 @@ namespace LibraryApp.Models {
         public int BookId { get; set; }
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "To pole jest wymagane")]
+        [DateLessThanOrEqualToToday(ErrorMessage = "Data nie może przekraczać aktualnej daty")]
         public DateTime ReleaseDate { get; set; }
         [Required(ErrorMessage = "To pole jest wymagane")]
         public string PublishingHouse { get; set; }

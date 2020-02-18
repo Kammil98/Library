@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -43,6 +44,23 @@ namespace LibraryApp {
 
         public static async Task ReturnCopy(this LibraryContext context, int copyId) {
             await context.Database.ExecuteSqlInterpolatedAsync($"EXEC ReturnCopy {copyId}");
+        }
+    }
+
+    public class DateLessThanOrEqualToToday : ValidationAttribute {
+
+        protected override ValidationResult IsValid(object objValue, ValidationContext validationContext) {
+            var dateValue = objValue as DateTime?;
+            if (dateValue == null) {
+                var temp = objValue as DateTimeOffset?;
+                if (temp.HasValue) {
+                    dateValue = temp.Value.DateTime;
+                }
+            }
+            if (dateValue.HasValue && dateValue.Value.Date > DateTime.Now.Date) {
+                return new ValidationResult(FormatErrorMessage(validationContext.DisplayName));
+            }
+            return ValidationResult.Success;
         }
     }
 }

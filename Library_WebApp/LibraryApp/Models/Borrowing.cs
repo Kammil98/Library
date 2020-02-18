@@ -8,8 +8,10 @@ namespace LibraryApp.Models {
         public int CopyId { get; set; }
         [Required(ErrorMessage = "To pole jest wymagane")]
         [DataType(DataType.DateTime)]
+        [DateLessThanOrEqualToToday(ErrorMessage = "Data nie może przekraczać aktualnej daty")]
         public DateTimeOffset BorrowDate { get; set; }
         [DataType(DataType.DateTime)]
+        [DateLessThanOrEqualToToday(ErrorMessage = "Data nie może przekraczać aktualnej daty")]
         public DateTimeOffset? ReturnDate { get; set; }
 
         public virtual BookCopy Copy { get; set; }

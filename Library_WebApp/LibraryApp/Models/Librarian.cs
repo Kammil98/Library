@@ -7,6 +7,7 @@ namespace LibraryApp.Models {
         public string Login { get; set; }
         [Required(ErrorMessage = "To pole jest wymagane")]
         [DataType(DataType.Date)]
+        [DateLessThanOrEqualToToday(ErrorMessage = "Data nie może przekraczać aktualnej daty")]
         public DateTime EmploymentDate { get; set; }
         [Required(ErrorMessage = "To pole jest wymagane")]
         public int BranchNumber { get; set; }
