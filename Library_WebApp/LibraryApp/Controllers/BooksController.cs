@@ -271,8 +271,7 @@ namespace LibraryApp.Controllers {
             }
 
             var book = await _context.Book
-                .Include(b => b.GenreNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FindAsync(id);
             if (book == null) {
                 return NotFound();
             }
@@ -287,7 +286,14 @@ namespace LibraryApp.Controllers {
         public async Task<IActionResult> DeleteConfirmed(int id) {
             var book = await _context.Book.FindAsync(id);
             _context.Book.Remove(book);
-            await _context.SaveChangesAsync();
+            try {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException) {
+                book.Authors = await _context.BookAuthors(id).ToListAsync();
+                ViewData["errMsg"] = "Przed usunięciem książki należy usunąć wszystkie jej egzemplarze";
+                return View(book);
+            }
             return RedirectToAction(nameof(Index));
         }
 

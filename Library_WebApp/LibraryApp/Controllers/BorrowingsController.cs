@@ -84,6 +84,21 @@ namespace LibraryApp.Controllers {
                         throw;
                     }
                 }
+                catch (DbUpdateException) {
+                    ViewData["errMsg"] = "Podano nieprawidłowe daty";
+                    borrowing = await _context.Borrowing
+                        .Include(b => b.Copy)
+                            .ThenInclude(c => c.Edition)
+                                .ThenInclude(e => e.Book)
+                        .Include(b => b.UserLoginNavigation)
+                            .ThenInclude(r => r.LoginNavigation)
+                        .FirstOrDefaultAsync(e => e.CopyId == borrowing.CopyId
+                        && e.UserLogin == borrowing.UserLogin && e.BorrowDate == borrowDate);
+                    if (borrowing == null) {
+                        return NotFound();
+                    }
+                    return View(borrowing);
+                }
                 return RedirectToAction(nameof(Index), new { id = borrowing.CopyId });
             }
             borrowing = await _context.Borrowing

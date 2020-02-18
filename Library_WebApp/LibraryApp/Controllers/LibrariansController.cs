@@ -36,8 +36,13 @@ namespace LibraryApp.Controllers {
             if (ModelState.IsValid) {
                 _context.Add(librarian.LoginNavigation);
                 _context.Add(librarian);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException) {
+                    ViewData["errMsg"] = "Wybrany login jest już zajęty";
+                }
             }
             ViewData["BranchNumber"] = new SelectList(_context.Branch, "BranchNumber", "Name", librarian.BranchNumber);
             return View(librarian);

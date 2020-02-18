@@ -160,8 +160,13 @@ namespace LibraryApp.Controllers {
             if (ModelState.IsValid) {
                 _context.Add(reader.LoginNavigation);
                 _context.Add(reader);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException) {
+                    ViewData["errMsg"] = "Wybrany login jest już zajęty";
+                }
             }
             return View(reader);
         }

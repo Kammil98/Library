@@ -39,8 +39,13 @@ namespace LibraryApp.Controllers {
         public async Task<IActionResult> Create([Bind("BookId,ReleaseDate,PublishingHouse")] Edition edition) {
             if (ModelState.IsValid) {
                 _context.Add(edition);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(BooksController.Index), "Books");
+                try {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(BooksController.Index), "Books");
+                }
+                catch (DbUpdateException) {
+                    ViewData["errMsg"] = "To wydanie znajduje się już w bazie danych";
+                }
             }
             var book = _context.Book.Find(edition.BookId);
             if (book == null) {
@@ -86,6 +91,10 @@ namespace LibraryApp.Controllers {
                         throw;
                     }
                 }
+                catch (DbUpdateException) {
+                    ViewData["errMsg"] = "To wydanie znajduje się już w bazie danych";
+                    return View(edition);
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(edition);
@@ -113,7 +122,15 @@ namespace LibraryApp.Controllers {
         public async Task<IActionResult> DeleteConfirmed(int id) {
             var edition = await _context.Edition.FindAsync(id);
             _context.Edition.Remove(edition);
-            await _context.SaveChangesAsync();
+            try {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException) {
+                ViewData["errMsg"] = "Przed usunięciem wydania należy usunąć wszystkie jego egzemplarze";
+                ViewData["Authors"] = await _context.BookAuthors(edition.BookId).ToListAsync();
+                await _context.Entry(edition).Reference(e => e.Book).LoadAsync();
+                return View(edition);
+            }
             return RedirectToAction(nameof(Index));
         }
 

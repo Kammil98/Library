@@ -119,8 +119,13 @@ namespace LibraryApp.Controllers {
                 var address = _context.Add(publishingHouse.Address);
                 publishingHouse.AddressId = address.Entity.Id;
                 _context.Add(publishingHouse);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException) {
+                    ViewData["errMsg"] = "Nie można utworzyć wydawnictwa, ponieważ istnieje już wydawnictwo o podanej nazwie, albo podany adres jest już zajęty";
+                }
             }
             return View(publishingHouse);
         }
@@ -153,6 +158,7 @@ namespace LibraryApp.Controllers {
                     publishingHouse.Address.Id = publishingHouse.AddressId;
                     _context.Update(publishingHouse.Address);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException) {
                     if (!PublishingHouseExists(publishingHouse.Name)) {
@@ -162,7 +168,9 @@ namespace LibraryApp.Controllers {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                catch (DbUpdateException) {
+                    ViewData["errMsg"] = "Nie można edytować wydawnictwa, ponieważ istnieje już wydawnictwo o podanej nazwie, albo podany adres jest już zajęty";
+                }
             }
             return View(publishingHouse);
         }
@@ -192,7 +200,13 @@ namespace LibraryApp.Controllers {
                 .FirstOrDefaultAsync(m => m.Name == id);
             _context.PublishingHouse.Remove(publishingHouse);
             _context.Address.Remove(publishingHouse.Address);
-            await _context.SaveChangesAsync();
+            try {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException) {
+                ViewData["errMsg"] = "Nie można usunąć wydawnictwa, do którego przypisane są egzemplarze";
+                return View(publishingHouse);
+            }
             return RedirectToAction(nameof(Index));
         }
 

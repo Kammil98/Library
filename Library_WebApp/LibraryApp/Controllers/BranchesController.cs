@@ -131,8 +131,13 @@ namespace LibraryApp.Controllers {
                 branch.AddressId = address.Entity.Id;
                 branch.OpeningHours = branch.OpeningHours.Replace(Environment.NewLine, "\n");
                 _context.Add(branch);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException) {
+                    ViewData["errMsg"] = "Nie można utworzyć filii, ponieważ istnieje już filia o podanym numerze lub nazwie, albo podany adres jest już zajęty";
+                }
             }
             return View(branch);
         }
@@ -177,6 +182,10 @@ namespace LibraryApp.Controllers {
                         throw;
                     }
                 }
+                catch (DbUpdateException) {
+                    ViewData["errMsg"] = "Nie można edytować filii, ponieważ istnieje już filia o podanym numerze lub nazwie, albo podany adres jest już zajęty";
+                    return View(branch);
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(branch);
@@ -207,7 +216,13 @@ namespace LibraryApp.Controllers {
                 .FirstOrDefaultAsync(m => m.BranchNumber == id);
             _context.Branch.Remove(branch);
             _context.Address.Remove(branch.Address);
-            await _context.SaveChangesAsync();
+            try {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException) {
+                ViewData["errMsg"] = "Nie można usunąć filii, do której przypisane są egzemplarze lub pracownicy";
+                return View(branch);
+            }
             return RedirectToAction(nameof(Index));
         }
 

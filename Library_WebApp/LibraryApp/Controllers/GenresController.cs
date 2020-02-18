@@ -54,8 +54,13 @@ namespace LibraryApp.Controllers {
         public async Task<IActionResult> Create([Bind("Name")] Genre genre) {
             if (ModelState.IsValid) {
                 _context.Add(genre);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException) {
+                    ViewData["errMsg"] = "Gatunek o tej nazwie znajduje się już w bazie danych";
+                }
             }
             return View(genre);
         }
@@ -78,9 +83,14 @@ namespace LibraryApp.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Name")] Genre genre) {
             if (ModelState.IsValid) {
-                await _context.Database.ExecuteSqlInterpolatedAsync
-                    ($"UPDATE Genre SET name={genre.Name} WHERE name={id}");
-                return RedirectToAction(nameof(Index));
+                try {
+                    await _context.Database.ExecuteSqlInterpolatedAsync
+                                ($"UPDATE Genre SET name={genre.Name} WHERE name={id}");
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException) {
+                    ViewData["errMsg"] = "Gatunek o tej nazwie znajduje się już w bazie danych";
+                }
             }
             return View(genre);
         }
@@ -106,7 +116,13 @@ namespace LibraryApp.Controllers {
         public async Task<IActionResult> DeleteConfirmed(string id) {
             var genre = await _context.Genre.FindAsync(id);
             _context.Genre.Remove(genre);
-            await _context.SaveChangesAsync();
+            try {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException) {
+                ViewData["errMsg"] = "Nie można usunąć gatunku, ponieważ w bazie danych istnieją książki, które do niego należą";
+                return View(genre);
+            }
             return RedirectToAction(nameof(Index));
         }
 
