@@ -126,9 +126,9 @@
             </div>
 
             var reservationsNav = "nav-item nav-link";
-            var reservationsTab = "tab-pane fade";
+            var reservationsTab = "tab-pane fade bg-light";
             var borrowingsNav = "nav-item nav-link";
-            var borrowingsTab = "tab-pane fade";
+            var borrowingsTab = "tab-pane fade bg-light";
             if (!ViewData["DetailOrderBy"].ToString().StartsWith("Borrow")
                 && !ViewData["DetailOrderBy"].ToString().StartsWith("Return")) {
                 reservationsNav += " active";
@@ -144,7 +144,7 @@
                     <a class="@borrowingsNav" id="nav-borrowings-tab" data-toggle="tab" href="#borrowings" role="tab" aria-controls="borrowings" aria-selected="false">Wypożyczenia</a>
                 </div>
             </nav>
-            <div class="tab-content">
+            <div class="tab-content bg-light">
                 <div class="@reservationsTab" id="reservations" role="tabpanel" aria-labelledby="nav-reservations-tab">
                     <table class="table table-striped">
                         <thead>
