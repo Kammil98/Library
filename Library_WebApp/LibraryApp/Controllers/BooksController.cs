@@ -191,7 +191,7 @@ namespace LibraryApp.Controllers {
             if (addAuthor != null && int.TryParse(newAuthor, out int authorId)) {
                 var author = await _context.Author
                     .FindAsync(authorId);
-                if (author != null) {
+                if (author != null && !book.Authors.Any(e => e.Id == author.Id)) {
                     book.Authors.Add(author);
                 }
             }
@@ -199,7 +199,7 @@ namespace LibraryApp.Controllers {
                 book.Authors.RemoveAt(index);
                 ModelState.Clear();
             }
-            else if (ModelState.IsValid) {
+            else if (ModelState.IsValid && book.Authors.Any()) {
                 _context.Add(book);
                 await _context.SaveChangesAsync();
                 foreach (var author in book.Authors) {
@@ -207,6 +207,9 @@ namespace LibraryApp.Controllers {
                 }
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index), new { id = book.Id });
+            }
+            if (!book.Authors.Any()) {
+                ViewData["errMsg"] = "Książka musi mieć co najmniej jednego autora";
             }
             ViewData["Genre"] = new SelectList(_context.Genre, "Name", "Name", book.Genre);
             return View(book);
@@ -238,7 +241,7 @@ namespace LibraryApp.Controllers {
             if (addAuthor != null && int.TryParse(newAuthor, out int authorId)) {
                 var author = await _context.Author
                     .FindAsync(authorId);
-                if (author != null) {
+                if (author != null && !book.Authors.Any(e => e.Id == author.Id)) {
                     book.Authors.Add(author);
                 }
             }
@@ -246,7 +249,7 @@ namespace LibraryApp.Controllers {
                 book.Authors.RemoveAt(index);
                 ModelState.Clear();
             }
-            else if (ModelState.IsValid) {
+            else if (ModelState.IsValid && book.Authors.Any()) {
                 try {
                     _context.Update(book);
                     await _context.Entry(book).Collection(i => i.Authorship).LoadAsync();
@@ -267,6 +270,9 @@ namespace LibraryApp.Controllers {
                     }
                 }
                 return RedirectToAction(nameof(Index), new { id });
+            }
+            if (!book.Authors.Any()) {
+                ViewData["errMsg"] = "Książka musi mieć co najmniej jednego autora";
             }
             ViewData["Genre"] = new SelectList(_context.Genre, "Name", "Name", book.Genre);
             return View(book);

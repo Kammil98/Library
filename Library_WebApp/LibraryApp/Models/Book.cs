@@ -13,7 +13,6 @@ namespace LibraryApp.Models {
 
         public int Id { get; set; }
         [Required(ErrorMessage = "To pole jest wymagane")]
-        [RegularExpression(@"^[^ \t]*$", ErrorMessage = "Tytuł nie może być pusty")]
         public string Title { get; set; }
         [Required(ErrorMessage = "To pole jest wymagane")]
         public string Genre { get; set; }
