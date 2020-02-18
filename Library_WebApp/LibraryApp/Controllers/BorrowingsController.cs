@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LibraryApp;
 using LibraryApp.Models;
+using Microsoft.Data.SqlClient;
 
 namespace LibraryApp.Controllers {
 
@@ -68,12 +69,15 @@ namespace LibraryApp.Controllers {
         public async Task<IActionResult> Edit(long id, [Bind("UserLogin,CopyId,BorrowDate,ReturnDate")] Borrowing borrowing) {
             var borrowDate = DateTimeOffset.FromUnixTimeMilliseconds(id);
             if (ModelState.IsValid) {
+                using var transaction = _context.Database.BeginTransaction();
                 try {
                     var result = await _context.Database.ExecuteSqlInterpolatedAsync
                         ($"UPDATE Borrowing SET borrowDate={borrowing.BorrowDate} WHERE borrowDate={borrowDate} AND userLogin={borrowing.UserLogin} AND copyId={borrowing.CopyId}");
                     if (result > 0) {
                         _context.Update(borrowing);
                         await _context.SaveChangesAsync();
+                        transaction.Commit();
+                        return RedirectToAction(nameof(Index), new { id = borrowing.CopyId });
                     }
                 }
                 catch (DbUpdateConcurrencyException) {
@@ -86,20 +90,10 @@ namespace LibraryApp.Controllers {
                 }
                 catch (DbUpdateException) {
                     ViewData["errMsg"] = "Podano nieprawidłowe daty";
-                    borrowing = await _context.Borrowing
-                        .Include(b => b.Copy)
-                            .ThenInclude(c => c.Edition)
-                                .ThenInclude(e => e.Book)
-                        .Include(b => b.UserLoginNavigation)
-                            .ThenInclude(r => r.LoginNavigation)
-                        .FirstOrDefaultAsync(e => e.CopyId == borrowing.CopyId
-                        && e.UserLogin == borrowing.UserLogin && e.BorrowDate == borrowDate);
-                    if (borrowing == null) {
-                        return NotFound();
-                    }
-                    return View(borrowing);
                 }
-                return RedirectToAction(nameof(Index), new { id = borrowing.CopyId });
+                catch (SqlException) {
+                    ViewData["errMsg"] = "Podano nieprawidłowe daty";
+                }
             }
             borrowing = await _context.Borrowing
                 .Include(b => b.Copy)
@@ -109,7 +103,7 @@ namespace LibraryApp.Controllers {
                     .ThenInclude(r => r.LoginNavigation)
                 .FirstOrDefaultAsync(e => e.CopyId == borrowing.CopyId
                     && e.UserLogin == borrowing.UserLogin
-                    && e.BorrowDate == borrowing.BorrowDate);
+                    && e.BorrowDate == borrowDate);
             return View(borrowing);
         }
 

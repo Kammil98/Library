@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LibraryApp;
 using LibraryApp.Models;
+using Microsoft.Data.SqlClient;
 
 namespace LibraryApp.Controllers {
 
@@ -89,6 +90,9 @@ namespace LibraryApp.Controllers {
                     return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateException) {
+                    ViewData["errMsg"] = "Gatunek o tej nazwie znajduje się już w bazie danych";
+                }
+                catch (SqlException) {
                     ViewData["errMsg"] = "Gatunek o tej nazwie znajduje się już w bazie danych";
                 }
             }
