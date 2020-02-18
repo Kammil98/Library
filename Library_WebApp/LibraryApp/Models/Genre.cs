@@ -9,6 +9,7 @@ namespace LibraryApp.Models {
         }
 
         [Required(ErrorMessage = "To pole jest wymagane")]
+        [RegularExpression(@"^[^ \t]*$", ErrorMessage = "Nazwa nie może być pusta")]
         public string Name { get; set; }
 
         public virtual ICollection<Book> Book { get; set; }

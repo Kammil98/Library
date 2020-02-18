@@ -13,6 +13,7 @@ namespace LibraryApp.Models {
         public int BranchNumber { get; set; }
         public int AddressId { get; set; }
         [Required(ErrorMessage = "To pole jest wymagane")]
+        [RegularExpression(@"^[^ \t]*$", ErrorMessage = "Nazwa nie może być pusta")]
         public string Name { get; set; }
         [Required(ErrorMessage = "To pole jest wymagane")]
         public string OpeningHours { get; set; }
