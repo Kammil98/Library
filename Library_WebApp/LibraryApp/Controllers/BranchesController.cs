@@ -133,7 +133,7 @@ namespace LibraryApp.Controllers {
                 _context.Add(branch);
                 try {
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index), new { id = branch.BranchNumber });
                 }
                 catch (DbUpdateException) {
                     ViewData["errMsg"] = "Nie można utworzyć filii, ponieważ istnieje już filia o podanym numerze lub nazwie, albo podany adres jest już zajęty";
@@ -186,7 +186,7 @@ namespace LibraryApp.Controllers {
                     ViewData["errMsg"] = "Nie można edytować filii, ponieważ istnieje już filia o podanym numerze lub nazwie, albo podany adres jest już zajęty";
                     return View(branch);
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id });
             }
             return View(branch);
         }

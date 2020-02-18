@@ -121,7 +121,7 @@ namespace LibraryApp.Controllers {
                 _context.Add(publishingHouse);
                 try {
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index), new { id = publishingHouse.Name });
                 }
                 catch (DbUpdateException) {
                     ViewData["errMsg"] = "Nie można utworzyć wydawnictwa, ponieważ istnieje już wydawnictwo o podanej nazwie, albo podany adres jest już zajęty";
@@ -158,7 +158,7 @@ namespace LibraryApp.Controllers {
                     publishingHouse.Address.Id = publishingHouse.AddressId;
                     _context.Update(publishingHouse.Address);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index), new { id });
                 }
                 catch (DbUpdateConcurrencyException) {
                     if (!PublishingHouseExists(publishingHouse.Name)) {

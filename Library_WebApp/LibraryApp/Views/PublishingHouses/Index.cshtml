@@ -78,7 +78,8 @@
                         <h2>@Model.Selection.Name</h2>
                     </td>
                     <td align="right">
-                        <a>Przeglądaj zasoby</a> |
+                        <a asp-controller="Books" asp-action="Index"
+                           asp-route-publishingHouseFilter="@Model.Selection.Name">Przeglądaj zasoby</a> |
                         <a asp-action="Edit" asp-route-id="@Model.Selection.Name">Edytuj</a> |
                         <a asp-action="Delete" asp-route-id="@Model.Selection.Name">Usuń</a>
                     </td>
@@ -126,7 +127,8 @@
                             var book = item.Book;
                             <tr>
                                 <td>
-                                    <a asp-controller="Books" asp-action="Index" asp-route-id="@book.Id">@book.Title</a>
+                                    <a asp-controller="Books" asp-action="Index" asp-route-id="@book.Id"
+                                       asp-route-publishingHouseFilter="@Model.Selection.Name">@book.Title</a>
                                 </td>
                                 <td>
                                     @item.ReleaseDate.ToString("d")

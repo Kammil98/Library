@@ -113,7 +113,7 @@ namespace LibraryApp.Controllers {
             if (ModelState.IsValid) {
                 _context.Add(author);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = author.Id });
             }
             return View(author);
         }
@@ -152,7 +152,7 @@ namespace LibraryApp.Controllers {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = author.Id });
             }
             return View(author);
         }

@@ -16,7 +16,9 @@
             </dt>
             <dd>
                 @foreach (var author in ViewBag.Authors) {
-                    @author.FirstName@:&nbsp;@author.LastName<br />
+                    <a asp-controller="Authors" asp-action="Index" asp-route-id="@author.Id">
+                        @author.FirstName&nbsp;@author.LastName<br />
+                    </a>
                 }
             </dd>
             <dt>
@@ -29,7 +31,9 @@
                 Wydawnictwo:
             </dt>
             <dd>
-                @Model.Copy.Edition.PublishingHouse
+                <a asp-controller="PublishingHouses" asp-action="Index" asp-route-id="@Model.Copy.Edition.PublishingHouse">
+                    @Model.Copy.Edition.PublishingHouse
+                </a>
             </dd>
             <dt>
                 Data wydania:
@@ -41,7 +45,9 @@
                 Filia:
             </dt>
             <dd>
-                @Model.Copy.BranchNumberNavigation.Name
+                <a asp-controller="Branches" asp-action="Index" asp-route-id="@Model.Copy.BranchNumber">
+                    @Model.Copy.BranchNumberNavigation.Name
+                </a>
             </dd>
             @if (Model.Copy.Condition != null) {
                 <dt>
@@ -215,7 +221,9 @@
                         @user.LastName&nbsp;@user.FirstName
                     </td>
                     <td>
-                        @user.Login
+                        <a asp-controller="Readers" asp-action="Index" asp-route-id="@user.Login">
+                            @user.Login
+                        </a>
                     </td>
                     <td align="right">
                         <a asp-controller="Borrowings" asp-action="Edit"

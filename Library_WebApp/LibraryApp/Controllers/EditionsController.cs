@@ -30,7 +30,8 @@ namespace LibraryApp.Controllers {
                 return NotFound();
             }
             ViewData["Title"] = book.Title;
-            return View();
+            ViewData["onCancel"] = book.Id;
+            return View(new Edition { BookId = book.Id });
         }
 
         // POST: Editions/Create
@@ -41,7 +42,7 @@ namespace LibraryApp.Controllers {
                 _context.Add(edition);
                 try {
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(BooksController.Index), "Books");
+                    return RedirectToAction(nameof(BooksController.Index), "Books", new { id = edition.BookId });
                 }
                 catch (DbUpdateException) {
                     ViewData["errMsg"] = "To wydanie znajduje się już w bazie danych";
@@ -52,6 +53,7 @@ namespace LibraryApp.Controllers {
                 return NotFound();
             }
             ViewData["Title"] = book.Title;
+            ViewData["onCancel"] = book.Id;
             return View(edition);
         }
 
@@ -95,7 +97,7 @@ namespace LibraryApp.Controllers {
                     ViewData["errMsg"] = "To wydanie znajduje się już w bazie danych";
                     return View(edition);
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(PublishingHousesController.Index), "PublishingHouses", new { id = edition.PublishingHouse });
             }
             return View(edition);
         }
@@ -131,7 +133,7 @@ namespace LibraryApp.Controllers {
                 await _context.Entry(edition).Reference(e => e.Book).LoadAsync();
                 return View(edition);
             }
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(PublishingHousesController.Index), "PublishingHouses", new { id = edition.PublishingHouse });
         }
 
         private bool EditionExists(int id) {

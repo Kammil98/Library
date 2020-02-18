@@ -162,7 +162,7 @@ namespace LibraryApp.Controllers {
                 _context.Add(reader);
                 try {
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index), new { id = reader.Login });
                 }
                 catch (DbUpdateException) {
                     ViewData["errMsg"] = "Wybrany login jest już zajęty";
@@ -208,7 +208,7 @@ namespace LibraryApp.Controllers {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id });
             }
             return View(reader);
         }

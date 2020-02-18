@@ -37,7 +37,7 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Zapisz" class="btn btn-primary mb-2" />
-                <button class="btn btn-secondary mb-2" asp-action="Index" formnovalidate>Anuluj</button>
+                <button class="btn btn-secondary mb-2" asp-controller="Branches" asp-action="Index" asp-route-id="@Model.BranchNumber" formnovalidate>Anuluj</button>
                 <div>
                     @if (ViewBag.errMsg != null) {
                         <span class="text-danger">@ViewBag.errMsg</span>

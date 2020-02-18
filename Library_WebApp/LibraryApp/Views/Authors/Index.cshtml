@@ -88,7 +88,10 @@
                         <h2>@Model.Selection.FirstName&nbsp;@Model.Selection.LastName</h2>
                     </td>
                     <td align="right">
-                        <a>Przeglądaj zasoby</a> |
+                        <a asp-controller="Books" asp-action="Index"
+                           asp-route-authorFilter="@Model.Selection.FirstName @Model.Selection.LastName">
+                            Przeglądaj zasoby
+                        </a> |
                         <a asp-action="Edit" asp-route-id="@Model.Selection.Id">Edytuj</a> |
                         <a asp-action="Delete" asp-route-id="@Model.Selection.Id">Usuń</a>
                     </td>
@@ -110,7 +113,7 @@
             <div class="table-responsive">
                 <h4>Książki</h4>
                 <p>
-                    <a asp-controller="Books" asp-action="Create">Dodaj książkę</a>
+                    <a asp-controller="Books" asp-action="Create" asp-route-authorId="@Model.Selection.Id">Dodaj książkę</a>
                 </p>
                 <table class="table table-striped">
                     <thead>

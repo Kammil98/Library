@@ -24,7 +24,9 @@
         @foreach (var item in Model) {
             <tr>
                 <td>
-                    @item.Name
+                    <a asp-controller="Books" asp-action="Index" asp-route-genreFilter="@item.Name">
+                        @item.Name
+                    </a>
                 </td>
                 <td align="right">
                     <a asp-action="Edit" asp-route-id="@item.Name">Edytuj</a> |

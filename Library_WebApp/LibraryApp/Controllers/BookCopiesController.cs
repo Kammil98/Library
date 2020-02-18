@@ -174,6 +174,7 @@ namespace LibraryApp.Controllers {
             ViewData["BranchNumber"] = new SelectList(_context.Branch, "BranchNumber", "Name");
             ViewData["EditionId"] = new SelectList(editions, "Id", "EditionString");
             ViewData["Title"] = book.Title;
+            ViewData["onCancel"] = book.Id;
             return View();
         }
 
@@ -185,7 +186,7 @@ namespace LibraryApp.Controllers {
             if (ModelState.IsValid) {
                 _context.Add(bookCopy);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(BooksController.Index), "Books", new { id });
             }
             var book = _context.Book.Find(id);
             if (book == null) {
@@ -197,6 +198,7 @@ namespace LibraryApp.Controllers {
             ViewData["BranchNumber"] = new SelectList(_context.Branch, "BranchNumber", "Name", bookCopy.BranchNumber);
             ViewData["EditionId"] = new SelectList(editions, "Id", "EditionString", bookCopy.EditionId);
             ViewData["Title"] = book.Title;
+            ViewData["onCancel"] = book.Id;
             return View(bookCopy);
         }
 
@@ -243,7 +245,7 @@ namespace LibraryApp.Controllers {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(BooksController.Index), "Books", new { id });
             }
             var editions = _context.Edition
                 .Where(i => i.BookId == bookCopy.Edition.BookId)
@@ -275,10 +277,12 @@ namespace LibraryApp.Controllers {
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id) {
-            var bookCopy = await _context.BookCopy.FindAsync(id);
+            var bookCopy = await _context.BookCopy
+                .Include(i => i.Edition)
+                .FirstOrDefaultAsync(i => i.Id == id);
             _context.BookCopy.Remove(bookCopy);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(BooksController.Index), "Books", new { id = bookCopy.Edition.BookId });
         }
 
         private bool BookCopyExists(int id) {

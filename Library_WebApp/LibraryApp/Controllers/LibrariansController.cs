@@ -24,8 +24,14 @@ namespace LibraryApp.Controllers {
         }
 
         // GET: Librarians/Create
-        public IActionResult Create() {
-            ViewData["BranchNumber"] = new SelectList(_context.Branch, "BranchNumber", "Name");
+        public IActionResult Create(int? branchNumber) {
+            if (branchNumber.HasValue) {
+                ViewData["BranchNumber"] = new SelectList(_context.Branch, "BranchNumber", "Name", branchNumber.Value);
+                ViewData["onCancel"] = branchNumber.Value;
+            }
+            else {
+                ViewData["BranchNumber"] = new SelectList(_context.Branch, "BranchNumber", "Name");
+            }
             return View();
         }
 
@@ -38,13 +44,14 @@ namespace LibraryApp.Controllers {
                 _context.Add(librarian);
                 try {
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(BranchesController.Index), "Branches", new { id = librarian.BranchNumber });
                 }
                 catch (DbUpdateException) {
                     ViewData["errMsg"] = "Wybrany login jest już zajęty";
                 }
             }
             ViewData["BranchNumber"] = new SelectList(_context.Branch, "BranchNumber", "Name", librarian.BranchNumber);
+            ViewData["onCancel"] = librarian.BranchNumber;
             return View(librarian);
         }
 
@@ -86,7 +93,7 @@ namespace LibraryApp.Controllers {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(BranchesController.Index), "Branches", new { id = librarian.BranchNumber });
             }
             ViewData["BranchNumber"] = new SelectList(_context.Branch, "BranchNumber", "Name", librarian.BranchNumber);
             return View(librarian);
@@ -113,10 +120,12 @@ namespace LibraryApp.Controllers {
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id) {
-            var librarian = await _context.User.FindAsync(id);
-            _context.User.Remove(librarian);
+            var librarian = await _context.Librarian
+                .Include(i => i.LoginNavigation)
+                .FirstOrDefaultAsync(i => i.Login == id);
+            _context.User.Remove(librarian.LoginNavigation);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(BranchesController.Index), "Branches", new { id = librarian.BranchNumber });
         }
 
         private bool LibrarianExists(string id) {

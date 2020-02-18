@@ -171,9 +171,17 @@ namespace LibraryApp.Controllers {
         }
 
         // GET: Books/Create
-        public IActionResult Create() {
+        public IActionResult Create(int? authorId) {
+            var book = new Book();
+            if (authorId.HasValue) {
+                var author = _context.Author
+                    .Find(authorId);
+                if (author != null) {
+                    book.Authors.Add(author);
+                }
+            }
             ViewData["Genre"] = new SelectList(_context.Genre, "Name", "Name");
-            return View(new Book());
+            return View(book);
         }
 
         // POST: Books/Create
@@ -198,7 +206,7 @@ namespace LibraryApp.Controllers {
                     _context.Add(new Authorship { AuthorId = author.Id, BookId = book.Id });
                 }
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = book.Id });
             }
             ViewData["Genre"] = new SelectList(_context.Genre, "Name", "Name", book.Genre);
             return View(book);
@@ -258,7 +266,7 @@ namespace LibraryApp.Controllers {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id });
             }
             ViewData["Genre"] = new SelectList(_context.Genre, "Name", "Name", book.Genre);
             return View(book);

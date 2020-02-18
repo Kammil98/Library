@@ -181,7 +181,9 @@
                     </dt>
                     <dd>
                         @foreach (var author in Model.Authors) {
-                            @author.FirstName@:&nbsp;@author.LastName<br />
+                            <a asp-controller="Authors" asp-action="Index" asp-route-id="@author.Id">
+                                @author.FirstName&nbsp;@author.LastName<br />
+                            </a>
                         }
                     </dd>
                     <dt>
@@ -261,10 +263,14 @@
                             var edition = item.Edition;
                             <tr>
                                 <td>
-                                    @branch.Name
+                                    <a asp-controller="Branches" asp-action="Index" asp-route-id="@branch.BranchNumber">
+                                        @branch.Name
+                                    </a>
                                 </td>
                                 <td>
-                                    @edition.PublishingHouse
+                                    <a asp-controller="PublishingHouses" asp-action="Index" asp-route-id="@edition.PublishingHouse">
+                                        @edition.PublishingHouse
+                                    </a>
                                 </td>
                                 <td>
                                     @item.Condition

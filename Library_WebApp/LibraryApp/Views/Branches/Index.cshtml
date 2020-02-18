@@ -88,7 +88,8 @@
                         <h2>@Model.Selection.Name</h2>
                     </td>
                     <td align="right">
-                        <a>Przeglądaj zasoby</a> |
+                        <a asp-controller="Books" asp-action="Index"
+                           asp-route-branchFilter="@Model.Selection.Name">Przeglądaj zasoby</a> |
                         <a asp-action="Edit" asp-route-id="@Model.Selection.BranchNumber">Edytuj</a> |
                         <a asp-action="Delete" asp-route-id="@Model.Selection.BranchNumber">Usuń</a>
                     </td>
@@ -126,7 +127,7 @@
             <div class="table-responsive">
                 <h4>Pracownicy</h4>
                 <p>
-                    <a asp-controller="Librarians" asp-action="Create">Dodaj pracownika</a>
+                    <a asp-controller="Librarians" asp-action="Create" asp-route-branchNumber="@Model.Selection.BranchNumber">Dodaj pracownika</a>
                 </p>
                 <table class="table table-striped">
                     <thead>
