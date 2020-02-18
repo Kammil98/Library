@@ -13,7 +13,6 @@ namespace LibraryApp.Models {
         public string FirstName { get; set; }
         [Required(ErrorMessage = "To pole jest wymagane")]
         public string LastName { get; set; }
-        [Required(ErrorMessage = "To pole jest wymagane")]
         public string Country { get; set; }
 
         public virtual ICollection<Authorship> Authorship { get; set; }

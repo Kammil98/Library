@@ -56,7 +56,7 @@ namespace LibraryApp.Controllers {
                 .ToHashSet();
             viewModel.Authors = viewModel.Authors
                 .Where(i => {
-                    if (!i.Country.ToLower().StartsWith(countryFilter.ToString().ToLower())) {
+                    if (i.Country == null || !i.Country.ToLower().StartsWith(countryFilter.ToString().ToLower())) {
                         return false;
                     }
                     if (string.IsNullOrEmpty(nameFilter)) {

@@ -94,16 +94,18 @@
                     </td>
                 </tr>
             </table>
-            <div>
-                <dl class="dl-horizontal">
-                    <dt>
-                        Kraj:
-                    </dt>
-                    <dd>
-                        @Model.Selection.Country
-                    </dd>
-                </dl>
-            </div>
+            @if (!string.IsNullOrEmpty(Model.Selection.Country)) {
+                <div>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Kraj:
+                        </dt>
+                        <dd>
+                            @Model.Selection.Country
+                        </dd>
+                    </dl>
+                </div>
+            }
 
             <div class="table-responsive">
                 <h4>Książki</h4>
